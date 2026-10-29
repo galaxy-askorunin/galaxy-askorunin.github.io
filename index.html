@@ -525,6 +525,8 @@ h1,h2,h3{font-family:var(--head);font-weight:700;letter-spacing:-.02em;line-heig
 .pot.ok{background:var(--soft);color:var(--soft-tx)}
 .pot.ok .ic{color:var(--soft-ic)}
 .lb .nm small{display:block;font-size:12px;color:var(--mu);font-weight:400}
+.lb .nm small.next{color:var(--soft-tx);font-size:12.5px;margin-top:1px;white-space:normal}
+.lb .nm small.next b{font-weight:700}
 .lb .av .ic{width:18px;height:18px}
 .grand{text-align:center;background:var(--special);border-color:var(--special-line)}
 .grand-art{display:flex;align-items:center;justify-content:center;gap:4px;margin:6px 0 12px}
@@ -1091,15 +1093,17 @@ function vBoard(){
   const top=b.slice(0,3);
   const pod=[top[1],top[0],top[2]].map((x,i)=>x?`<div class="pod"><div class="av ${x.me?'me':''}">${esc(x.name[0])}</div><b>${esc(x.name)}</b><small>${fmt(x.pts)}</small><div class="base">${[2,1,3][i]}</div></div>`:'<div></div>').join('');
   const SHOW=10;
-  let rows=b.slice(3,SHOW).map((x,i)=>lbRow(x,i+4)).join('');
+  const gap=rk>1?b[rk-2].pts-t+1:0;
+  const nextTxt=rk<1?'':rk===1?'Þú ert í efsta sæti!':`Vantar <b>${fmt(gap)} stig</b> til að ná ${rk-1}. sæti`;
+  let rows=b.slice(3,SHOW).map((x,i)=>lbRow(x,i+4,x.me?nextTxt:'')).join('');
   if(!wk)rows+=`<li class="cut">Úrslitalína · efstu 10 komast beint í úrslit</li>`;
   rows+=ghostRows(b[Math.min(b.length,SHOW)-1],6,Math.min(b.length,SHOW)+1);
-  const mineRow=rk>SHOW?`<div class="lb-mine"><div class="lbl">Þitt sæti</div><ol class="lb"><li class="me"><span class="n">${rk}</span><span class="av me">${esc(meName()[0])}</span><span class="nm">${esc(meName())} (þú)</span><span class="v">${fmt(t)}</span></li></ol></div>`:'';
+  const mineRow=rk>SHOW?`<div class="lb-mine"><div class="lbl">Þitt sæti</div><ol class="lb"><li class="me"><span class="n">${rk}</span><span class="av me">${esc(meName()[0])}</span><span class="nm">${esc(meName())} (þú)<small class="next">${nextTxt}</small></span><span class="v">${fmt(t)}</span></li></ol></div>`:'';
   return `${head}${tabs}${mine}${wk?'<p class="micro" style="padding:0 20px;margin-top:4px">1. og 2. sæti vikunnar vinna Tab S10 Lite og Watch9.</p>':''}<div class="podium">${pod}</div><ol class="lb fade" id="lb">${rows}</ol>
   <div class="lb-more"><b>Efstu 10 eru sýndir</b>Þitt sæti sést alltaf${S.user?'':' — skráðu þig til að birtast á töflunni'}.</div>${mineRow}
   <p class="micro" style="padding:0 20px;margin-top:22px">${wk?'':'Auk efstu 10 eru 10 úrslitasæti dregin úr hópi allra sem klára allar fjórar áskoranirnar. '}Á stigatöflunni sjást aðeins gælunöfn eða fornafn og upphafsstafur.</p>${footer()}`;
 }
-function lbRow(x,n,icon){return `<li class="${x.me?'me':''}" data-id="${x.id||''}"><span class="n">${n}</span><span class="av ${x.me?'me':''}">${icon?ic(icon,'sm'):esc(x.name[0])}</span><span class="nm">${esc(x.name)}${x.me?' (þú)':''}</span><span class="v">${fmt(x.pts)}</span></li>`}
+function lbRow(x,n,sub){return `<li class="${x.me?'me':''}" data-id="${x.id||''}"><span class="n">${n}</span><span class="av ${x.me?'me':''}">${esc(x.name[0])}</span><span class="nm">${esc(x.name)}${x.me?' (þú)':''}${sub?`<small class="next">${sub}</small>`:''}</span><span class="v">${fmt(x.pts)}</span></li>`}
 /* Dofnandi línur fyrir neðan topp 10. Þær eru alltaf jafn margar og ólæsilegar,
    svo taflan sýnir aldrei hve margir taka þátt. */
 function ghostRows(last,count,start){
