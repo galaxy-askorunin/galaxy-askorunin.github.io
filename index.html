@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#000000" id="metaTheme">
 <script>try{var p=localStorage.getItem("galaxy_theme")||"auto";var d=p==="dark"||(p==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
-<meta name="description" content="Galaxy Áskorunin — horfðu á þættina, prófaðu eiginleikana með puttanum, vinndu Galaxy tæki og kepptu um sæti í úrslitunum í Smáralind.">
+<meta name="description" content="Galaxy Áskorunin — sjáðu hvað Galaxy getur í fjórum stuttum þáttum, leystu áskoranirnar, vinndu Galaxy tæki og kepptu um sæti í úrslitunum í Smáralind.">
 <title>Galaxy Áskorunin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -173,6 +173,8 @@ h1,h2,h3{font-family:var(--head);font-weight:700;letter-spacing:-.02em;line-heig
 .how span{font-size:14px;color:var(--mu)}
 .foot{padding:28px 20px 10px;color:var(--mu2);font-size:12.5px;line-height:1.6}
 .foot nav{display:flex;gap:16px;margin-top:8px}
+.motto{margin:6px 0 22px;padding-bottom:22px;border-bottom:1px solid var(--line);font:700 40px/1 var(--head);letter-spacing:-.035em;color:var(--tx);background:linear-gradient(100deg,var(--tx) 30%,var(--tint) 140%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+@media (min-width:1024px){.motto{font-size:56px}}
 .foot nav a{color:var(--mu);text-decoration:none}
 
 /* ---------- episodes ---------- */
@@ -262,6 +264,80 @@ h1,h2,h3{font-family:var(--head);font-weight:700;letter-spacing:-.02em;line-heig
 .cb i{font-style:normal;color:var(--mu2);font-size:12.5px;display:block;margin-top:2px}
 .cb.err input{border-color:var(--bad)}
 .cb a{color:var(--tx)}
+/* Google innskráning — litir og form samkvæmt vörumerkjareglum Google */
+.gbtn{--g-bg:#fff;--g-bd:#747775;--g-tx:#1f1f1f;display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:50px;margin-top:6px;padding:0 20px;border-radius:99px;background:var(--g-bg);border:1px solid var(--g-bd);color:var(--g-tx);font:500 15px Roboto,"Helvetica Neue",Arial,sans-serif;letter-spacing:.1px;transition:background .2s,opacity .2s,transform .12s}
+:root[data-theme="dark"] .gbtn{--g-bg:#131314;--g-bd:#8e918f;--g-tx:#e3e3e3}
+.gbtn:hover{background:color-mix(in srgb,var(--g-bg) 92%,var(--g-tx))}
+.gbtn:active{transform:scale(.98)}
+.gbtn[aria-busy="true"]{opacity:.6;pointer-events:none}
+.gbtn svg{width:20px;height:20px;flex:none}
+.or{display:flex;align-items:center;gap:12px;margin:18px 0 2px;font-size:12.5px;color:var(--mu2)}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line2)}
+.gacct{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin-top:6px;padding:12px 14px;border-radius:18px;background:var(--s2);border:1px solid var(--line2)}
+.gacct b{display:block;font:600 15px var(--head)}
+.gacct small{display:block;color:var(--mu);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gacct .gtag{display:inline-flex;align-items:center;gap:5px;margin-top:4px;font-size:12px;color:var(--mu2)}
+.gacct .gtag svg{width:13px;height:13px}
+.gnote{margin-top:6px;padding:12px 14px;border-radius:16px;background:var(--s2);border:1px solid var(--line);font-size:13.5px;color:var(--mu);line-height:1.45}
+.f[hidden],.or[hidden]{display:none}
+/* vinnustaðir og skólar: leit í lista */
+.f.org{scroll-margin-top:84px}
+.ac{margin-top:6px;border-radius:16px;background:var(--s1);border:1px solid var(--line2);overflow:hidden;box-shadow:var(--shadow)}
+.ac[hidden]{display:none}
+.ac button{display:flex;justify-content:space-between;align-items:baseline;gap:12px;width:100%;padding:12px 16px;border-top:1px solid var(--line);font-size:15px;line-height:1.3;color:var(--tx);text-align:left}
+.ac button:first-child{border-top:0}
+.ac button small{flex:none;color:var(--mu2);font-size:12px;font-weight:500}
+.ac button:hover,.ac button.on{background:var(--s2)}
+.ac p{padding:12px 16px;font-size:13px;color:var(--mu);line-height:1.45}
+/* leikreglur og persónuvernd */
+.doc{position:fixed;inset:0;z-index:80;background:var(--bg);color:var(--tx);overflow-y:auto;overscroll-behavior:contain;opacity:0;transform:translateY(14px);transition:opacity .25s,transform .3s cubic-bezier(.2,.85,.2,1)}
+.doc.on{opacity:1;transform:none}
+.doc-bar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px max(16px,calc((100% - 760px)/2 + 20px));padding-top:calc(10px + env(safe-area-inset-top));background:var(--hdr);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border-bottom:1px solid var(--line)}
+.doc-tabs{display:flex;gap:4px;padding:4px;border-radius:99px;background:var(--s2);border:1px solid var(--line)}
+.doc-tabs button{padding:8px 14px;border-radius:99px;font-weight:600;font-size:14px;color:var(--mu);transition:background .2s,color .2s}
+.doc-tabs button.on{background:var(--on);color:var(--on-tx)}
+.doc-x{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--s2);border:1px solid var(--line)}
+.doc-body{max-width:760px;margin:0 auto;padding:26px 20px calc(48px + env(safe-area-inset-bottom))}
+.doc-h h1{font:700 34px/1.08 var(--head);letter-spacing:-.02em;margin-top:10px}
+.doc-h .lede{max-width:60ch}
+.doc-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.pill.warn{background:rgba(255,186,0,.16);color:#c98a00}
+:root[data-theme="dark"] .pill.warn{color:#ffc94d}
+.doc-sum{margin-top:22px;padding:18px 20px;border-radius:22px;background:var(--soft);color:var(--soft-tx)}
+.doc-sum .k{color:inherit;opacity:.8}
+.doc-sum ul{list-style:none;margin-top:10px;display:grid;gap:10px}
+.doc-sum li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:15px;line-height:1.5}
+.doc-sum .ic{width:18px;height:18px;margin-top:2px;color:var(--soft-ic)}
+.doc-toc{margin-top:16px;padding:16px 20px;border-radius:22px;background:var(--s1);border:1px solid var(--cline);box-shadow:var(--shadow)}
+.doc-toc ol{list-style:none;margin-top:8px;display:grid;gap:2px}
+.doc-toc a{display:flex;gap:12px;align-items:baseline;padding:7px 0;color:var(--tx);text-decoration:none;font-size:15px;font-weight:500}
+.doc-toc a b{width:20px;flex:none;color:var(--mu2);font:600 13px var(--head);font-variant-numeric:tabular-nums}
+.doc-body .doc-toc a{color:var(--tx)}
+.doc-body .doc-toc a:hover{color:var(--tint)}
+@media (min-width:720px){.doc-toc ol{grid-template-columns:1fr 1fr;column-gap:28px}}
+.doc-body section{margin-top:34px;scroll-margin-top:84px}
+.doc-body h2{display:flex;gap:12px;align-items:baseline;font:600 21px/1.25 var(--head);letter-spacing:-.01em}
+.doc-body h2 .no{flex:none;min-width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;background:var(--s2);border:1px solid var(--line2);font-size:13px;color:var(--mu);transform:translateY(-3px)}
+.doc-body section p,.doc-body section li{font-size:15px;line-height:1.62;color:var(--tx2)}
+.doc-body section p{margin-top:10px}
+.doc-body section ul{margin-top:10px;padding-left:20px;display:grid;gap:8px}
+.doc-body section li::marker{color:var(--mu2)}
+.doc-body b{color:var(--tx);font-weight:600}
+.doc-body a{color:var(--tint)}
+.doc-body code{font-size:13px;padding:1px 6px;border-radius:6px;background:var(--s2)}
+.tbl{margin-top:12px;border-radius:18px;border:1px solid var(--line2);overflow:hidden;background:var(--s1)}
+.tbl table{width:100%;border-collapse:collapse;font-size:14px;line-height:1.5}
+.tbl th{text-align:left;padding:10px 14px;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);background:var(--s2)}
+.tbl td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top;color:var(--tx2)}
+.tbl td:first-child{color:var(--tx);font-weight:500;width:38%}
+.tbl td small{display:block;color:var(--mu2);font-size:12px;font-weight:400}
+mark.ph{background:rgba(255,186,0,.22);color:inherit;padding:0 4px;border-radius:4px}
+.doc-f{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;font-size:13px;color:var(--mu2)}
+.doc-f .ic{transform:rotate(-90deg)}
+@media (max-width:520px){.tbl table,.tbl tbody,.tbl tr,.tbl td{display:block}.tbl thead{display:none}.tbl tr{border-top:1px solid var(--line);padding:10px 14px}.tbl tr:first-child{border-top:0}.tbl td{border:0;padding:2px 0;width:auto!important}.doc-h h1{font-size:30px}}
+
+.av img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.pill svg{width:13px;height:13px}
 
 /* pins */
 .pins{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
@@ -497,6 +573,8 @@ h1,h2,h3{font-family:var(--head);font-weight:700;letter-spacing:-.02em;line-heig
 .rank-line{font-size:15px;color:var(--mu);margin-top:10px}
 .rank-line b{color:var(--tx)}
 .res-btns{display:grid;gap:10px;margin-top:18px}
+.cal-opts{display:grid;gap:10px;margin-top:18px}
+.cal-opts .btn{width:100%;text-decoration:none}
 .res-btns .btn{width:100%}
 
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
@@ -974,8 +1052,8 @@ function vHome(){
   <section class="hero">
     <div class="hero-orb" aria-hidden="true"></div>
     <div class="cname">Galaxy Áskorunin</div>
-    <h1>Prófaðu Galaxy<br>með puttanum.</h1>
-    <p class="lede">Fjórir stuttir þættir, fjórar áskoranir í þínum eigin síma og ${PRIZE_TOTAL} vinningar. Komdu þér í úrslitin í Smáralind ${fmtDate(FINALE)}.</p>
+    <h1>Sjáðu hvað<br>Galaxy getur.</h1>
+    <p class="lede">Fjórir stuttir þættir sýna það besta í Galaxy-tækjunum. Eftir hvern þátt bíður áskorun, ${PRIZE_TOTAL} vinningar og sæti í úrslitunum í Smáralind ${fmtDate(FINALE)}.</p>
   </section>
   <section class="card status-card">
     <div class="stat-row">
@@ -1056,7 +1134,7 @@ function vHome(){
   </section>
   ${footer()}`;
 }
-function footer(){return `<footer class="foot">Galaxy Áskorunin er markaðsleikur Tæknivara ehf. í samstarfi við Samsung. Þátttaka er ókeypis og ekki háð kaupum.<nav><a href="#" data-act="rules">Leikreglur</a><a href="#" data-act="privacy">Persónuvernd</a><a href="#" data-act="contact">Hafa samband</a></nav></footer>`}
+function footer(){return `<footer class="foot"><p class="motto">Veldu frelsi.</p>Galaxy Áskorunin er markaðsleikur Tæknivara ehf. í samstarfi við Samsung. Þátttaka er ókeypis og ekki háð kaupum.<nav><a href="#" data-act="rules">Leikreglur</a><a href="#" data-act="privacy">Persónuvernd</a><a href="#" data-act="contact">Hafa samband</a></nav></footer>`}
 
 function vEps(){
   return `${pageH('Þættir','Nýr þáttur á hverjum mánudegi. Horfðu, finndu falda kóðann og leystu áskorunina.')}
@@ -1200,7 +1278,7 @@ function vMe(){
   if(doneCount()===4)badges.push(['check','Allar fjórar']);
   if(S.quiz)badges.push(['spark',PERSONA[S.quiz].type]);
   return `${pageH('Mín síða')}
-  <section class="card prof"><span class="av me">${esc(meName()[0])}</span><div><b>${esc(u.name)}</b><small>${esc(u.email)}${u.phone?' · +354 '+esc(u.phone):''}</small><div class="row" style="margin-top:8px;gap:6px;flex-wrap:wrap"><span class="pill ok">${ic('check')} Í pottinum</span>${u.work?`<span class="pill">${ic('building')} ${esc(u.work)}</span>`:''}</div></div></section>
+  <section class="card prof"><span class="av me">${u.pic?`<img src="${esc(u.pic)}" alt="" referrerpolicy="no-referrer">`:esc(meName()[0])}</span><div><b>${esc(u.name)}</b><small>${esc(u.email)}${u.phone?' · +354 '+esc(u.phone):''}</small><div class="row" style="margin-top:8px;gap:6px;flex-wrap:wrap"><span class="pill ok">${ic('check')} Í pottinum</span>${u.via==='google'?`<span class="pill">${GLOGO} Google</span>`:''}${u.work?`<span class="pill">${ic('building')} ${esc(u.work)}</span>`:''}</div></div></section>
   <section class="card share-cta"><div><div class="k">${rk?rk+'. sæti · ':''}${fmt(total())} stig</div><h3>Deildu stöðunni þinni</h3><p class="muted" style="font-size:14px">Tilbúin mynd fyrir Instagram Story með þínum hlekk.</p></div><button class="btn primary sm" data-act="shareStatus">${ic('story','sm')} Deila</button></section>
   ${badges.length?`<section class="card"><div class="k">Merkin mín</div><div class="badges">${badges.map(b=>`<span class="badge">${ic(b[0],'sm')}${esc(b[1])}</span>`).join('')}</div></section>`:''}
   <section class="card"><h3>Stigin mín</h3><ul class="lines">
@@ -1224,12 +1302,489 @@ function meExtras(){return `
     <label class="toggle" style="margin-top:8px"><span>Opna alla þætti strax<br><small class="muted" style="font-size:12.5px">Slökktu til að sjá útgáfudagsetningar eins og þær verða.</small></span><input type="checkbox" class="sw" id="demoSw" ${S.demo?'checked':''}></label>
     <button class="btn ghost sm" id="resetDemo" style="margin-top:12px">Núllstilla kynningu</button>
   </section>`}
+/* ---------- Vinnustaðir og skólar (val við skráningu) ----------
+   Snið: tegund|heiti|staður|samheiti. V=vinnustaður, H=háskóli, F=framhaldsskóli, G=grunnskóli.
+   Listinn er u.þ.b. í stærðarröð en ekki opinber röðun. Frjáls texti er alltaf leyfður. */
+const ORG_T={V:'Vinnustaður',H:'Háskóli',F:'Framhaldsskóli',G:'Grunnskóli'};
+const ORG_RAW=`V|Landspítali||lsh spitali
+V|Reykjavíkurborg||reykjavik
+V|Icelandair||
+V|Isavia||keflavikurflugvollur
+V|Kópavogsbær||
+V|Hafnarfjarðarkaupstaður||hafnarfjordur
+V|Akureyrarbær||
+V|Hagar||
+V|Bónus||
+V|Hagkaup||
+V|Festi||
+V|Krónan||
+V|N1||
+V|Samkaup||nettó kjörbúðin
+V|JBT Marel||marel
+V|Össur||embla medical
+V|Alcoa Fjarðaál||alcoa
+V|Rio Tinto á Íslandi||isal straumsvik
+V|Norðurál||nordural
+V|Landsbankinn||
+V|Íslandsbanki||
+V|Arion banki||
+V|Kvika banki||
+V|Landsvirkjun||
+V|Orkuveitan||or orkuveita reykjavikur
+V|Veitur||
+V|HS Orka||
+V|HS Veitur||
+V|Eimskip||
+V|Samskip||
+V|Brim||
+V|Samherji||
+V|Síldarvinnslan||svn
+V|Ísfélagið||
+V|Vinnslustöðin||vsv
+V|Skinney-Þinganes||
+V|FISK Seafood||
+V|Heilsugæslan á höfuðborgarsvæðinu||hh
+V|Sjúkrahúsið á Akureyri||sak
+V|Heilbrigðisstofnun Suðurlands||hsu
+V|Heilbrigðisstofnun Suðurnesja||hss
+V|Heilbrigðisstofnun Vesturlands||hve
+V|Heilbrigðisstofnun Norðurlands||hsn
+V|Heilbrigðisstofnun Austurlands||hsa
+V|Heilbrigðisstofnun Vestfjarða||hvest
+V|Hrafnista||
+V|Grund||
+V|Garðabær||
+V|Mosfellsbær||
+V|Reykjanesbær||
+V|Sveitarfélagið Árborg||selfoss
+V|Akraneskaupstaður||akranes
+V|Seltjarnarnesbær||
+V|Múlaþing||egilsstadir
+V|Fjarðabyggð||
+V|Vestmannaeyjabær||
+V|Ísafjarðarbær||
+V|Lögreglan á höfuðborgarsvæðinu||lrh logreglan
+V|Landhelgisgæslan||
+V|Vegagerðin||
+V|Skatturinn||
+V|Tryggingastofnun||tr
+V|Sjúkratryggingar Íslands||sí
+V|RÚV||ruv rikisutvarpid
+V|Pósturinn||islandspostur
+V|Strætó||
+V|Síminn||
+V|Nova||
+V|Sýn||vodafone stod 2
+V|Míla||
+V|Advania||
+V|Origo||
+V|CCP Games||ccp
+V|Alvotech||
+V|Kerecis||
+V|Controlant||
+V|Bláa lónið||blue lagoon
+V|Icelandia||kynnisferdir reykjavik excursions
+V|Arctic Adventures||
+V|Íslandshótel||fosshotel
+V|Berjaya Iceland Hotels||icelandair hotels
+V|Keahótel||
+V|Elko||
+V|Húsasmiðjan||
+V|BYKO||
+V|IKEA||
+V|Costco||
+V|Ölgerðin||
+V|Coca-Cola á Íslandi||ccep vifilfell
+V|Mjólkursamsalan||ms
+V|Sláturfélag Suðurlands||ss
+V|Kjarnafæði Norðlenska||
+V|Nói Síríus||
+V|Lyfja||
+V|Lyf og heilsa||
+V|Olís||
+V|Orkan||skeljungur
+V|Domino's á Íslandi||dominos
+V|Sjóvá||
+V|VÍS||
+V|TM||
+V|Vörður||
+V|Deloitte||
+V|KPMG||
+V|PwC||
+V|EY||
+V|Efla||
+V|Verkís||
+V|COWI||mannvit
+V|ÍAV||
+V|Ístak||
+V|ÞG Verk||
+V|Eykt||
+V|Securitas||
+V|Öryggismiðstöðin||
+V|Reiknistofa bankanna||rb
+V|Seðlabanki Íslands||
+V|Hagstofa Íslands||
+H|Háskóli Íslands||hí hi
+H|Háskólinn í Reykjavík||hr
+H|Háskólinn á Akureyri||ha unak
+H|Listaháskóli Íslands||lhí lhi
+H|Háskólinn á Bifröst||bifrost
+H|Landbúnaðarháskóli Íslands||lbhí
+H|Háskólinn á Hólum||holar
+F|Tækniskólinn||
+F|Verzlunarskóli Íslands||verzló versló ví
+F|Menntaskólinn í Reykjavík||mr
+F|Menntaskólinn við Hamrahlíð||mh
+F|Kvennaskólinn í Reykjavík||kvennó kvenno
+F|Menntaskólinn við Sund||ms
+F|Fjölbrautaskólinn í Breiðholti||fb
+F|Fjölbrautaskólinn við Ármúla||fá fa
+F|Fjölbrautaskólinn í Garðabæ||fg
+F|Flensborgarskólinn||flensborg
+F|Borgarholtsskóli||bhs
+F|Menntaskólinn í Kópavogi||mk
+F|Framhaldsskólinn í Mosfellsbæ||fmos
+F|Menntaskólinn á Akureyri||ma
+F|Verkmenntaskólinn á Akureyri||vma
+F|Fjölbrautaskóli Suðurnesja||fs
+F|Fjölbrautaskóli Suðurlands||fsu
+F|Fjölbrautaskóli Vesturlands||fva
+F|Menntaskólinn á Egilsstöðum||me
+F|Verkmenntaskóli Austurlands||va
+F|Menntaskólinn á Ísafirði||mí
+F|Fjölbrautaskóli Norðurlands vestra||fnv
+F|Framhaldsskólinn á Húsavík||fsh
+F|Framhaldsskólinn á Laugum||
+F|Menntaskólinn á Tröllaskaga||mtr
+F|Menntaskóli Borgarfjarðar||mb
+F|Fjölbrautaskóli Snæfellinga||fsn
+F|Framhaldsskólinn í Vestmannaeyjum||fiv
+F|Menntaskólinn að Laugarvatni||ml
+F|Framhaldsskólinn í Austur-Skaftafellssýslu||fas
+F|Menntaskóli í tónlist||mít
+F|Myndlistaskólinn í Reykjavík||
+F|Fisktækniskóli Íslands||
+G|Hörðuvallaskóli|Kópavogi|
+G|Lindaskóli|Kópavogi|
+G|Salaskóli|Kópavogi|
+G|Kórahverfisskóli|Kópavogi|korskoli
+G|Vatnsendaskóli|Kópavogi|
+G|Smáraskóli|Kópavogi|
+G|Snælandsskóli|Kópavogi|
+G|Álfhólsskóli|Kópavogi|
+G|Kársnesskóli|Kópavogi|
+G|Norðlingaskóli|Reykjavík|
+G|Dalskóli|Reykjavík|
+G|Ingunnarskóli|Reykjavík|
+G|Sæmundarskóli|Reykjavík|
+G|Árbæjarskóli|Reykjavík|
+G|Rimaskóli|Reykjavík|
+G|Foldaskóli|Reykjavík|
+G|Kelduskóli|Reykjavík|
+G|Vættaskóli|Reykjavík|
+G|Hagaskóli|Reykjavík|
+G|Réttarholtsskóli|Reykjavík|
+G|Laugalækjarskóli|Reykjavík|
+G|Langholtsskóli|Reykjavík|
+G|Laugarnesskóli|Reykjavík|
+G|Vogaskóli|Reykjavík|
+G|Melaskóli|Reykjavík|
+G|Vesturbæjarskóli|Reykjavík|
+G|Austurbæjarskóli|Reykjavík|
+G|Hlíðaskóli|Reykjavík|
+G|Háteigsskóli|Reykjavík|
+G|Fossvogsskóli|Reykjavík|
+G|Breiðagerðisskóli|Reykjavík|
+G|Hvassaleitisskóli|Reykjavík|
+G|Seljaskóli|Reykjavík|
+G|Ölduselsskóli|Reykjavík|
+G|Breiðholtsskóli|Reykjavík|
+G|Hólabrekkuskóli|Reykjavík|
+G|Fellaskóli|Reykjavík|
+G|Selásskóli|Reykjavík|
+G|Klettaskóli|Reykjavík|
+G|Garðaskóli|Garðabæ|
+G|Flataskóli|Garðabæ|
+G|Hofsstaðaskóli|Garðabæ|
+G|Sjálandsskóli|Garðabæ|
+G|Urriðaholtsskóli|Garðabæ|
+G|Álftanesskóli|Garðabæ|
+G|Hraunvallaskóli|Hafnarfirði|
+G|Áslandsskóli|Hafnarfirði|
+G|Setbergsskóli|Hafnarfirði|
+G|Víðistaðaskóli|Hafnarfirði|
+G|Lækjarskóli|Hafnarfirði|
+G|Hvaleyrarskóli|Hafnarfirði|
+G|Öldutúnsskóli|Hafnarfirði|
+G|Engidalsskóli|Hafnarfirði|
+G|Skarðshlíðarskóli|Hafnarfirði|
+G|Lágafellsskóli|Mosfellsbæ|
+G|Varmárskóli|Mosfellsbæ|
+G|Helgafellsskóli|Mosfellsbæ|
+G|Kvíslarskóli|Mosfellsbæ|
+G|Grunnskóli Seltjarnarness|Seltjarnarnesi|
+G|Brekkuskóli|Akureyri|
+G|Giljaskóli|Akureyri|
+G|Glerárskóli|Akureyri|
+G|Lundarskóli|Akureyri|
+G|Naustaskóli|Akureyri|
+G|Síðuskóli|Akureyri|
+G|Oddeyrarskóli|Akureyri|
+G|Holtaskóli|Reykjanesbæ|
+G|Heiðarskóli|Reykjanesbæ|
+G|Akurskóli|Reykjanesbæ|
+G|Myllubakkaskóli|Reykjanesbæ|
+G|Njarðvíkurskóli|Reykjanesbæ|
+G|Háaleitisskóli|Reykjanesbæ|
+G|Stapaskóli|Reykjanesbæ|
+G|Sunnulækjarskóli|Selfossi|
+G|Vallaskóli|Selfossi|
+G|Stekkjaskóli|Selfossi|
+G|Grundaskóli|Akranesi|
+G|Brekkubæjarskóli|Akranesi|
+G|Grunnskóli Vestmannaeyja|Vestmannaeyjum|
+G|Grunnskólinn í Hveragerði|Hveragerði|
+G|Grunnskólinn í Borgarnesi|Borgarnesi|
+G|Egilsstaðaskóli|Egilsstöðum|
+G|Grunnskólinn á Ísafirði|Ísafirði|`;
+const fold=s=>String(s).toLowerCase().replace(/ð/g,'d').replace(/þ/g,'th').replace(/æ/g,'ae').normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,' ').trim();
+const ORGS=ORG_RAW.split('\n').map((l,i)=>{const [t,n,p,x]=l.split('|');return{t,n,p:p||'',i,fn:fold(n),fx:fold(x||''),fp:fold(p||'')}});
+function orgSearch(q){
+  const f=fold(q);if(!f)return[];
+  const r=[];for(const o of ORGS){let s=9;
+    if(o.fx&&(' '+o.fx+' ').includes(' '+f+' '))s=0;
+    else if(o.fn.startsWith(f))s=1;
+    else if((' '+o.fn).includes(' '+f))s=2;
+    else if(o.fx&&(' '+o.fx).includes(' '+f))s=3;
+    else if(f.length>2&&o.fn.includes(f))s=4;
+    else if(o.fp&&o.fp.startsWith(f))s=5;
+    if(s<9)r.push([s,o])}
+  return r.sort((a,b)=>a[0]-b[0]||a[1].i-b[1].i).slice(0,6).map(x=>x[1]);
+}
+let acN=0;
+function orgPicker(inp){
+  if(!inp||inp.dataset.ac)return;inp.dataset.ac=1;
+  const box=document.createElement('div');box.className='ac';box.id='ac'+(++acN);box.setAttribute('role','listbox');box.hidden=true;inp.after(box);
+  inp.setAttribute('role','combobox');inp.setAttribute('aria-autocomplete','list');inp.setAttribute('aria-controls',box.id);inp.setAttribute('aria-expanded','false');inp.setAttribute('autocomplete','off');
+  let items=[],sel=-1;
+  const show=v=>{box.hidden=!v;inp.setAttribute('aria-expanded',v?'true':'false')};
+  const draw=()=>{const q=inp.value.trim();items=orgSearch(q);
+    if(!q||items.some(o=>o.n===q)&&items.length===1)return show(false);
+    box.innerHTML=items.length
+      ?items.map((o,i)=>`<button type="button" role="option" aria-selected="${i===sel}" class="${i===sel?'on':''}" data-i="${i}"><span>${esc(o.n)}</span><small>${ORG_T[o.t]}${o.p?' · '+esc(o.p):''}</small></button>`).join('')
+      :`<p>Ekki á listanum. „${esc(q)}“ verður skráð eins og þú skrifar það.</p>`;
+    show(true)};
+  const pick=o=>{inp.value=o.n;sel=-1;show(false);inp.closest('[data-f]')&&inp.closest('[data-f]').classList.remove('err');buzz(8)};
+  inp.addEventListener('input',()=>{sel=-1;draw()});
+  inp.addEventListener('focus',()=>{draw();if(matchMedia('(max-width:700px)').matches){const l=inp.closest('.f');setTimeout(()=>l&&l.scrollIntoView({block:'start',behavior:'smooth'}),280)}});
+  inp.addEventListener('blur',()=>setTimeout(()=>show(false),150));
+  inp.addEventListener('keydown',e=>{if(box.hidden||!items.length)return;
+    if(e.key==='ArrowDown'){sel=(sel+1)%items.length;draw();e.preventDefault()}
+    else if(e.key==='ArrowUp'){sel=(sel-1+items.length)%items.length;draw();e.preventDefault()}
+    else if(e.key==='Enter'&&sel>=0){pick(items[sel]);e.preventDefault()}
+    else if(e.key==='Escape'){show(false)}});
+  box.addEventListener('mousedown',e=>e.preventDefault());
+  box.addEventListener('click',e=>{const b=e.target.closest('button');if(b){e.preventDefault();pick(items[+b.dataset.i])}});
+}
+
+/* ---------- Leikreglur og persónuverndarstefna ----------
+   Gul merking (.ph) = upplýsingar sem eftir er að fylla inn eða staðfesta. */
+const ORG={name:'Tæknivörur ehf.',kt:'<mark class="ph">[kennitala]</mark>',addr:'Víkurhvarfi 4, 203 Kópavogi',
+  mail:'<mark class="ph">[netfang þjónustuvers]</mark>',pmail:'<mark class="ph">[netfang vegna persónuverndar]</mark>',tel:'<mark class="ph">[símanúmer]</mark>'};
+const DOC_UPDATED='Útgáfa 1.0 · gildir frá 16. nóvember 2026';
+const tbl=(head,rows)=>`<div class="tbl"><table><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+function docShell(o){
+  return `<header class="doc-h"><div class="cname sm">Galaxy Áskorunin</div><h1>${o.title}</h1><p class="lede">${o.lede}</p>
+    <div class="doc-meta"><span class="pill">${DOC_UPDATED}</span><span class="pill warn">Drög · háð lögfræðiyfirferð</span></div></header>
+  <aside class="doc-sum"><div class="k">Í stuttu máli</div><ul>${o.sum.map(s=>`<li>${ic('check','sm')}<span>${s}</span></li>`).join('')}</ul></aside>
+  <nav class="doc-toc" aria-label="Efnisyfirlit"><div class="k">Efnisyfirlit</div><ol>${o.sec.map((s,i)=>`<li><a href="#" data-to="d${i+1}"><b>${i+1}</b>${s[0]}</a></li>`).join('')}</ol></nav>
+  ${o.sec.map((s,i)=>`<section id="d${i+1}"><h2><span class="no">${i+1}</span>${s[0]}</h2>${s[1]}</section>`).join('')}
+  <footer class="doc-f"><p>${ORG.name} · kt. ${ORG.kt} · ${ORG.addr}</p><button class="btn ghost sm" data-top>${ic('chev','sm')} Efst á síðu</button></footer>`;
+}
+function rulesDoc(){
+  const groups=PRIZE_GROUPS.map(g=>[`<b>${g.title}</b>${g.when?`<small>${g.when}</small>`:''}`,g.items.map(it=>`${it.label}: <b>${it.n>1?it.n+'× ':''}${it.k.map(k=>PRIZE_ITEMS[k]).join(' + ')}</b>`).join('<br>')]);
+  return docShell({title:'Leikreglur',
+  lede:'Reglurnar gilda um alla þátttöku í Galaxy Áskoruninni, bæði í vef-appinu og á úrslitunum í Smáralind. Með því að skrá þig samþykkir þú þær.',
+  sum:['Þátttaka er ókeypis og ekki háð kaupum.',
+       'Þú þarft að vera 13 ára eða eldri. Yngri en 18 ára þurfa samþykki forráðamanns til að taka við vinningi og keppa í úrslitum.',
+       'Einn aðgangur á mann. Fyrsta tilraun í hverri áskorun gildir til stiga.',
+       '20 keppa í úrslitunum í Smáralind 19. desember: efstu 10 á landsvísu og 10 dregnir úr hópi þeirra sem klára allar fjórar áskoranirnar.',
+       `${PRIZE_TOTAL} vinningar. Við höfum samband við vinningshafa í tölvupósti eða síma.`],
+  sec:[
+   ['Skipuleggjandi',`<p>Galaxy Áskorunin („leikurinn“) er markaðsleikur á vegum ${ORG.name}, kt. ${ORG.kt}, ${ORG.addr} („Tæknivörur“ eða „við“), í samstarfi við Samsung. Tæknivörur bera ábyrgð á framkvæmd leiksins og afhendingu vinninga.</p>
+    <p>Leikurinn er ekki styrktur, samþykktur eða rekinn af Instagram, TikTok, Meta, YouTube eða Google.</p>`],
+   ['Tímabil',`<ul><li>Netkeppnin hefst <b>mánudaginn 16. nóvember 2026 kl. 12:00</b> og lýkur <b>sunnudaginn 13. desember 2026 kl. 23:59</b>.</li>
+    <li>Nýr þáttur og ný áskorun opnast á mánudögum kl. 12:00: 16. nóvember, 23. nóvember, 30. nóvember og 7. desember. Áskoranir eru opnar þar til netkeppninni lýkur.</li>
+    <li>Úrslitin fara fram í beinni <b>laugardaginn 19. desember 2026 kl. 14:00</b> í Smáralind, Hagasmára 1, 201 Kópavogi.</li></ul>
+    <p>Allar tímasetningar miðast við íslenskan tíma.</p>`],
+   ['Hverjir mega taka þátt',`<ul><li>Allir sem eru <b>13 ára eða eldri</b> og eiga lögheimili á Íslandi.</li>
+    <li>Þátttakendur yngri en 18 ára þurfa skriflegt samþykki forráðamanns til að taka við vinningi og keppa í úrslitunum. Forráðamaður eða fulltrúi hans fylgir þeim á úrslitin.</li>
+    <li>Starfsfólk Tæknivara og Samsung, þau sem koma að framkvæmd leiksins (t.d. framleiðslu þátta og vefsins) og nánasta fjölskylda þeirra geta ekki unnið vinninga.</li>
+    <li>Sama gildir um starfsfólk sem selur eða sýnir Samsung-tæki í verslunum söluaðila á meðan leikurinn stendur.</li></ul>`],
+   ['Svona tekur þú þátt',`<ul><li>Þátttaka er ókeypis. Kaup eru hvorki skilyrði fyrir þátttöku né vinningum.</li>
+    <li>Þú getur spilað áskoranirnar án skráningar. Til að birtast á stigatöflu, fara í pott og geta unnið þarftu að skrá þig með nafni og netfangi, eða með Google, og samþykkja þessar reglur.</li>
+    <li>Hver einstaklingur má aðeins hafa einn aðgang. Upplýsingar við skráningu þurfa að vera réttar og við afhendingu vinnings getum við beðið um skilríki.</li>
+    <li>Stig eru vistuð á þeim aðgangi sem þú skráir. Stig sem safnast áður en þú skráir þig vistast aðeins í vafranum sem þú notar.</li>
+    <li>Kostnaður við nettengingu og gagnamagn er á ábyrgð þátttakanda.</li></ul>`],
+   ['Stigagjöf',tbl(['Leið','Stig'],[
+      ['Áskorun (hver af fjórum)','1.000 grunnstig + allt að 500 í hraðabónus. 75 stig dragast frá fyrir hverja ranga tilraun, en aldrei fást færri en 300 stig.'],
+      ['Horfa á þátt','100'],['Faldi kóðinn í þætti','200'],['Slá met kynnisins','150'],
+      ['Kóði dagsins í verslun','500 fyrir hvern kóða, að hámarki 5 kóðar (2.500)'],
+      ['Vinur skráir sig með þínum hlekk','200 fyrir hvorn'],['Hvaða Samsung týpa ert þú?','100, einu sinni']])+
+    `<ul><li>Fyrsta tilraun í hverri áskorun gildir til stiga. Þú getur æft þig aftur, en það breytir ekki stigunum.</li>
+    <li>Ef stig eru jöfn ræður samanlagður tími í áskorununum. Sá sem er fljótari raðast ofar.</li>
+    <li>Við áskiljum okkur rétt til að leiðrétta stig sem verða til vegna tæknilegrar villu.</li></ul>`],
+   ['Stigatöflur',`<ul><li><b>Landstaflan</b> sýnir heildarstig allrar keppninnar.</li>
+    <li><b>Vikutaflan</b> sýnir stig sem safnast frá mánudegi kl. 12:00 til næsta mánudags kl. 12:00. Í viku 4 lýkur henni þegar netkeppninni lýkur.</li>
+    <li>Á stigatöflum birtist aðeins gælunafn eða fornafn og upphafsstafur eftirnafns, aldrei netfang eða símanúmer. Gælunöfn mega ekki vera meiðandi eða villandi og við getum breytt þeim.</li></ul>`],
+   ['Vinningar',`<p>Í leiknum eru ${PRIZE_TOTAL} vinningar:</p>`+tbl(['Flokkur','Vinningar'],groups)+
+    `<ul><li>Vinningum er ekki hægt að skipta fyrir peninga eða aðrar vörur.</li>
+    <li>Ef vara er ekki fáanleg getum við afhent sambærilega eða verðmætari vöru í staðinn.</li>
+    <li>Hver þátttakandi getur unnið að hámarki einn vikuvinning í hverri viku.</li>
+    <li>Vinningar kunna að vera skattskyldir og vinningshafi ber ábyrgð á því.</li></ul>`],
+   ['Vikuvinningar og útdrættir',`<ul><li><b>1. og 2. sæti vikutöflunnar</b> vinna Galaxy Tab S10 Lite og Galaxy Watch9.</li>
+    <li><b>5 Galaxy Buds4 Pro</b> eru dregin út í hverri viku úr hópi allra skráðra sem kláruðu áskorun vikunnar.</li>
+    <li>Dregið er á mánudögum eftir að viku lýkur. Útdráttur fyrir viku 4 og aukavinningana (<i>Kláraðu allar fjórar</i> og <i>Bjóddu vinum</i>) fer fram mánudaginn 14. desember.</li>
+    <li>Dregið er af handahófi með rafrænum hætti í viðurvist tveggja starfsmanna Tæknivara og niðurstaðan skráð.</li></ul>`],
+   ['Úrslitin í Smáralind',`<ul><li><b>20 keppendur</b> komast í úrslit: 10 efstu á landstöflunni þegar netkeppninni lýkur og 10 sem dregnir eru úr hópi annarra skráðra sem kláruðu allar fjórar áskoranirnar.</li>
+    <li>Við höfum samband við keppendur mánudaginn 14. desember. Staðfesta þarf þátttöku fyrir kl. 12:00 miðvikudaginn 16. desember, annars fer sætið til næsta á landstöflunni eða nýr keppandi er dreginn.</li>
+    <li>Keppt er í lifandi áskorunum á sviði og fyrirkomulagið er kynnt keppendum fyrir fram. Árangur á sviðinu ræður sætum 1–6.</li>
+    <li><b>Opin áskorun:</b> gestir í Smáralind geta spreytt sig á staðnum. Besti tími dagsins vinnur Galaxy Z Flip8. Keppendur í úrslitum taka ekki þátt í henni.</li>
+    <li><b>Spáðu fyrir um sigurvegarann:</b> á meðan á útsendingu stendur geta allir spáð í appinu hver vinnur. 5 Galaxy Buds4 Pro eru dregin út úr réttum spám.</li>
+    <li>Úrslitin eru tekin upp og send út í beinni og efnið er notað í fimmta þætti. Keppendur samþykkja það með því að taka þátt.</li>
+    <li>Tæknivörur greiða ekki ferða- eða gistikostnað nema um annað sé samið sérstaklega.</li></ul>`],
+   ['Vinnustaðakeppnin',`<ul><li>Við skráningu getur þú valið vinnustað eða skóla. Velja má af lista eða skrifa heitið sjálf/ur.</li>
+    <li>Sá vinnustaður eða skóli sem er með hæstu meðalstigin og minnst 5 skráða þátttakendur þegar netkeppninni lýkur vinnur. 3 Galaxy Watch9 eru dregin út meðal þátttakenda þaðan.</li>
+    <li>Skrá þarf raunverulegan vinnustað eða skóla. Við getum óskað eftir staðfestingu og sameinað skráningar sem eiga augljóslega við sama stað.</li></ul>`],
+   ['Afhending vinninga',`<ul><li>Við höfum samband við vinningshafa með tölvupósti eða síma innan þriggja virkra daga frá útdrætti. Vinningshafi þarf að svara innan 7 daga, annars er dreginn nýr vinningshafi.</li>
+    <li>Vinningar eru afhentir hjá Tæknivörum, ${ORG.addr}, eða sendir vinningshafa án endurgjalds.</li>
+    <li>Fornafn og upphafsstafur vinningshafa kann að vera birt á vef leiksins og samfélagsmiðlum.</li></ul>`],
+   ['Sanngjarn leikur',`<ul><li>Óheimilt er að nota marga aðganga, falsaða aðganga í vinaboðum, sjálfvirkni, forrit eða aðrar aðferðir sem veita ósanngjarnt forskot, eða að nýta sér villur í vefnum.</li>
+    <li>Kóðar dagsins eru ætlaðir þeim sem heimsækja verslanir. Óheimilt er að birta þá eða dreifa þeim opinberlega.</li>
+    <li>Brjóti þátttakandi reglurnar getum við ógilt stig, aðgang og vinninga án fyrirvara.</li>
+    <li>Ákvarðanir Tæknivara um stig, útdrætti og úrslit eru endanlegar.</li></ul>`],
+   ['Ábyrgð og breytingar',`<ul><li>Við berum ekki ábyrgð á tæknilegum truflunum, netsambandi, gögnum sem glatast í vafra eða skilaboðum sem berast ekki.</li>
+    <li>Ef aðstæður krefjast getum við breytt, frestað eða hætt leiknum. Breytingar eru birtar hér og taka gildi við birtingu.</li>
+    <li>Um leikinn gilda íslensk lög.</li></ul>`],
+   ['Hafa samband',`<p>${ORG.name}<br>${ORG.addr}<br>Netfang: ${ORG.mail}<br>Sími: ${ORG.tel}</p>`]
+  ]});
+}
+function privacyDoc(){
+  return docShell({title:'Persónuverndarstefna',
+  lede:'Hér kemur fram hvaða persónuupplýsingar við vinnum þegar þú tekur þátt í Galaxy Áskoruninni, af hverju, hve lengi og hvaða rétt þú átt.',
+  sum:['Tæknivörur ehf. bera ábyrgð á vinnslu persónuupplýsinga í leiknum.',
+       'Við vinnum aðeins með þær upplýsingar sem þarf til að halda leikinn og afhenda vinninga.',
+       'Áminningar og markaðspóstur eru valfrjáls og þú getur afþakkað hvenær sem er.',
+       'Við seljum aldrei persónuupplýsingar. Samsung fær aðeins ópersónugreinanlega tölfræði.',
+       'Þátttökugögnum er eytt eigi síðar en 31. mars 2027.'],
+  sec:[
+   ['Ábyrgðaraðili',`<p>${ORG.name}, kt. ${ORG.kt}, ${ORG.addr}, ber ábyrgð á vinnslu persónuupplýsinga í leiknum. Fyrirspurnir og beiðnir sendast á ${ORG.pmail}.</p>
+    <p>Stefnan byggir á lögum nr. 90/2018 um persónuvernd og vinnslu persónuupplýsinga og almennu persónuverndarreglugerðinni (ESB) 2016/679.</p>`],
+   ['Upplýsingar sem við vinnum',tbl(['Flokkur','Hvað','Hvaðan'],[
+      ['Skráning','Nafn, netfang, farsímanúmer (valfrjálst), vinnustaður eða skóli (valfrjálst), nafn á stigatöflu (valfrjálst)','Frá þér'],
+      ['Innskráning með Google','Nafn, netfang, prófílmynd og auðkenni Google-reiknings. Við fáum aldrei lykilorðið þitt.','Frá Google, aðeins ef þú velur það'],
+      ['Leikgögn','Stig, tímar, svör, innslegnir kóðar, niðurstaða týpuprófs og merki','Verða til við þátttöku'],
+      ['Vinaboð','Boðskóðinn þinn og hver bauð þér','Verða til við þátttöku'],
+      ['Samþykki','Hvort og hvenær þú samþykktir leikreglur, áminningar og markaðspóst','Frá þér'],
+      ['Vinningshafar','Heimilisfang fyrir sendingu og, ef þú ert yngri en 18 ára, nafn og samþykki forráðamanns','Frá þér'],
+      ['Tæknigögn','IP-tala, tegund tækis og vafra, tímasetningar','Sjálfvirkt úr netþjónsskrám'],
+      ['Úrslitin','Myndir og myndbönd af keppendum og gestum','Upptaka á viðburðinum']])],
+   ['Tilgangur og heimild',tbl(['Tilgangur','Heimild'],[
+      ['Halda leikinn, reikna stig og birta stigatöflur','Samningur (leikreglurnar)'],
+      ['Draga út og afhenda vinninga og hafa samband við vinningshafa','Samningur'],
+      ['Bókhald vegna vinninga','Lagaskylda (lög nr. 145/1994 um bókhald)'],
+      ['Koma í veg fyrir svindl og tryggja öryggi','Lögmætir hagsmunir'],
+      ['Áminningar um nýja þætti','Samþykki'],
+      ['Fréttir og tilboð frá Samsung og Tæknivörum í tölvupósti og SMS','Samþykki'],
+      ['Upptaka og útsending frá úrslitunum','Lögmætir hagsmunir. Merkingar eru á staðnum og gestir geta beðið um að vera ekki í mynd.'],
+      ['Ópersónugreinanleg tölfræði um þátttöku','Lögmætir hagsmunir']])+
+    `<p>Þú getur afturkallað samþykki hvenær sem er undir <b>Ég</b>, með hlekk neðst í hverjum pósti eða með því að hafa samband. Það hefur ekki áhrif á þátttöku þína í leiknum.</p>`],
+   ['Hvað sést öðrum',`<ul><li>Á stigatöflum birtist gælunafn eða fornafn og upphafsstafur eftirnafns, ásamt stigum.</li>
+    <li>Á vinnustaðatöflunni birtist heiti vinnustaðar eða skóla og meðalstig, aldrei nöfn einstakra þátttakenda.</li>
+    <li>Netfang, símanúmer og prófílmynd eru aldrei sýnd öðrum þátttakendum.</li></ul>`],
+   ['Hverjir fá aðgang',`<p>Við seljum hvorki né leigjum persónuupplýsingar. Eftirtaldir þjónustuaðilar vinna upplýsingar fyrir okkur samkvæmt vinnslusamningi og aðeins eftir okkar fyrirmælum:</p>
+    <ul><li>Hýsing vefs og gagnagrunns: <mark class="ph">[þjónustuaðili]</mark></li>
+    <li>Sending tölvupósts og SMS: <mark class="ph">[þjónustuaðili]</mark></li>
+    <li>Google: innskráning með Google, ef þú velur hana, og letur á vefnum (Google Fonts)</li>
+    <li>Framleiðsluaðili sem tekur upp úrslitin</li></ul>
+    <p>Samsung fær aðeins samantekna, ópersónugreinanlega tölfræði um þátttöku.</p>
+    <p>Ef þjónustuaðili vinnur upplýsingar utan EES er flutningurinn tryggður með stöðluðum samningsákvæðum ESB eða gagnaverndarramma ESB og Bandaríkjanna.</p>`],
+   ['Hve lengi við geymum upplýsingar',tbl(['Upplýsingar','Varðveislutími'],[
+      ['Skráning og leikgögn','Eytt eða gerð ópersónugreinanleg eigi síðar en 31. mars 2027'],
+      ['Gögn tengd afhendingu vinninga','7 ár, samkvæmt lögum um bókhald'],
+      ['Samþykki fyrir markaðspósti','Þar til þú afturkallar það'],
+      ['Netþjónsskrár','90 dagar'],
+      ['Upptökur frá úrslitunum','Geta verið aðgengilegar áfram sem hluti af þáttunum']])],
+   ['Geymsla í vafranum þínum',`<p>Vefurinn vistar framvindu og útlitsstillingu í staðbundinni geymslu vafrans (<code>localStorage</code>) svo stigin þín haldist á milli heimsókna. Við notum engar auglýsinga- eða rakningarkökur.</p>
+    <p>Þú getur eytt þessum gögnum með því að hreinsa vafragögn eða undir <b>Ég › Núllstilla</b>. Ef þú skráir þig inn með Google gilda skilmálar Google um þá innskráningu.</p>`],
+   ['Börn',`<p>Leikurinn er ætlaður 13 ára og eldri. Ef í ljós kemur að yngra barn hefur skráð sig eyðum við upplýsingunum. Þátttakendur yngri en 18 ára þurfa samþykki forráðamanns til að taka við vinningi og keppa í úrslitunum.</p>`],
+   ['Réttindi þín',`<p>Þú átt rétt á að:</p><ul><li>fá aðgang að upplýsingunum sem við vinnum um þig og afrit af þeim</li><li>fá rangar upplýsingar leiðréttar</li><li>fá upplýsingum eytt</li><li>takmarka vinnslu eða andmæla henni</li><li>fá upplýsingarnar afhentar á tölvutæku formi</li><li>afturkalla samþykki hvenær sem er</li></ul>
+    <p>Sendu beiðni á ${ORG.pmail}. Við svörum innan mánaðar. Ef þú ert ósátt/ur við vinnsluna getur þú kvartað til Persónuverndar (<a href="https://www.personuvernd.is" target="_blank" rel="noopener">personuvernd.is</a>).</p>`],
+   ['Öryggi',`<p>Við verndum upplýsingarnar með viðeigandi tæknilegum og skipulagslegum ráðstöfunum, t.d. dulkóðuðum samskiptum, aðgangsstýringu og því að aðeins starfsfólk sem þarf aðgang vegna leiksins fær hann.</p>`],
+   ['Breytingar',`<p>Við getum uppfært stefnuna. Nýjasta útgáfan er alltaf aðgengileg hér, og ef breytingar eru verulegar látum við skráða þátttakendur vita.</p>`]
+  ]});
+}
+const DOCS={rules:rulesDoc,privacy:privacyDoc};
+let docEl=null;
+function openDoc(kind){
+  if(!DOCS[kind])return;
+  if(!docEl){docEl=document.createElement('div');docEl.className='doc';docEl.setAttribute('role','dialog');docEl.setAttribute('aria-modal','true');docEl.hidden=true;document.body.appendChild(docEl);
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&docEl&&!docEl.hidden)closeDoc()});
+    docEl.addEventListener('click',e=>{
+      const t=e.target.closest('[data-doc]');if(t){openDoc(t.dataset.doc);return}
+      if(e.target.closest('.doc-x')){closeDoc();return}
+      if(e.target.closest('[data-top]')){docEl.scrollTo({top:0,behavior:'smooth'});return}
+      const a=e.target.closest('[data-to]');if(a){e.preventDefault();const s=docEl.querySelector('#'+a.dataset.to);s&&s.scrollIntoView({behavior:'smooth',block:'start'})}});
+  }
+  docEl.setAttribute('aria-label',kind==='rules'?'Leikreglur':'Persónuverndarstefna');
+  docEl.innerHTML=`<div class="doc-bar"><div class="doc-tabs" role="tablist">${[['rules','Leikreglur'],['privacy','Persónuvernd']].map(([k,l])=>`<button type="button" role="tab" aria-selected="${k===kind}" class="${k===kind?'on':''}" data-doc="${k}">${l}</button>`).join('')}</div><button type="button" class="doc-x" aria-label="Loka">${ic('close')}</button></div><article class="doc-body">${DOCS[kind]()}</article>`;
+  docEl.scrollTop=0;docEl.hidden=false;document.body.style.overflow='hidden';
+  requestAnimationFrame(()=>docEl.classList.add('on'));
+  setTimeout(()=>{const x=docEl.querySelector('.doc-x');x&&x.focus({preventScroll:true})},50);
+}
+function closeDoc(){if(!docEl)return;docEl.classList.remove('on');
+  setTimeout(()=>{docEl.hidden=true;if(!sheetEl.classList.contains('on')&&$('#stage').hidden)document.body.style.overflow=''},260)}
+
+/* ---------- Google innskráning ----------
+   Settu OAuth Client ID (Google Cloud › APIs & Services › Credentials, tegund „Web application“)
+   hér fyrir neðan. Authorized JavaScript origins: https://galaxy-askorunin.github.io (og síðar raunlénið).
+   Tómt = kynningarhamur: hnappurinn fyllir inn sýnigögn svo hægt sé að prófa flæðið. */
+const GOOGLE_CLIENT_ID='';
+/* Google leyfir ekki innskráningu í innbyggðum vöfrum (Instagram, TikTok, Facebook o.fl.) */
+const IN_APP=(()=>{try{return /Instagram|FBAN|FBAV|FB_IAB|TikTok|musical_ly|Bytedance|Snapchat|Line\//i.test(navigator.userAgent)}catch(e){return false}})();
+const GLOGO='<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
+let GA=null,gTok=null,gWait=null,gisP=null;
+function loadGIS(){
+  if(!GOOGLE_CLIENT_ID||IN_APP)return Promise.reject('off');
+  if(gisP)return gisP;
+  gisP=new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://accounts.google.com/gsi/client';s.async=true;
+    s.onload=()=>{try{gTok=google.accounts.oauth2.initTokenClient({client_id:GOOGLE_CLIENT_ID,scope:'openid email profile',prompt:'select_account',
+      callback:r=>{const w=gWait;gWait=null;if(!w)return;if(!r||r.error)return w.rej(r&&r.error||'denied');
+        fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+r.access_token}}).then(x=>x.json())
+          .then(u=>u&&u.email?w.res({name:u.name||'',email:u.email,pic:u.picture||'',sub:u.sub}):w.rej('noemail')).catch(w.rej)},
+      error_callback:e=>{const w=gWait;gWait=null;w&&w.rej(e&&e.type||'popup')}});res()}catch(e){gisP=null;rej(e)}};
+    s.onerror=()=>{gisP=null;rej('net')};document.head.appendChild(s)});
+  return gisP;
+}
+/* requestAccessToken verður að keyra beint í smellinum, annars lokar vafrinn sprettiglugganum */
+function googleSignIn(){return new Promise((res,rej)=>{
+  if(!GOOGLE_CLIENT_ID){setTimeout(()=>res({name:'Sigrún Helgadóttir',email:'sigrun.helga@gmail.com',pic:'',demo:true}),450);return}
+  if(!gTok){loadGIS().catch(()=>{});return rej('loading')}
+  gWait={res,rej};try{gTok.requestAccessToken()}catch(e){gWait=null;rej(e)}
+})}
+function gBlock(){
+  if(GA)return `<div class="gacct"><span class="av me">${GA.pic?`<img src="${esc(GA.pic)}" alt="" referrerpolicy="no-referrer">`:esc((GA.name||GA.email)[0].toUpperCase())}</span><div style="min-width:0"><b>${esc(GA.name||'Google-reikningur')}</b><small>${esc(GA.email)}</small><span class="gtag">${GLOGO} Tengt með Google${GA.demo?' · kynning':''}</span></div><button type="button" class="link" id="gOff" style="font-size:13.5px">Breyta</button></div>`;
+  if(IN_APP)return `<div class="gnote">Innskráning með Google virkar ekki inni í Instagram eða TikTok. <button type="button" class="link" id="gCopy">Afritaðu hlekkinn</button> og opnaðu hann í Safari eða Chrome, eða skráðu þig með netfangi hér fyrir neðan.</div>`;
+  return `<button type="button" class="gbtn" id="gBtn">${GLOGO}<span>Halda áfram með Google</span></button>`;
+}
 function formHTML(){return `
   <form id="regForm" novalidate>
-    <label class="f" data-f="name"><span>Fullt nafn</span><input name="name" autocomplete="name" required><div class="msg">Sláðu inn nafnið þitt.</div></label>
-    <label class="f" data-f="email"><span>Netfang</span><input name="email" type="email" autocomplete="email" inputmode="email" required><div class="msg">Netfangið lítur ekki rétt út.</div></label>
+    <div id="gWrap">${gBlock()}</div>
+    <div class="or" id="gOr" ${GA?'hidden':''}><span>${IN_APP?'Skráning':'eða með netfangi'}</span></div>
+    <label class="f" data-f="name" ${GA?'hidden':''}><span>Fullt nafn</span><input name="name" autocomplete="name" required value="${GA?esc(GA.name):''}"><div class="msg">Sláðu inn nafnið þitt.</div></label>
+    <label class="f" data-f="email" ${GA?'hidden':''}><span>Netfang</span><input name="email" type="email" autocomplete="email" inputmode="email" required value="${GA?esc(GA.email):''}"><div class="msg">Netfangið lítur ekki rétt út.</div></label>
     <label class="f" data-f="phone"><span>Farsími <i>(valfrjálst — við þurfum það ef þú vinnur)</i></span><div class="tel"><em>+354</em><input name="phone" inputmode="tel" autocomplete="tel-national" placeholder="000 0000"></div><div class="msg">Sláðu inn 7 stafa símanúmer.</div></label>
-    <label class="f"><span>Vinnustaður eða skóli <i>(valfrjálst — fyrir vinnustaðakeppnina)</i></span><input name="work" list="workList" maxlength="40" placeholder="t.d. Ljósvaki ehf."><datalist id="workList">${WORKS.map(w=>`<option value="${esc(w)}">`).join('')}</datalist></label>
+    <label class="f org"><span>Vinnustaður eða skóli <i>(valfrjálst — fyrir vinnustaðakeppnina)</i></span><input name="work" maxlength="60" placeholder="Byrjaðu að skrifa, t.d. Landspítali eða MH" enterkeyhint="next"></label>
     <label class="f"><span>Nafn á stigatöflu <i>(valfrjálst)</i></span><input name="nick" maxlength="18" placeholder="t.d. Sigrún H."></label>
     <label class="cb" data-f="terms"><input type="checkbox" name="terms"><span>Ég samþykki <a href="#" data-act="rules">leikreglur</a> og <a href="#" data-act="privacy">persónuverndarstefnu</a>.</span></label>
     <label class="cb"><input type="checkbox" name="remind"><span>Láttu mig vita þegar nýr þáttur kemur út.<i>Einn tölvupóstur í viku á meðan leikurinn stendur yfir.</i></span></label>
@@ -1240,12 +1795,25 @@ function formHTML(){return `
 function bindForm(root,done){
   const f=$('#regForm',root);if(!f)return;
   f.addEventListener('input',e=>{const l=e.target.closest('[data-f]');l&&l.classList.remove('err')});
+  loadGIS().catch(()=>{});orgPicker($('[name="work"]',f));
+  const gSync=()=>{$('#gWrap',f).innerHTML=gBlock();$('#gOr',f).hidden=!!GA;
+    ['name','email'].forEach(k=>{const l=$(`[data-f="${k}"]`,f);l.hidden=!!GA;l.classList.remove('err');$('input',l).value=GA?(GA[k]||''):''});
+    if(GA&&!GA.name)$('[data-f="name"]',f).hidden=false;wireG()};
+  const wireG=()=>{
+    const b=$('#gBtn',f);if(b)b.onclick=()=>{b.setAttribute('aria-busy','true');
+      googleSignIn().then(u=>{GA=u;gSync();buzz(15);toast(u.demo?'Kynning: sýnigögn í stað Google-reiknings':'Tengt — kláraðu skráninguna hér fyrir neðan');
+        const t=$('[data-f="terms"]',f);t&&t.scrollIntoView({block:'center',behavior:'smooth'})})
+      .catch(e=>{b.removeAttribute('aria-busy');if(e==='loading')toast('Augnablik — reyndu aftur eftir smá stund');else if(e!=='popup_closed'&&e!=='access_denied')toast('Ekki tókst að tengjast Google. Skráðu þig með netfangi.')})};
+    const o=$('#gOff',f);if(o)o.onclick=()=>{GA=null;gSync()};
+    const c=$('#gCopy',f);if(c)c.onclick=()=>copyText(siteUrl(),'Hlekkur afritaður — opnaðu hann í vafranum');
+  };wireG();
   f.addEventListener('submit',e=>{e.preventDefault();
     const d=Object.fromEntries(new FormData(f));const ph=(d.phone||'').replace(/\D/g,'').replace(/^354/,'');
     const bad={name:(d.name||'').trim().length<2,email:!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((d.email||'').trim()),phone:ph.length>0&&!/^\d{7}$/.test(ph),terms:!d.terms};
     let first=null;for(const k in bad){const l=$(`[data-f="${k}"]`,f);l.classList.toggle('err',bad[k]);if(bad[k]&&!first)first=l}
     if(first){first.classList.add('shake');setTimeout(()=>first.classList.remove('shake'),400);buzz(40);return}
-    S.user={name:d.name.trim(),email:d.email.trim(),phone:ph?ph.slice(0,3)+' '+ph.slice(3):'',work:(d.work||'').trim(),nick:(d.nick||'').trim(),mkt:!!d.mkt,remind:!!d.remind,at:Date.now()};save();
+    S.user={name:d.name.trim(),email:d.email.trim(),phone:ph?ph.slice(0,3)+' '+ph.slice(3):'',work:(d.work||'').trim(),nick:(d.nick||'').trim(),mkt:!!d.mkt,remind:!!d.remind,at:Date.now()};
+    if(GA&&GA.email===S.user.email){S.user.via='google';S.user.pic=GA.pic||'';if(GA.sub)S.user.gid=GA.sub}GA=null;save();
     checkMiles();done&&done();
   });
 }
@@ -1270,8 +1838,29 @@ function award(msg){checkMiles();toast(msg);const c=$('#ptsChip');c.classList.re
 function copyText(t,msg){const ok=()=>toast(msg);const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();ok()};try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}
 function share(text,url){const d={title:'Galaxy Áskorunin',text,url:url||inviteLink()};if(navigator.share)navigator.share(d).catch(()=>{});else copyText(text+' '+d.url,'Hlekkur afritaður — sendu hann áfram!')}
 function dl(url,name){const a=document.createElement('a');a.href=url;a.download=name||'galaxy-askorunin.png';document.body.appendChild(a);a.click();a.remove()}
+/* ---------- dagatal: Google sjálfgefið, Outlook og Apple (.ics) til vara ---------- */
+const EVT={title:'Galaxy Áskorunin – úrslit í beinni',loc:'Smáralind, Hagasmára 1, 201 Kópavogi',
+  desc:'Úrslit Galaxy Áskorunarinnar í beinni. Efstu keppendur mætast á sviði og allir geta prófað nýjustu Galaxy tækin á staðnum.',
+  start:FINALE,end:new Date(FINALE.getTime()+3*36e5)};
+const icsDate=d=>d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'');
+function siteUrl(){try{return location.protocol.startsWith('http')?location.origin+location.pathname:'https://'+SITE}catch(e){return 'https://'+SITE}}
+function gcalUrl(){const q=new URLSearchParams({action:'TEMPLATE',text:EVT.title,dates:icsDate(EVT.start)+'/'+icsDate(EVT.end),details:EVT.desc+'\n\n'+siteUrl(),location:EVT.loc,ctz:'Atlantic/Reykjavik'});return 'https://calendar.google.com/calendar/render?'+q.toString()}
+function outlookUrl(){const q=new URLSearchParams({path:'/calendar/action/compose',rru:'addevent',subject:EVT.title,startdt:EVT.start.toISOString(),enddt:EVT.end.toISOString(),location:EVT.loc,body:EVT.desc+' '+siteUrl()});return 'https://outlook.live.com/calendar/0/action/compose?'+q.toString()}
+function openCal(){
+  sheet(`<div class="k">${ic('cal','sm')} Úrslitin í Smáralind</div><h3 class="sh-t">Setja í dagatal</h3>
+  <p class="lede">${DAYS[FINALE.getUTCDay()].replace(/^./,c=>c.toUpperCase())} ${fmtDate(FINALE)} kl. 14–17 · Smáralind</p>
+  <div class="cal-opts">
+    <a class="btn primary" id="calG" href="${gcalUrl()}" target="_blank" rel="noopener">${ic('cal','sm')} Google dagatal</a>
+    <button class="btn ghost" id="calA" type="button">Apple dagatal (iPhone, Mac)</button>
+    <a class="btn ghost" id="calO" href="${outlookUrl()}" target="_blank" rel="noopener">Outlook</a>
+  </div>
+  <p class="micro">Google dagatal opnast í nýjum flipa með viðburðinn tilbúinn — smelltu þar á „Vista“.</p>`);
+  $('#calG').addEventListener('click',()=>{toast('Google dagatal opnast…');setTimeout(closeSheet,300)});
+  $('#calO').addEventListener('click',()=>setTimeout(closeSheet,300));
+  $('#calA').onclick=()=>{ics();closeSheet()};
+}
 function ics(){
-  const s=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Galaxy Askorunin//IS','BEGIN:VEVENT','UID:galaxy-askorunin-urslit-2026','DTSTAMP:20261028T000000Z','DTSTART:20261219T140000Z','DTEND:20261219T170000Z','SUMMARY:Galaxy Áskorunin – úrslit í beinni','LOCATION:Smáralind\\, Kópavogi','DESCRIPTION:Úrslit Galaxy Áskorunarinnar. Prófaðu nýjustu Galaxy tækin á staðnum.','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  const s=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Galaxy Askorunin//IS','BEGIN:VEVENT','UID:galaxy-askorunin-urslit-2026','DTSTAMP:20261028T000000Z','DTSTART:'+icsDate(EVT.start),'DTEND:'+icsDate(EVT.end),'SUMMARY:'+EVT.title,'LOCATION:'+EVT.loc.replace(/,/g,'\\,'),'DESCRIPTION:'+EVT.desc.replace(/,/g,'\\,'),'END:VEVENT','END:VCALENDAR'].join('\r\n');
   dl(URL.createObjectURL(new Blob([s],{type:'text/calendar'})),'galaxy-askorunin-urslit.ics');toast('Viðburður sóttur — opnaðu hann til að setja í dagatal');
 }
 
@@ -1323,9 +1912,9 @@ function openRegister(lead){
 }
 function openEditWork(){
   sheet(`<div class="k">Vinnustaðakeppnin</div><h3 class="sh-t">Hvar vinnur þú?</h3><p class="lede">Vinnustaðurinn með hæstu meðalstigin (minnst 5 þátttakendur) vinnur 3x Galaxy Watch9.</p>
-  <label class="f"><span>Vinnustaður eða skóli</span><input id="wIn" list="workList2" maxlength="40" value="${esc(S.user&&S.user.work||'')}"><datalist id="workList2">${WORKS.map(w=>`<option value="${esc(w)}">`).join('')}</datalist></label>
+  <label class="f org"><span>Vinnustaður eða skóli</span><input id="wIn" maxlength="60" placeholder="Byrjaðu að skrifa, t.d. Landspítali eða MH" value="${esc(S.user&&S.user.work||'')}"></label>
   <button class="btn primary block" id="wSave">Vista</button>`);
-  $('#wSave').onclick=()=>{const v=$('#wIn').value.trim();if(v.length<2){$('#wIn').parentElement.classList.add('shake');return}S.user.work=v;save();closeSheet();toast('Vinnustaður skráður');render()};
+  orgPicker($('#wIn'));$('#wSave').onclick=()=>{const v=$('#wIn').value.trim();if(v.length<2){$('#wIn').parentElement.classList.add('shake');return}S.user.work=v;save();closeSheet();toast('Vinnustaður skráður');render()};
 }
 function openInvite(work){
   const link=inviteLink();const w=work&&S.user&&S.user.work;
@@ -1341,7 +1930,8 @@ function openInvite(work){
 function openInfo(kind){
   const T={rules:['Leikreglur','Drög: Þátttaka er ókeypis og ekki háð kaupum. Fyrsta tilraun í hverri áskorun gildir og ef stig eru jöfn ræður samanlagður tími. Í úrslit komast efstu 10 á heildarstigatöflunni eftir þátt 4 og 10 sem dregnir eru úr hópi allra sem klára allar fjórar áskoranirnar. Vikuvinningar eru veittir eftir stigatöflu vikunnar og útdrætti á mánudögum. Starfsmenn Tæknivara, Samsung og söluaðila geta ekki unnið. Aldursmörk og nánari skilmálar koma hér.'],
            privacy:['Persónuvernd','Drög: Hér kemur persónuverndarstefna — hvaða upplýsingar eru geymdar (nafn, netfang, sími, vinnustaður, stig), í hvaða tilgangi, hve lengi og hvernig þú getur óskað eftir eyðingu. Samþykki fyrir markaðspósti og áminningum er valfrjálst og aðskilið frá þátttöku.'],
-           contact:['Hafa samband','Drög: Netfang og símanúmer þjónustuvers Tæknivara koma hér.']}[kind];
+           contact:['Hafa samband',`Þjónustuver Tæknivara ehf.<br>${ORG.addr}<br>Netfang: ${ORG.mail}<br>Sími: ${ORG.tel}`]}[kind];
+  if(kind==='rules'||kind==='privacy')return openDoc(kind);
   if(T)sheet(`<h3 class="sh-t">${T[0]}</h3><p class="lede">${T[1]}</p>`);
 }
 function openBoost(){
@@ -1725,7 +2315,7 @@ document.addEventListener('click',e=>{
   else if(t.dataset.act){const a=t.dataset.act;
     if(a==='register')openRegister();
     else if(a==='boost')openBoost();
-    else if(a==='ics')ics();
+    else if(a==='ics')openCal();
     else if(a==='invite')openInvite(false);
     else if(a==='inviteWork')openInvite(true);
     else if(a==='editWork')openEditWork();
