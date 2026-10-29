@@ -1,0 +1,1742 @@
+<!doctype html>
+<html lang="is">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#000000" id="metaTheme">
+<script>try{var p=localStorage.getItem("galaxy_theme")||"auto";var d=p==="dark"||(p==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.setAttribute("data-theme",d?"dark":"light")}catch(e){document.documentElement.setAttribute("data-theme","dark")}</script>
+<meta name="description" content="Galaxy Áskorunin — horfðu á þættina, prófaðu eiginleikana með puttanum, vinndu Galaxy tæki og kepptu um sæti í úrslitunum í Smáralind.">
+<title>Galaxy Áskorunin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   Galaxy Áskorunin — vef-app (frumgerð)
+   Litir: svartur / hvítur / Samsung Blue (#1428A0)
+   Letur: SamsungSharpSans + SamsungOne ef uppsett, annars Outfit + Inter
+   Samsung-merkið birtist AÐEINS einu sinni: í haus (.logo-slot)
+   ========================================================= */
+:root{
+  /* Dökkt þema (One UI dark) — sjálfgefið áður en data-theme er sett */
+  --bg:#000; --bg2:#000; --s1:#0d0e11; --s2:#16171b; --s3:#202228; --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+  --tx:#fff; --tx2:#d4d7e2; --mu:#a3a5ae; --mu2:#7d808a;
+  --blue:#1428A0; --blue-h:#1b34c4; --glow:rgba(36,66,230,.5); --tint:#a9b6ff;
+  --bad:#ff6b6b;
+  --cline:var(--line); --shadow:none; --hdr:rgba(0,0,0,.74);
+  --navbg:rgba(24,25,30,.94); --nav-on:rgba(20,40,160,.6); --nav-on-tx:#fff; --nav-shadow:0 10px 30px rgba(0,0,0,.5);
+  --on:#fff; --on-tx:#000;
+  --soft:rgba(20,40,160,.35); --soft-tx:#e4e8ff; --soft-ic:#fff;
+  --special:linear-gradient(160deg,#0d1650 0%,#0d0e11 70%); --special-line:rgba(60,90,255,.35);
+  --cd-bg:rgba(0,0,0,.45); --flash:rgba(255,255,255,.12);
+  --logo-line:rgba(255,255,255,.38); --logo-tx:rgba(255,255,255,.65);
+  --head:'SamsungSharpSans','Samsung Sharp Sans','Outfit',system-ui,sans-serif;
+  --body:'SamsungOne','Samsung One','Inter',system-ui,-apple-system,sans-serif;
+  --logo-h:22px;                 /* hæð Samsung-merkis í haus */
+  --name-h:calc(var(--logo-h)*.9); /* nafn leiksins: hámark 90% af hæð merkis */
+  --r:24px; --frame:440px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);transition:background .3s;font:15px/1.5 var(--body);-webkit-font-smoothing:antialiased;overscroll-behavior-y:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;text-align:inherit}
+input{font:inherit;color:inherit}
+a{color:inherit}
+h1,h2,h3{font-family:var(--head);font-weight:700;letter-spacing:-.02em;line-height:1.08}
+@media (min-width:600px){
+  body{background:radial-gradient(1100px 700px at 50% -15%,rgba(20,40,160,.38),transparent 60%),#000;background-attachment:fixed}
+  .app{border-inline:1px solid var(--line);box-shadow:0 0 140px rgba(20,40,160,.22)}
+}
+.app{max-width:var(--frame);margin:0 auto;min-height:100dvh;background:var(--bg);position:relative;padding-bottom:calc(112px + env(safe-area-inset-bottom));overflow-x:hidden}
+
+/* ---------- icons ---------- */
+.ic{display:inline-flex;width:20px;height:20px;flex:none}
+.ic svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ic.sm{width:16px;height:16px}.ic.lg{width:26px;height:26px}
+
+/* ---------- header (eina birting merkisins) ---------- */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--hdr);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.logo-slot{height:var(--logo-h);width:calc(var(--logo-h)*6.5);margin:calc(var(--logo-h)*.5) 0;border:1px dashed var(--logo-line);border-radius:4px;display:grid;place-items:center;font:600 8.5px/1 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--logo-tx);flex:none}
+.pts-chip{display:flex;align-items:center;gap:6px;height:34px;padding:0 12px 0 10px;border-radius:99px;background:var(--s2);border:1px solid var(--line);font:600 14px var(--head);font-variant-numeric:tabular-nums}
+.pts-chip .ic{width:16px;height:16px;color:var(--tint)}
+.pts-chip.bump{animation:bump .5s}
+@keyframes bump{40%{transform:scale(1.12);background:var(--blue)}}
+
+/* ---------- bottom nav (One UI) ---------- */
+.nav{position:fixed;bottom:calc(12px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(calc(100% - 24px),calc(var(--frame) - 24px));z-index:30;display:grid;grid-template-columns:repeat(5,1fr);padding:6px;border-radius:26px;background:var(--navbg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--cline);box-shadow:var(--nav-shadow)}
+.nav button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0 3px;font-size:11px;font-weight:500;color:var(--mu);transition:color .2s}
+.nav button .ic{width:44px;height:28px;padding:3px 10px;border-radius:99px;transition:background .25s}
+.nav button.on{color:var(--nav-on-tx);font-weight:600}
+.nav button.on .ic{background:var(--nav-on)}
+.top-r{display:flex;align-items:center;gap:8px}
+.theme-btn{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--s2);border:1px solid var(--line);color:var(--tx);transition:background .2s}
+.theme-btn:hover{background:var(--s3)}
+.theme-btn .ic{width:18px;height:18px}
+
+/* ---------- common ---------- */
+.cname{font:700 var(--name-h)/1 var(--head);letter-spacing:-.01em;display:inline-flex;align-items:center;gap:8px}
+.cname::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 12px 2px var(--glow)}
+.cname.sm{font-size:13px;color:var(--mu)}
+.k{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.lede{color:var(--mu);font-size:15.5px;margin-top:10px}
+.muted{color:var(--mu)}
+.micro{font-size:12.5px;color:var(--mu2);margin-top:12px;line-height:1.45}
+.center{text-align:center}
+.card{position:relative;background:var(--s1);border:1px solid var(--cline);box-shadow:var(--shadow);border-radius:var(--r);padding:20px;margin:12px 16px;overflow:hidden}
+.card h3{font-size:21px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border-radius:99px;font-weight:600;font-size:15px;text-align:center;transition:transform .12s,background .2s,opacity .2s;user-select:none}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--blue);color:#fff;box-shadow:0 10px 30px -10px var(--glow)}
+.btn.primary:hover{background:var(--blue-h)}
+.btn.ghost{background:var(--s2);border:1px solid var(--line2)}
+.btn.ghost:hover{background:var(--s3)}
+.btn.white{background:#fff;color:#000}
+.btn.sm{min-height:40px;padding:0 16px;font-size:14px}
+.btn.block{width:100%;margin-top:16px}
+.btn:disabled{opacity:.35;pointer-events:none}
+.link{color:var(--tx);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line2)}
+.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}.gap{gap:10px}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;letter-spacing:.04em;padding:4px 9px;border-radius:99px;background:var(--s3);color:var(--mu)}
+.tag.dark{background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(6px)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--s3);color:var(--mu)}
+.pill .ic{width:14px;height:14px}
+.pill.blue{background:var(--soft);color:var(--soft-tx)}
+.pill.ok{background:var(--on);color:var(--on-tx)}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;padding:22px 20px 4px}
+.sec-h h3{font-size:20px}
+.page-h{padding:30px 20px 8px}
+.page-h h2{font-size:34px;margin-top:12px}
+.demo-note{margin:10px 16px 0;padding:10px 14px;border-radius:14px;border:1px dashed rgba(169,182,255,.35);color:var(--tint);font-size:13px;display:flex;gap:8px;align-items:center}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:38px 20px 14px;overflow:hidden}
+.hero h1{font-size:42px;line-height:1.0;margin-top:18px;letter-spacing:-.03em;position:relative}
+.hero .lede{position:relative;max-width:32ch}
+.hero-orb{position:absolute;right:-110px;top:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(36,66,230,.55),rgba(20,40,160,.16) 45%,transparent 68%);pointer-events:none;animation:breathe 7s ease-in-out infinite}
+.hero-orb::before,.hero-orb::after{content:"";position:absolute;inset:60px;border-radius:50%;border:1px solid rgba(255,255,255,.09)}
+.hero-orb::after{inset:20px;border-color:rgba(255,255,255,.05)}
+@keyframes breathe{50%{transform:scale(1.08)}}
+
+/* ---------- status ---------- */
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.big{font:700 34px/1.1 var(--head);font-variant-numeric:tabular-nums;margin-top:4px;letter-spacing:-.02em}
+.prog{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:18px;position:relative}
+.prog::before{content:"";position:absolute;left:10%;right:10%;top:17px;height:2px;background:var(--line2)}
+.pstep{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;color:var(--mu2);font-weight:500;text-align:center}
+.pstep i{font-style:normal;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--s2);border:1px solid var(--line2);font:600 14px var(--head);color:var(--mu)}
+.pstep i svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.pstep.done i{background:var(--on);color:var(--on-tx);border-color:var(--on)}
+.pstep.cur i{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 0 0 5px rgba(20,40,160,.3)}
+.pstep.fin i{border-style:dashed}
+
+/* ---------- rail ---------- */
+.rail{display:flex;gap:10px;overflow-x:auto;padding:10px 16px 6px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.rail-card{flex:0 0 132px;scroll-snap-align:start;border-radius:20px;overflow:hidden;background:var(--s1);border:1px solid var(--cline);box-shadow:var(--shadow);position:relative;text-align:left}
+.rail-card svg.art{display:block;width:100%;height:150px}
+.rc-b{padding:10px 12px 12px}
+.rc-b b{display:block;font:600 14px/1.2 var(--head);margin-top:2px}
+.rail-card .pill{position:absolute;top:8px;left:8px;font-size:11px;padding:3px 8px;background:rgba(0,0,0,.6);color:#fff}
+
+/* ---------- finale card ---------- */
+.finale{background:var(--special);border-color:var(--special-line)}
+.fin-glow{position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(60,90,255,.45),transparent 65%);pointer-events:none}
+.finale h3{margin-top:8px;position:relative}
+.cd{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0 14px;position:relative}
+.cd div{background:var(--cd-bg);border:1px solid var(--line);border-radius:16px;padding:10px 0;text-align:center}
+.cd b{display:block;font:700 28px/1.1 var(--head);font-variant-numeric:tabular-nums}
+.cd span{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.06em}
+.finale p{position:relative;margin-bottom:14px}
+
+/* feature cards */
+.feat{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;width:calc(100% - 32px);text-align:left}
+.feat h3{font-size:18px;margin:6px 0 4px}
+.feat p{font-size:14px;color:var(--mu)}
+.feat-ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:var(--soft);color:var(--soft-ic)}
+.feat-ic .ic{width:26px;height:26px}
+.bundle{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.bundle svg{width:92px;height:72px}
+.bundle h3{font-size:19px;margin:4px 0}
+.retail{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.how{counter-reset:h;list-style:none;margin-top:6px}
+.how li{counter-increment:h;display:grid;grid-template-columns:36px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.how li:first-child{border-top:0}
+.how li::before{content:counter(h);width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--s2);border:1px solid var(--line2);font:600 15px var(--head)}
+.how b{display:block;font-family:var(--head);font-weight:600}
+.how span{font-size:14px;color:var(--mu)}
+.foot{padding:28px 20px 10px;color:var(--mu2);font-size:12.5px;line-height:1.6}
+.foot nav{display:flex;gap:16px;margin-top:8px}
+.foot nav a{color:var(--mu);text-decoration:none}
+
+/* ---------- episodes ---------- */
+.ep{display:grid;grid-template-columns:100px 1fr;gap:14px;align-items:center;padding:12px;border-radius:24px;background:var(--s1);border:1px solid var(--cline);box-shadow:var(--shadow);text-align:left;margin:10px 16px;width:calc(100% - 32px);transition:background .2s}
+.ep:hover{background:var(--s2)}
+.ep-art{position:relative;width:100px;height:124px;border-radius:16px;overflow:hidden}
+.ep-art svg{width:100%;height:100%;display:block}
+.ep-len{position:absolute;right:6px;bottom:6px;font-size:10.5px;font-weight:600;padding:2px 6px;border-radius:6px;background:rgba(0,0,0,.65)}
+.ep-b b{display:block;font:600 17px/1.2 var(--head);margin:4px 0 4px}
+.ep-b p{font-size:13.5px;color:var(--mu);line-height:1.4}
+.ep-st{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ep.locked .ep-art{filter:grayscale(.6) brightness(.6)}
+.ep.fin-card{grid-template-columns:100px 1fr;border-color:var(--special-line);background:var(--special)}
+
+/* ---------- leaderboard ---------- */
+.live{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mu);margin-top:10px}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--tint);box-shadow:0 0 0 0 rgba(120,140,255,.6);animation:ping 1.6s infinite}
+@keyframes ping{70%{box-shadow:0 0 0 8px rgba(255,255,255,0)}100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}}
+.seg{display:grid;grid-template-columns:1fr 1fr;margin:14px 16px 4px;padding:4px;background:var(--s1);border:1px solid var(--cline);box-shadow:var(--shadow);border-radius:99px}
+.seg button{height:38px;border-radius:99px;font-weight:600;font-size:14px;color:var(--mu);text-align:center}
+.seg button.on{background:var(--on);color:var(--on-tx)}
+.mine{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.mine .rk{font:700 30px var(--head);min-width:56px}
+.mine small{display:block;color:var(--mu);font-size:13px}
+.podium{display:grid;grid-template-columns:1fr 1.1fr 1fr;align-items:end;gap:8px;padding:18px 16px 4px}
+.pod{text-align:center}
+.pod .av{margin:0 auto 8px;width:52px;height:52px;font-size:19px}
+.pod:nth-child(2) .av{width:64px;height:64px;font-size:23px;box-shadow:0 0 0 3px var(--blue),0 0 30px var(--glow)}
+.pod b{display:block;font:600 13.5px/1.2 var(--head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pod small{color:var(--mu);font-size:12px;font-variant-numeric:tabular-nums}
+.pod .base{margin-top:8px;border-radius:14px 14px 0 0;background:linear-gradient(180deg,var(--s3),var(--s1));display:grid;place-items:center;font:700 22px var(--head);color:var(--mu)}
+.pod:nth-child(1) .base{height:56px}.pod:nth-child(2) .base{height:80px;background:linear-gradient(180deg,var(--blue),#0a1450);color:#fff}.pod:nth-child(3) .base{height:44px}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--s3);font:600 15px var(--head);flex:none}
+.av.me{background:var(--on);color:var(--on-tx)}
+.lb{list-style:none;margin:6px 16px 0;border-radius:var(--r);background:var(--s1);border:1px solid var(--cline);box-shadow:var(--shadow);overflow:hidden}
+.lb li{display:grid;grid-template-columns:30px 38px 1fr auto;gap:12px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);transition:background .6s}
+.lb li:first-child{border-top:0}
+.lb .n{font:600 14px var(--head);color:var(--mu);text-align:right;font-variant-numeric:tabular-nums}
+.lb .nm{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb .v{font:600 15px var(--head);font-variant-numeric:tabular-nums}
+.lb li.me{background:var(--soft)}
+.lb li.flash{background:var(--flash)}
+.lb li.cut{display:block;padding:9px 14px;background:repeating-linear-gradient(-45deg,rgba(20,40,160,.25) 0 8px,rgba(20,40,160,.12) 8px 16px);font-size:12px;font-weight:600;color:var(--soft-tx);text-align:center;letter-spacing:.03em}
+.up{font-size:11px;color:var(--tint);margin-left:6px}
+
+/* ---------- AI tool ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{padding:10px 14px;border-radius:99px;background:var(--s2);border:1px solid var(--line2);font-size:14px;font-weight:500;transition:all .2s}
+.chip.on{background:var(--on);color:var(--on-tx);border-color:var(--on)}
+.range{-webkit-appearance:none;appearance:none;width:100%;height:30px;background:transparent;margin-top:6px}
+.range::-webkit-slider-runnable-track{height:6px;border-radius:9px;background:linear-gradient(90deg,var(--blue) var(--p,0%),var(--s3) var(--p,0%))}
+.range::-moz-range-track{height:6px;border-radius:9px;background:var(--s3)}
+.range::-moz-range-progress{height:6px;border-radius:9px;background:var(--blue)}
+.range::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;margin-top:-10px;box-shadow:0 2px 10px rgba(0,0,0,.5)}
+.range::-moz-range-thumb{width:26px;height:26px;border-radius:50%;background:#fff;border:0}
+.mega{font:700 64px/1 var(--head);letter-spacing:-.03em;margin-top:8px;font-variant-numeric:tabular-nums}
+.mega small{font-size:18px;color:var(--mu);font-weight:600;letter-spacing:0}
+.ai-out{background:var(--special);border-color:var(--special-line)}
+.rec{display:grid;grid-template-columns:84px 1fr;gap:16px;align-items:center}
+.rec svg{width:84px;height:104px;border-radius:16px}
+.rec h3{margin:4px 0 6px}
+.rec p{color:var(--mu);font-size:14px}
+.tips{list-style:none;counter-reset:t;margin-top:10px}
+.tips li{counter-increment:t;padding:12px 0 12px 40px;position:relative;border-top:1px solid var(--line)}
+.tips li::before{content:counter(t);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:9px;background:var(--blue);color:#fff;display:grid;place-items:center;font:600 13px var(--head)}
+.tips b{display:block;font-family:var(--head);font-weight:600}
+.tips span{font-size:14px;color:var(--mu)}
+.fade-in{animation:fadeUp .5s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}}
+
+/* ---------- forms ---------- */
+.f{display:block;margin-top:14px}
+.f>span{display:block;font-size:13px;font-weight:600;color:var(--mu);margin-bottom:6px}
+.f>span i{font-style:normal;font-weight:400;color:var(--mu2)}
+.f input,.tel{width:100%;height:52px;border-radius:16px;background:var(--s2);border:1px solid var(--line2);padding:0 16px;outline:none;transition:border .2s,box-shadow .2s}
+.f input:focus,.tel:focus-within{border-color:#4a63ff;box-shadow:0 0 0 4px rgba(20,40,160,.35)}
+.tel{display:flex;align-items:center;gap:10px;padding:0 0 0 16px}
+.tel em{font-style:normal;color:var(--mu);font-weight:500}
+.tel input{border:0;background:none;height:100%;padding:0 16px 0 0;box-shadow:none!important}
+.f.err input,.f.err .tel{border-color:var(--bad)}
+.f .msg{display:none;font-size:12.5px;color:var(--bad);margin-top:6px}
+.f.err .msg{display:block}
+.cb{display:grid;grid-template-columns:24px 1fr;gap:12px;margin-top:16px;font-size:14px;color:var(--mu);line-height:1.45;cursor:pointer}
+.cb input{appearance:none;-webkit-appearance:none;width:24px;height:24px;border-radius:8px;border:1.5px solid var(--line2);background:var(--s2);display:grid;place-items:center;margin-top:1px;cursor:pointer}
+.cb input:checked{background:var(--blue);border-color:var(--blue)}
+.cb input:checked::after{content:"";width:10px;height:5px;border:solid #fff;border-width:0 0 2.4px 2.4px;transform:translate(0,-1px) rotate(-45deg)}
+.cb i{font-style:normal;color:var(--mu2);font-size:12.5px;display:block;margin-top:2px}
+.cb.err input{border-color:var(--bad)}
+.cb a{color:var(--tx)}
+
+/* pins */
+.pins{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}
+.pins input{width:100%;min-width:0;height:64px;border-radius:18px;background:var(--s2);border:1px solid var(--line2);text-align:center;font:700 28px var(--head);outline:none;caret-color:var(--tint)}
+.pins input:focus{border-color:#4a63ff;box-shadow:0 0 0 4px rgba(20,40,160,.35)}
+
+/* ---------- profile ---------- */
+.prof{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.prof .av{width:58px;height:58px;font-size:22px}
+.prof b{font:600 19px var(--head);display:block}
+.prof small{color:var(--mu);font-size:13.5px}
+.lines{list-style:none;margin-top:8px}
+.lines li{display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px}
+.lines li:first-child{border-top:0}
+.lines li span{color:var(--mu)}
+.lines li b{font-family:var(--head);font-weight:600;font-variant-numeric:tabular-nums}
+.lines li.tot{border-top:1px solid var(--line2);font-size:16px}
+.lines li.tot span{color:var(--tx);font-weight:600}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0}
+.sw{appearance:none;-webkit-appearance:none;width:52px;height:30px;border-radius:99px;background:var(--s3);position:relative;cursor:pointer;transition:background .2s;flex:none}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s}
+.sw:checked{background:var(--blue)}
+.sw:checked::after{transform:translateX(22px)}
+
+/* stores */
+.stores{list-style:none;margin-top:16px;border-radius:20px;border:1px solid var(--line2);overflow:hidden}
+.stores li{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 14px;border-top:1px solid var(--line)}
+.stores li:first-child{border-top:0}
+.stores .si{width:38px;height:38px;border-radius:12px;background:var(--s2);display:grid;place-items:center}
+.stores b{display:block;font-weight:600}
+.stores small{color:var(--mu);font-size:12.5px}
+.stores em{font-style:normal;font:600 13px var(--head);color:var(--mu)}
+.stores li.ok em{color:var(--on-tx);background:var(--on);padding:3px 9px;border-radius:99px}
+
+/* ---------- sheet ---------- */
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.62);opacity:0;pointer-events:none;transition:opacity .3s;z-index:40}
+.sheet-bg.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:50%;bottom:0;width:min(100%,var(--frame));transform:translate(-50%,105%);transition:transform .42s cubic-bezier(.2,.85,.2,1);z-index:41;background:var(--s1);border-radius:30px 30px 0 0;border-top:1px solid var(--line2);max-height:92dvh;overflow:auto;padding:8px 20px calc(26px + env(safe-area-inset-bottom));overscroll-behavior:contain}
+.sheet:not(.on){visibility:hidden;transition:transform .42s cubic-bezier(.2,.85,.2,1),visibility 0s .42s}
+.sheet.on{transform:translate(-50%,0)}
+.grab{width:42px;height:5px;border-radius:9px;background:var(--line2);margin:4px auto 12px}
+.sh-x{position:fixed;z-index:6;right:14px;top:14px;width:36px;height:36px;border-radius:50%;background:var(--s2);display:grid;place-items:center}
+.sh-t{font-size:26px;margin-top:6px}
+.vid{position:relative;aspect-ratio:4/5;border-radius:24px;overflow:hidden;margin-top:6px;background:#05060f}
+.vid svg.art{position:absolute;inset:0;width:100%;height:100%}
+.vid::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 30%,transparent 55%,rgba(0,0,0,.8))}
+.vid-top{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;z-index:2}
+.vid-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:76px;height:76px;border-radius:50%;background:rgba(255,255,255,.95);color:#000;display:grid;place-items:center;z-index:3;box-shadow:0 10px 40px rgba(0,0,0,.5);transition:transform .2s,opacity .3s}
+.vid-play svg{width:30px;height:30px;margin-left:4px}
+.vid-play:active{transform:translate(-50%,-50%) scale(.94)}
+.vid.playing .vid-play{opacity:0;pointer-events:none}
+.vid-cap{position:absolute;left:16px;right:16px;bottom:44px;z-index:2;font:600 19px/1.25 var(--head);text-shadow:0 2px 12px rgba(0,0,0,.8);min-height:48px}
+.vid-cap span{animation:fadeUp .4s both;display:block}
+.vid-bar{position:absolute;left:16px;right:16px;bottom:26px;height:3px;border-radius:9px;background:rgba(255,255,255,.25);z-index:2;overflow:hidden}
+.vid-bar i{display:block;height:100%;width:0;background:#fff}
+.vid-note{position:absolute;left:16px;right:16px;bottom:8px;z-index:2;font-size:10.5px;color:rgba(255,255,255,.55)}
+.vid.done .vid-cap{color:#fff}
+.usp{list-style:none;margin-top:14px}
+.usp li{display:grid;grid-template-columns:24px 1fr;gap:10px;padding:8px 0;font-size:15px}
+.usp .ic{width:22px;height:22px;color:var(--tint)}
+.ch-box{margin-top:16px;padding:16px;border-radius:20px;background:var(--s2);border:1px solid var(--line)}
+.ch-box p{margin:6px 0 10px}
+.ch-box .row span{font-size:14px;color:var(--mu)}
+.ch-box b{color:var(--tx)}
+
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:90;background:var(--on);color:var(--on-tx);font-weight:600;font-size:14px;padding:12px 18px;border-radius:99px;box-shadow:0 10px 40px rgba(0,0,0,.6);transition:all .3s;max-width:calc(min(100%,var(--frame)) - 32px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+/* =========================================================
+   STAGE (áskoranir)
+   ========================================================= */
+.stage{--bg:#000;--s1:#0d0e11;--s2:#16171b;--s3:#202228;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);--tx:#fff;--tx2:#d4d7e2;--mu:#a3a5ae;--mu2:#7d808a;--tint:#a9b6ff;--on:#fff;--on-tx:#000;--soft:rgba(20,40,160,.35);--soft-tx:#e4e8ff;--soft-ic:#fff;--cline:var(--line);--shadow:none;--bad:#ff6b6b;position:fixed;top:0;bottom:0;left:50%;transform:translateX(-50%);width:min(100%,var(--frame));background:#000;color:var(--tx);z-index:60;display:flex;flex-direction:column;overflow:hidden}
+.stage[hidden]{display:none}
+.stage-top{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);padding-top:calc(10px + env(safe-area-inset-top))}
+.icon-btn{width:40px;height:40px;border-radius:50%;background:var(--s2);display:grid;place-items:center;flex:none}
+.st-title{flex:1;min-width:0}
+.st-title .k{font-size:11px}
+.st-t{font:600 16px/1.2 var(--head);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.timer{font:600 15px var(--head);font-variant-numeric:tabular-nums;background:var(--s2);padding:7px 12px;border-radius:99px;min-width:70px;text-align:center}
+.timer.run{background:var(--blue)}
+.stage-body{flex:1;overflow:auto;padding:14px 16px calc(24px + env(safe-area-inset-bottom));position:relative;overscroll-behavior:contain}
+.intro{padding:6px 2px}
+.intro svg.art{width:100%;height:180px;border-radius:24px;display:block;margin-bottom:18px}
+.intro h2{font-size:28px;margin:6px 0 12px}
+.steps{list-style:none;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:10px;padding:7px 0;color:#d9dbe2}
+.steps li::before{content:counter(s);width:26px;height:26px;border-radius:50%;background:var(--s2);border:1px solid var(--line2);display:grid;place-items:center;font:600 12px var(--head)}
+.score-hint{display:flex;align-items:center;gap:8px;margin-top:14px;padding:12px 14px;border-radius:16px;background:rgba(20,40,160,.3);color:#e4e8ff;font-size:14px;font-weight:500}
+.score-hint .ic{color:#fff}
+.g-ins{font-size:14.5px;color:#d9dbe2;margin-bottom:12px;line-height:1.45}
+.g-ins b{color:#fff;font-family:var(--head);font-weight:600}
+.sim-tag{position:absolute;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:rgba(0,0,0,.6);color:rgba(255,255,255,.7);z-index:4}
+
+/* --- game 1: zoom --- */
+.cam{position:relative;border-radius:24px;overflow:hidden;background:#000;touch-action:none;user-select:none;-webkit-user-select:none}
+.cam canvas{display:block;width:100%;touch-action:none;cursor:grab}
+.cam canvas:active{cursor:grabbing}
+.reticle{position:absolute;left:50%;top:50%;width:54px;height:54px;transform:translate(-50%,-50%);pointer-events:none;border:1.5px solid rgba(255,255,255,.6);border-radius:12px;transition:left .25s,top .25s}
+.reticle.pop{animation:retpop .45s}
+@keyframes retpop{0%{width:90px;height:90px;border-color:#fff}100%{width:54px;height:54px}}
+.reticle::after{content:"";position:absolute;left:50%;top:50%;width:4px;height:4px;border-radius:50%;background:#fff;transform:translate(-50%,-50%)}
+.cam-ui{position:absolute;left:10px;right:10px;top:10px;display:flex;justify-content:space-between;align-items:center;z-index:3}
+.night-btn{display:flex;align-items:center;gap:6px;height:36px;padding:0 13px;border-radius:99px;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.25);font-size:13px;font-weight:600;backdrop-filter:blur(6px)}
+.night-btn .ic{width:16px;height:16px}
+.night-btn.on{background:#fff;color:#000}
+.night-btn.pulse{animation:glowp 1.4s infinite}
+@keyframes glowp{50%{box-shadow:0 0 0 6px rgba(255,255,255,.18)}}
+.zread{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font:700 15px var(--head);padding:5px 12px;border-radius:99px;background:rgba(0,0,0,.6);font-variant-numeric:tabular-nums;z-index:3}
+.nproc{position:absolute;inset:0;display:none;place-items:center;align-content:center;gap:12px;font-size:14px;font-weight:600;z-index:4;background:rgba(0,0,0,.25)}
+.nproc.on{display:grid}
+.nproc i{width:42px;height:42px;border-radius:50%;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;animation:spin .8s linear infinite;justify-self:center}
+@keyframes spin{to{transform:rotate(360deg)}}
+.zpre{display:flex;justify-content:center;gap:6px;margin-top:12px}
+.zpre button{min-width:52px;height:36px;border-radius:99px;background:var(--s2);font:600 13px var(--head);text-align:center}
+.zpre button.on{background:#fff;color:#000}
+.code-row{margin-top:14px;padding:16px;border-radius:22px;background:var(--s1);border:1px solid var(--line)}
+.code-row .btn.block{margin-top:12px}
+
+/* --- game 2: fold --- */
+.fold-stage{perspective:1400px;padding:6px 0}
+.fold{display:grid;grid-template-columns:1fr 6px 1fr;border-radius:26px;background:#0b0c10;border:5px solid #1c1d23;box-shadow:0 30px 60px -20px rgba(20,40,160,.5);min-height:420px;transform-style:preserve-3d}
+.pane{background:#0f1015;padding:10px 8px 12px;min-width:0;display:flex;flex-direction:column}
+.pl{border-radius:20px 0 0 20px;transform-origin:right center;transition:transform 1s cubic-bezier(.3,.75,.2,1);backface-visibility:hidden}
+.pr{border-radius:0 20px 20px 0}
+.fold.folded .pl{transform:rotateY(178deg)}
+.hinge{background:linear-gradient(90deg,#000,#24262e,#000)}
+.app-bar{display:flex;align-items:center;gap:6px;font:600 13px var(--head);padding:2px 4px 8px;border-bottom:1px solid var(--line)}
+.app-bar .ic{width:16px;height:16px;color:var(--tint)}
+.mail-h{padding:8px 4px 6px}
+.mail-h b{display:block;font-size:12.5px;line-height:1.25}
+.mail-h small{font-size:10.5px;color:var(--mu2)}
+.dragl{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.dchip{padding:8px 9px;border-radius:12px;background:var(--s3);border:1px solid var(--line2);touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;transition:opacity .2s,transform .2s}
+.dchip b{display:block;font-size:12px;line-height:1.2;font-weight:600}
+.dchip small{display:block;font-size:10.5px;color:var(--mu);margin-top:2px;line-height:1.2}
+.dchip.lifting{opacity:.25}
+.dchip.used{opacity:0;transform:scale(.9);pointer-events:none;height:0;padding:0;margin-top:-6px;border:0;overflow:hidden}
+.dragghost{position:fixed;left:0;top:0;z-index:200;pointer-events:none;box-shadow:0 18px 40px rgba(0,0,0,.6);background:#2a2d38;border-color:rgba(255,255,255,.35);color:#fff}
+.dragghost small{color:#a3a5ae}
+.cal-h{font-size:11.5px;color:var(--mu);padding:8px 4px 4px}
+.slot{border:1.5px dashed var(--line2);border-radius:14px;padding:7px 8px;margin-top:6px;transition:all .2s;min-height:74px}
+.sl-t{font:600 11.5px var(--head);color:var(--tint)}
+.sl-l{font-size:10.5px;color:var(--mu2);margin-left:5px}
+.sl-in{font-size:11px;color:var(--mu2);margin-top:6px}
+.sl-in b{display:block;font-size:12px;color:#fff;line-height:1.2}
+.sl-in small{display:block;font-size:10.5px;color:#d7dcff;margin-top:2px}
+.slot.hover{border-color:#fff;background:rgba(20,40,160,.35);transform:scale(1.02)}
+.slot.filled{border-style:solid;border-color:var(--blue);background:rgba(20,40,160,.45)}
+.slot.bad{border-color:var(--bad);animation:shake .35s}
+.fold-meta{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font:600 14px var(--head)}
+
+/* --- game 3: flip --- */
+.steps-ind{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.steps-ind i{height:4px;border-radius:9px;background:var(--s3);transition:background .3s}
+.steps-ind i.on{background:#fff}
+.flip-box{position:relative;border-radius:24px;background:radial-gradient(120% 90% at 50% 100%,#0e1752,#04050c 70%);border:1px solid var(--line);overflow:hidden}
+.flip-svg{display:block;width:100%;touch-action:none;cursor:grab;user-select:none}
+.flip-svg .table{stroke:rgba(255,255,255,.25);stroke-width:1.5}
+.flip-svg .ph{fill:#2b2e38;stroke:#8f95a8;stroke-width:.8}
+.flip-svg .cover{fill:#4b63ff}
+.flip-svg .zone{fill:none;stroke:rgba(169,182,255,.35);stroke-width:14;stroke-linecap:round}
+.flip-svg .zone.on{stroke:rgba(255,255,255,.75)}
+.flip-svg .handle{fill:#fff;stroke:rgba(20,40,160,.9);stroke-width:4}
+.flip-svg .hingec{fill:#1428A0;stroke:#fff;stroke-width:1.5}
+.angle{position:absolute;right:14px;top:12px;text-align:right}
+.angle b{display:block;font:700 34px/1 var(--head);font-variant-numeric:tabular-nums}
+.angle span{font-size:12px;color:var(--mu);font-weight:600}
+.angle.on span{color:#fff}
+.flexlbl{position:absolute;left:14px;top:14px;opacity:0;transition:opacity .3s}
+.flexlbl.on{opacity:1;background:#fff;color:#000}
+.vf{position:relative;width:100%;aspect-ratio:1;border-radius:34px;overflow:hidden;border:6px solid #1c1d23;touch-action:none;user-select:none;cursor:grab;background:#0b1240}
+.vf-scene{position:absolute;left:0;top:0;width:200%;height:200%;will-change:transform}
+.vf-scene svg{width:100%;height:100%;display:block}
+.vf-guide{position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:2px dashed rgba(255,255,255,.7);pointer-events:none;transition:all .2s}
+.vf-guide.ok{border-style:solid;border-color:#fff;box-shadow:0 0 0 6px rgba(255,255,255,.2)}
+.vf-lbl{position:absolute;left:12px;bottom:12px;font-size:11px;font-weight:600;padding:4px 9px;border-radius:99px;background:rgba(0,0,0,.55)}
+.cdn{position:absolute;inset:0;display:grid;place-items:center;font:800 120px var(--head);text-shadow:0 6px 40px rgba(0,0,0,.6);pointer-events:none}
+.cdn span{animation:pop .6s both;width:120px;height:120px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);font-size:76px}
+@keyframes pop{from{transform:scale(1.6);opacity:0}30%{opacity:1}to{transform:scale(.9);opacity:0}}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.flash.on{animation:flash .6s}
+@keyframes flash{10%{opacity:1}100%{opacity:0}}
+.palm{position:relative;display:flex;align-items:center;justify-content:center;gap:14px;width:100%;height:84px;margin-top:14px;border-radius:26px;background:var(--s1);border:1px solid var(--line2);font:600 16px var(--head);user-select:none;-webkit-user-select:none;touch-action:none}
+.palm .pi{position:relative;width:58px;height:58px;display:grid;place-items:center}
+.palm .pi .ic{width:30px;height:30px}
+.palm svg.ring{position:absolute;inset:0;width:58px;height:58px;transform:rotate(-90deg)}
+.palm svg.ring circle{fill:none;stroke:#fff;stroke-width:3.5;stroke-dasharray:176;stroke-dashoffset:176;stroke-linecap:round}
+.palm.hold svg.ring circle{transition:stroke-dashoffset .7s linear;stroke-dashoffset:0}
+.palm.hold{background:var(--blue)}
+
+/* --- game 4: circle to search --- */
+.cts-q{padding:14px 16px;border-radius:20px;background:var(--s1);border:1px solid var(--line);margin-bottom:12px}
+.cts-q p{margin-top:4px;font-size:15px;line-height:1.4}
+.cts-phone{position:relative;border-radius:36px;border:6px solid #1c1d23;overflow:hidden;background:#000;user-select:none;-webkit-user-select:none}
+.cts-scr{position:relative}
+.cts-scr svg{display:block;width:100%}
+.cts-scr canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;pointer-events:none}
+.cts-phone.active .cts-scr canvas{pointer-events:auto;cursor:crosshair}
+.cts-tint{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;background:linear-gradient(180deg,rgba(20,40,160,.28),rgba(0,0,0,.12) 40%,rgba(20,40,160,.28));box-shadow:inset 0 0 0 2px rgba(169,182,255,.55),inset 0 0 50px rgba(60,90,255,.5)}
+.cts-phone.active .cts-tint{opacity:1}
+.cts-hint{position:absolute;left:50%;top:14px;transform:translateX(-50%);white-space:nowrap;font-size:12.5px;font-weight:600;padding:7px 13px;border-radius:99px;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);opacity:0;transition:opacity .3s;pointer-events:none}
+.cts-phone.active .cts-hint{opacity:1}
+.navbar{height:40px;display:grid;place-items:center;background:#000;touch-action:none;cursor:pointer}
+.navbar i{display:block;width:120px;height:5px;border-radius:9px;background:#fff;transition:all .3s}
+.navbar.pulse i{animation:pillp 1.4s infinite}
+@keyframes pillp{50%{box-shadow:0 0 0 6px rgba(255,255,255,.2),0 0 22px rgba(80,110,255,.9)}}
+.navbar.press i{width:150px;background:var(--tint)}
+.cts-res{position:absolute;left:8px;right:8px;bottom:48px;visibility:hidden;opacity:0;padding:16px;border-radius:24px;background:rgba(18,19,24,.96);border:1px solid var(--line2);transform:translateY(130%);transition:transform .45s cubic-bezier(.2,.85,.2,1),opacity .3s,visibility .45s;z-index:5;backdrop-filter:blur(10px)}
+.cts-res.on{transform:none;visibility:visible;opacity:1}
+.cts-res .k{display:flex;align-items:center;gap:6px;color:var(--tint)}
+.cts-res .k .ic{width:16px;height:16px}
+.cts-res b{display:block;font:600 19px var(--head);margin:6px 0 4px}
+.cts-res p{font-size:13.5px;color:var(--mu);margin-bottom:12px}
+.cts-msg{min-height:22px;margin-top:10px;font-size:14px;text-align:center;color:var(--mu)}
+.cts-msg.bad{color:var(--bad)}
+
+/* --- result --- */
+.result{text-align:center;padding:20px 4px;position:relative}
+.burst{position:relative;width:180px;height:180px;margin:6px auto 0;display:grid;place-items:center}
+.burst::before,.burst::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid rgba(80,110,255,.6);animation:ring 1.6s ease-out infinite}
+.burst::after{animation-delay:.5s}
+@keyframes ring{from{transform:scale(.5);opacity:1}to{transform:scale(1.3);opacity:0}}
+.burst .core{width:132px;height:132px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#3b58ff,#1428A0 60%,#0a1450);display:grid;place-items:center;box-shadow:0 0 60px var(--glow)}
+.burst .core b{font:800 34px/1 var(--head);font-variant-numeric:tabular-nums}
+.burst .core small{display:block;font-size:12px;font-weight:600;opacity:.8;margin-top:2px}
+.result h2{font-size:28px;margin-top:18px}
+.bd{list-style:none;text-align:left;margin:18px 0 6px;border-radius:20px;background:var(--s1);border:1px solid var(--line);padding:4px 16px}
+.bd li{display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px}
+.bd li:first-child{border-top:0}
+.bd li span{color:var(--mu)}
+.bd li b{font-family:var(--head);font-weight:600;font-variant-numeric:tabular-nums}
+.rank-line{font-size:15px;color:var(--mu);margin-top:10px}
+.rank-line b{color:var(--tx)}
+.res-btns{display:grid;gap:10px;margin-top:18px}
+.res-btns .btn{width:100%}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* ---------- v2: vinningar, vinnustaðir, deiling ---------- */
+.seg3{grid-template-columns:repeat(3,1fr)}
+.ref-banner{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;margin:12px 16px 0;padding:12px 14px;border-radius:20px;background:var(--blue);color:#fff;box-shadow:0 10px 30px -10px var(--glow)}
+.ref-banner b{display:block;font:600 15px var(--head)}
+.ref-banner span{font-size:13px;opacity:.85}
+.pz{display:block}
+.prizes-hero{display:block;width:calc(100% - 32px);text-align:left;background:var(--special);border-color:var(--special-line)}
+.prizes-hero h3{margin:6px 0 10px;font-size:20px}
+.ph-art{display:flex;gap:4px;margin:-4px -4px 12px}
+.ph-art .pz{width:52px;height:52px;flex:none;filter:drop-shadow(0 6px 14px rgba(20,40,160,.6))}
+.mini-prizes{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.mini-prizes li{background:var(--s2);border:1px solid var(--line);color:var(--tx);border-radius:18px;padding:10px 8px 12px;text-align:center}
+.mini-prizes .pz{width:52px;height:52px;margin:0 auto 6px}
+.mini-prizes span{font-size:12.5px;color:var(--mu);line-height:1.3;display:block}
+.mini-prizes b{display:block;color:var(--tx);font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:2px}
+.week-card h3{margin-top:6px}
+.mile-card{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;width:calc(100% - 32px);text-align:left;background:var(--on);color:var(--on-tx);border-color:var(--on)}
+.mile-card b{display:block;font:700 17px var(--head)}
+.mile-card span{font-size:13.5px;opacity:.78}
+.mile-card .ic.lg{color:var(--tint)}
+.mine-card .mine,.card .mine{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center}
+.pot{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:10px 12px;border-radius:14px;background:var(--s2);font-size:13.5px;color:var(--mu);line-height:1.4}
+.pot .ic{margin-top:1px;color:var(--tint)}
+.pot.ok{background:var(--soft);color:var(--soft-tx)}
+.pot.ok .ic{color:var(--soft-ic)}
+.lb .nm small{display:block;font-size:12px;color:var(--mu);font-weight:400}
+.lb .av .ic{width:18px;height:18px}
+.grand{text-align:center;background:var(--special);border-color:var(--special-line)}
+.grand-art{display:flex;align-items:center;justify-content:center;gap:4px;margin:6px 0 12px}
+.grand-art .pz{width:110px;height:110px;filter:drop-shadow(0 12px 30px rgba(40,70,230,.6))}
+.grand-art span{font:700 30px var(--head);color:var(--mu)}
+.grand h3{font-size:22px;margin-top:6px}
+.prize-list{list-style:none;margin:8px 16px 0;border-radius:var(--r);background:var(--s1);border:1px solid var(--cline);box-shadow:var(--shadow);overflow:hidden}
+.prize-list li{display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:center;padding:12px 14px;border-top:1px solid var(--line)}
+.prize-list li:first-child{border-top:0}
+.pz-art{display:flex;justify-content:center;height:48px;align-items:center}
+.pz-art .pz{width:46px;height:46px}
+.pz-art .pz+.pz{margin-left:-14px}
+.prize-list b{display:block;font:600 15px var(--head)}
+.prize-list span{display:block;font-size:13px;color:var(--mu);line-height:1.35;margin-top:2px}
+.prize-list em{font-style:normal;font:700 18px var(--head);color:#fff;background:var(--blue);min-width:46px;height:34px;border-radius:99px;display:grid;place-items:center;padding:0 10px}
+.how2{list-style:none;margin-top:10px}
+.how2 li{display:grid;grid-template-columns:54px 1fr;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.how2 li:first-child{border-top:0}
+.how2 b{font:800 30px var(--head);color:#fff;background:var(--blue);border-radius:16px;height:50px;display:grid;place-items:center}
+.how2 span{color:var(--mu);font-size:14.5px}
+.predict{border:1.5px dashed var(--line2);box-shadow:none}
+.predict h3{margin:6px 0 4px}
+.opts{display:grid;gap:8px;margin-top:10px}
+.opt{padding:13px 16px;border-radius:16px;background:var(--s2);border:1px solid var(--line2);font-size:15px;font-weight:500;transition:all .2s}
+.opt.on{background:var(--on);color:var(--on-tx);border-color:var(--on)}
+.persona{display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;background:var(--special);border-color:var(--special-line)}
+.persona svg{width:96px;height:120px;border-radius:18px}
+.persona h3{font-size:26px;margin-top:2px}
+.persona p{color:var(--tx2);font-size:14px}
+.linkbox{display:flex;align-items:center;gap:8px;margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--s2);border:1px dashed var(--line2);font-size:13.5px;color:var(--tint);overflow:hidden}
+.linkbox span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card-prev{margin:14px auto 0;width:min(62%,240px);aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:var(--s2);display:grid;place-items:center;box-shadow:0 20px 50px -10px rgba(20,40,160,.6)}
+.card-prev img{width:100%;height:100%;display:block}
+.card-prev i{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.2);border-top-color:#fff;animation:spin .8s linear infinite}
+.host-rec{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13.5px;color:var(--mu)}
+.host-rec .ic{color:var(--tint)}
+.host-rec b{color:var(--tx)}
+.host-rec.big{margin-top:10px;padding:12px 14px;border-radius:16px;border:1px solid rgba(169,182,255,.3);font-size:14px;color:#e4e8ff}
+.host-line{display:flex;justify-content:center;align-items:center;gap:6px;font-size:14px;color:var(--mu);margin-top:12px}
+.host-line .ic{color:var(--tint)}
+.host-line b{color:var(--tx)}
+.mile{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:8px 14px;border-radius:99px;background:var(--on);color:var(--on-tx);font-weight:600;font-size:14px}
+.vid-code{position:absolute;right:16px;top:52px;z-index:3;font:800 22px var(--head);letter-spacing:.08em;padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.92);color:#1428A0;opacity:0;transform:scale(.8);transition:opacity .15s,transform .15s}
+.vid-code.on{opacity:1;transform:none}
+.ch-box .pins{margin-top:8px}
+.ch-box .pins input{height:54px;font-size:24px}
+.share-cta{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.share-cta h3{font-size:19px;margin:4px 0 2px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;background:var(--soft);color:var(--soft-tx);font-size:13px;font-weight:600}
+.badge .ic{color:var(--soft-ic)}
+.qz{border-color:var(--special-line);background:var(--special)}
+.qz-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.qz-top .k{display:flex;align-items:center;gap:6px;color:var(--tint)}
+.qz-step{font:600 13px var(--head);color:var(--mu);font-variant-numeric:tabular-nums}
+.qz-bar{height:4px;border-radius:9px;background:var(--s3);margin-top:12px;overflow:hidden}
+.qz-bar i{display:block;height:100%;background:var(--on);border-radius:9px;transition:width .3s}
+.qz-q{font-size:22px;margin:16px 0 4px}
+.qz-res{display:grid;grid-template-columns:84px 1fr;gap:16px;align-items:center;margin-top:14px}
+.qz-art svg{width:84px;height:104px;border-radius:16px;display:block}
+.qz-type{font-size:30px;margin:2px 0 6px}
+.qz-res p{font-size:14px;color:var(--tx2)}
+.qz-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.qz-btns .btn{min-height:46px;padding:0 12px;font-size:14px}
+.qz-again{display:block;margin:14px auto 0;font-size:14px}
+
+/* =========================================================
+   LJÓST ÞEMA (útlitstillaga B · One UI)
+   ========================================================= */
+:root[data-theme="light"]{
+  --bg:#f4f5f7; --bg2:#e9ebf0; --s1:#ffffff; --s2:#f1f2f5; --s3:#e4e6eb; --line:rgba(11,12,16,.08); --line2:rgba(11,12,16,.15);
+  --tx:#0b0c10; --tx2:#3a3d46; --mu:#53565f; --mu2:#666974;
+  --tint:#1428A0; --glow:rgba(20,40,160,.28); --bad:#c62828;
+  --cline:transparent; --shadow:0 1px 2px rgba(16,24,64,.05),0 6px 20px rgba(16,24,64,.06); --hdr:rgba(244,245,247,.86);
+  --navbg:rgba(255,255,255,.97); --nav-on:#e3e8ff; --nav-on-tx:#1428A0; --nav-shadow:0 8px 28px rgba(16,24,64,.12);
+  --on:#0b0c10; --on-tx:#fff;
+  --soft:#e6ebff; --soft-tx:#1428A0; --soft-ic:#1428A0;
+  --special:linear-gradient(160deg,#dde4ff 0%,#ffffff 72%); --special-line:transparent;
+  --cd-bg:#ffffff; --flash:rgba(20,40,160,.08);
+  --logo-line:rgba(11,12,16,.42); --logo-tx:#45484f;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{color-scheme:dark}
+:root[data-theme="light"] .hero-orb{opacity:.35}
+:root[data-theme="light"] .hero-orb::before,:root[data-theme="light"] .hero-orb::after{border-color:rgba(20,40,160,.12)}
+:root[data-theme="light"] .fin-glow{opacity:.35}
+:root[data-theme="light"] .cd div{box-shadow:var(--shadow)}
+:root[data-theme="light"] .btn.primary{box-shadow:0 8px 20px -10px rgba(20,40,160,.6)}
+:root[data-theme="light"] .pod .base{background:linear-gradient(180deg,#e4e6eb,#f4f5f7)}
+:root[data-theme="light"] .pod:nth-child(2) .base{background:linear-gradient(180deg,#1428A0,#2a44d4)}
+:root[data-theme="light"] .ph-art .pz,:root[data-theme="light"] .grand-art .pz{filter:drop-shadow(0 6px 12px rgba(20,40,160,.18))}
+:root[data-theme="light"] .demo-note{border-color:rgba(20,40,160,.3)}
+:root[data-theme="light"] .lb li.cut{background:repeating-linear-gradient(-45deg,rgba(20,40,160,.10) 0 8px,rgba(20,40,160,.05) 8px 16px)}
+@media (min-width:600px){
+  :root[data-theme="light"] body{background:var(--bg2)}
+  :root[data-theme="light"] .app{box-shadow:0 0 80px rgba(16,24,64,.08);border-inline-color:transparent}
+}
+
+/* útlitsval á „Ég“ síðunni */
+.theme-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:12px;padding:4px;border-radius:99px;background:var(--s2)}
+.theme-seg button{height:40px;border-radius:99px;font-size:14px;font-weight:600;color:var(--mu);text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
+.theme-seg button .ic{width:16px;height:16px}
+.theme-seg button.on{background:var(--s1);color:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.18)}
+
+/* =========================================================
+   STIGATAFLA — efstu 10 skýrir, neðri hluti dofnar út
+   ========================================================= */
+.lb.fade{-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 240px),transparent 100%);mask-image:linear-gradient(to bottom,#000 calc(100% - 240px),transparent 100%);border-bottom-left-radius:0;border-bottom-right-radius:0}
+.lb li.gh{filter:blur(var(--b,4px));opacity:var(--o,.7);pointer-events:none;user-select:none}
+.lb-more{position:relative;margin:-38px 16px 0;padding:0 20px;text-align:center;font-size:13px;color:var(--mu);z-index:1}
+.lb-more b{display:block;color:var(--tx);font-family:var(--head);font-weight:600;font-size:14px;margin-bottom:2px}
+.lb-mine{margin-top:18px}
+.lb-mine .lbl{margin:0 20px 6px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+
+/* =========================================================
+   TÖLVUÚTGÁFA (≥1024px) — símaútlit helst óbreytt undir því
+   ========================================================= */
+@media (min-width:1024px){
+  :root{--frame:100vw}
+  body,:root[data-theme="light"] body{background:var(--bg)}
+  .app,:root[data-theme="light"] .app{max-width:none;border:0;box-shadow:none;padding-bottom:48px}
+  .top{height:72px;padding:0 max(32px,calc((100% - 1136px)/2))}
+  .nav{top:0;bottom:auto;left:50%;transform:translateX(-50%);width:auto;height:72px;display:flex;align-items:center;gap:2px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none;z-index:31}
+  .nav button{flex-direction:row;gap:8px;height:42px;padding:0 15px;border-radius:99px;font-size:14px;color:var(--mu)}
+  .nav button:hover{background:var(--s2);color:var(--tx)}
+  .nav button .ic{width:19px;height:19px;padding:0;background:none!important}
+  .nav button.on{background:var(--nav-on);color:var(--nav-on-tx)}
+  .theme-btn{width:40px;height:40px}
+  #view{max-width:1200px;margin:0 auto;padding:16px 32px 0}
+  #view:not(.v-home):not(.v-eps){max-width:800px}
+  .page-h{padding:36px 16px 12px}
+  .page-h h2{font-size:44px}
+
+  /* forsíða: tveggja dálka */
+  .v-home{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;grid-auto-flow:row dense;align-items:stretch}
+  .v-home>*{margin:0!important;width:auto!important}
+  .v-home .ref-banner,.v-home .mile-card,.v-home .eps-block,.v-home .how-card,.v-home .foot{grid-column:1/-1}
+  .v-home .hero{padding:44px 8px 20px;align-self:center;overflow:visible}
+  .v-home .hero h1{font-size:60px}
+  .v-home .hero .lede{font-size:17px;max-width:44ch}
+  .v-home .hero-orb{right:-40px;top:-60px;width:420px;height:420px}
+  .v-home .card{padding:26px}
+  .v-home .eps-block .sec-h{padding:8px 4px 4px}
+  .v-home .rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;overflow:visible;padding:12px 0 0}
+  .v-home .rail-card svg.art{height:200px}
+  .v-home .rail-card:hover{transform:translateY(-3px)}
+  .rail-card{transition:transform .2s}
+  .v-home .how{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .v-home .how li{border-top:0;padding:12px 0 0}
+  .v-home .foot{padding:12px 4px}
+
+  /* þættir: tveggja dálka */
+  .v-eps{max-width:1100px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch}
+  .v-eps>*{grid-column:1/-1;margin:0!important;width:auto!important}
+  .v-eps>.ep{grid-column:auto}
+  .v-eps .ep{grid-template-columns:140px 1fr;padding:16px}
+  .v-eps .ep-art{width:140px;height:172px}
+
+  .card,.seg,.lb,.prize-list,.ep,.demo-note,.ref-banner{margin-left:0;margin-right:0}
+  .feat,.prizes-hero,.mile-card,.ep{width:100%}
+  .sec-h,.lb-more{padding-left:4px;padding-right:4px}
+  .lb-more{margin-left:0;margin-right:0}
+  .lb-mine .lbl{margin-left:4px}
+  .micro[style*="padding:0 20px"]{padding:0 4px!important}
+
+  /* gluggar fyrir miðju */
+  .sheet{top:50%;bottom:auto;width:min(560px,calc(100vw - 48px));max-height:min(880px,88vh);border-radius:28px;border:1px solid var(--line2);padding:22px 28px 28px;transform:translate(-50%,-47%);opacity:0;transition:transform .3s cubic-bezier(.2,.85,.2,1),opacity .25s}
+  .sheet.on{transform:translate(-50%,-50%);opacity:1}
+  .sheet:not(.on){transition:transform .3s,opacity .25s,visibility 0s .3s}
+  .grab{display:none}
+  .sh-x{top:16px;right:16px}
+
+  /* áskoranir: símarammi fyrir miðju */
+  body.stage-open .sheet-bg{opacity:1;pointer-events:auto;z-index:59;background:rgba(0,0,0,.72)}
+  .stage{top:50%;bottom:auto;transform:translate(-50%,-50%);width:430px;height:min(900px,calc(100vh - 40px));border-radius:44px;border:9px solid #1c1d23;box-shadow:0 40px 120px rgba(0,0,0,.6)}
+  .toast{bottom:32px}
+}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <!-- EINA birting Samsung-merkisins. Setjið opinbera SVG-skrá hér inn (hæð = --logo-h, helgunarsvæði 0.5S tryggt með margin). -->
+    <div class="logo-slot" role="img" aria-label="Samsung" title="Hér kemur opinbera Samsung SVG-merkið">Samsung merki</div>
+    <div class="top-r"><button class="theme-btn" id="themeBtn" type="button"></button><button class="pts-chip" id="ptsChip" data-go="me" aria-label="Stigin þín"></button></div>
+  </header>
+  <main id="view"></main>
+  <nav class="nav" id="nav" aria-label="Aðalvalmynd"></nav>
+</div>
+
+<div class="sheet-bg" id="sheetBg"></div>
+<section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Gluggi"><div class="grab"></div><button class="sh-x" id="shX" aria-label="Loka"></button><div id="sheetBody"></div></section>
+
+<section class="stage" id="stage" hidden aria-label="Áskorun">
+  <div class="stage-top">
+    <button class="icon-btn" id="stClose" aria-label="Loka áskorun"></button>
+    <div class="st-title"><div class="k" id="stK"></div><div class="st-t" id="stT"></div></div>
+    <div class="timer" id="stTimer">0,0</div>
+  </div>
+  <div class="stage-body" id="stBody"></div>
+</section>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(()=>{'use strict';
+/* =========================================================
+   Hjálparföll & ástand
+   ========================================================= */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const KEY='galaxy_askorunin_v2';
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const DEF={user:null,scores:{},watched:{},vcodes:{},beat:{},boosts:[],quiz:null,demo:true,miles:[],mileShared:0,refBy:null,refCode:null};
+let S=Object.assign({},DEF,store.get(KEY,{}));
+const save=()=>store.set(KEY,S);
+if(!S.refCode){S.refCode=Math.random().toString(36).slice(2,7).toUpperCase();save()}
+try{const q=(new URLSearchParams(location.search).get('vinur')||'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);if(q&&q!==S.refCode&&!S.refBy&&!S.user){S.refBy=q;save()}}catch(e){}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const fmt=n=>String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+const fmtSec=s=>s.toFixed(1).replace('.',',');
+const MON=['janúar','febrúar','mars','apríl','maí','júní','júlí','ágúst','september','október','nóvember','desember'];
+const DAYS=['sunnudaginn','mánudaginn','þriðjudaginn','miðvikudaginn','fimmtudaginn','föstudaginn','laugardaginn'];
+const fmtDate=d=>`${d.getUTCDate()}. ${MON[d.getUTCMonth()]}`;
+const buzz=p=>{try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SITE='galaxyaskorunin.is'; /* staðgengill fyrir lén herferðar */
+const inviteLink=()=>`https://${SITE}/?vinur=${S.refCode}`;
+
+const I={
+home:'<svg viewBox="0 0 24 24"><path d="M3.5 10.5 12 3.5l8.5 7V20a1 1 0 0 1-1 1H15v-6H9v6H4.5a1 1 0 0 1-1-1z"/></svg>',
+eps:'<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3.5"/><path d="m10 9 5 3-5 3z"/></svg>',
+trophy:'<svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4.5a3.5 3.5 0 0 0 3.7 4M16 6h3.5a3.5 3.5 0 0 1-3.7 4M12 13v4M8 21h8M9.5 17h5"/></svg>',
+spark:'<svg viewBox="0 0 24 24"><path d="M11 3c.7 4.6 2.6 6.6 7 7.3-4.4.7-6.3 2.7-7 7.3-.7-4.6-2.6-6.6-7-7.3 4.4-.7 6.3-2.7 7-7.3zM18.5 15.5c.3 1.8 1 2.5 2.7 2.8-1.7.3-2.4 1-2.7 2.8-.3-1.8-1-2.5-2.7-2.8 1.7-.3 2.4-1 2.7-2.8z"/></svg>',
+user:'<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>',
+moon:'<svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>',
+close:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+chev:'<svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>',
+check:'<svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+store:'<svg viewBox="0 0 24 24"><path d="M4 9h16l-1.5-5h-13zM5 9v11h14V9M10 20v-6h4v6"/></svg>',
+cal:'<svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+share:'<svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="m8.2 10.8 7.6-3.6M8.2 13.2l7.6 3.6"/></svg>',
+copy:'<svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V5.5A1.5 1.5 0 0 0 14.5 4h-9A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8"/></svg>',
+mail:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>',
+bolt:'<svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
+play:'<svg viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg>',
+lock:'<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+palm:'<svg viewBox="0 0 24 24"><path d="M7.5 12.5V6.5a1.5 1.5 0 0 1 3 0V11M10.5 11V4.5a1.5 1.5 0 0 1 3 0V11M13.5 11V5.5a1.5 1.5 0 0 1 3 0V12M16.5 12V8.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5.2-3l-2.6-4.4a1.5 1.5 0 0 1 2.6-1.5l.7 1.2"/></svg>',
+gift:'<svg viewBox="0 0 24 24"><rect x="3.5" y="8.5" width="17" height="4" rx="1"/><path d="M5 12.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7.5M12 8.5V21M12 8.5c-1.5-3.5-6-4.5-6-1.5 0 1.5 2 1.5 6 1.5zM12 8.5c1.5-3.5 6-4.5 6-1.5 0 1.5-2 1.5-6 1.5z"/></svg>',
+building:'<svg viewBox="0 0 24 24"><path d="M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16M15 10h4a1 1 0 0 1 1 1v10M3 21h18M8 8h3M8 12h3M8 16h3"/></svg>',
+users:'<svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg>',
+star:'<svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></svg>',
+download:'<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></svg>',
+link:'<svg viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></svg>',
+story:'<svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M12 9v6M9 12h6"/></svg>',
+sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></svg>',
+auto:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v17a8.5 8.5 0 0 0 0-17z" fill="currentColor" stroke="none"/></svg>',
+eye:'<svg viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>'
+};
+const ic=(n,c='')=>`<span class="ic ${c}">${I[n]}</span>`;
+
+/* =========================================================
+   Efni herferðar
+   ========================================================= */
+const FINALE=new Date('2026-12-19T14:00:00Z');
+const EPS=[
+ {n:1,key:'s',short:'S-línan',product:'Galaxy S-línan',len:'1:15',date:new Date('2026-11-16T12:00:00Z'),host:21.4,vcode:'4821',
+  title:'Nóttin sem sá allt',sub:'Myndavél, aðdráttur og Nightography',
+  desc:'Kynnirinn fer út í íslenska vetrarnótt og sýnir hvað myndavélin sér þegar augað gefst upp.',
+  usps:['Myndavél í atvinnumannagæðum með mörgum linsum','Optical zoom og allt að 100x Space Zoom (Ultra)','Nightography: skýrar og bjartar myndir í myrkri'],
+  caps:['Reykjavík, kl. 23:40. Kolniðamyrkur.','Vitinn er 6 km í burtu…','100x Space Zoom.','Og með Nightography sést allt.'],
+  challenge:'Pikkaðu á vitann í fjarska, súmmaðu inn, kveiktu á Nightography og finndu falda 4 stafa kóðann.',
+  game:'zoom',gameTitle:'Finndu kóðann í myrkrinu',par:24,
+  how:['Pikkaðu á ljósið í fjarska til að fókusa og súmmaðu inn — með sleða, hnöppum eða tveimur fingrum. Dragðu til að fínstilla.','Kveiktu á Nightography til að lýsa myndina upp.','Lestu 4 stafa kóðann á skiltinu við vitann og sláðu hann inn.']},
+ {n:2,key:'fold',short:'Z Fold',product:'Galaxy Z Fold',len:'1:20',date:new Date('2026-11-23T12:00:00Z'),host:11.8,vcode:'3307',
+  title:'Tveir skjáir, ein ferð',sub:'Framleiðni og fjölvinnsla á stórum skjá',
+  desc:'Vinnuferð norður á 90 sekúndum: kynnirinn skipuleggur daginn á stóra skjánum án þess að skipta um forrit.',
+  usps:['Stór innri skjár sem breytist í lítið vinnuborð','Fjölvinnsla: forrit hlið við hlið með drag-and-drop','Sterk og endingargóð löm'],
+  caps:['Flug kl. 08:15. Fundur kl. 13.','Póstur til vinstri, dagatal til hægri.','Dregið, sleppt — búið.','Einn sími. Tveir skjáir.'],
+  challenge:'Dragðu réttu atriðin úr tölvupóstinum yfir í dagatalið á klofnum skjá — á sem stystum tíma.',
+  game:'fold',gameTitle:'Skipulagðu daginn á tveimur skjám',par:14,
+  how:['Síminn opnast og skjárinn klofnar í tvö forrit.','Dragðu ferðaatriðin úr póstinum yfir á réttan tíma í dagatalinu.','Láttu ruslpóstinn eiga sig — röng sleppa kostar stig.']},
+ {n:3,key:'flip',short:'Z Flip',product:'Galaxy Z Flip',len:'1:05',date:new Date('2026-11-30T12:00:00Z'),host:13.6,vcode:'6159',
+  title:'Engar hendur, enginn þrífótur',sub:'Flex Mode, FlexCam og nett hönnun',
+  desc:'Kynnirinn tekur upp heilt myndband á ferðinni — síminn stendur sjálfur hálfopinn á borðinu.',
+  usps:['Flex Mode: síminn stendur sjálfur hálfopinn','FlexCam: myndir og myndbönd án þrífóts, með ytri skjáinn sem forskoðun','Nett hönnun sem passar í hvaða vasa sem er'],
+  caps:['Enginn þrífótur? Ekkert mál.','Hálfopnaður — og hann stendur sjálfur.','Lófinn upp…','…og myndin er komin.'],
+  challenge:'Stilltu lömina í Flex Mode, rammaðu skotið inn og taktu mynd með lófahreyfingu.',
+  game:'flip',gameTitle:'FlexCam án þrífóts',par:16,
+  how:['Dragðu efri helming símans þar til hann stendur sjálfur (Flex Mode).','Rammaðu skotið inn á ytri skjánum.','Haltu inni lófanum — myndavélin telur niður og smellir.']},
+ {n:4,key:'ai',short:'Galaxy AI',product:'Galaxy AI & vistkerfið',len:'1:30',date:new Date('2026-12-07T12:00:00Z'),host:12.9,vcode:'7744',
+  title:'Hringdu — og þú finnur',sub:'Circle to Search, Live Translate og samvirkni',
+  desc:'Kynnirinn sýnir hvernig Galaxy AI og tækin vinna saman — frá Circle to Search til þýðinga í rauntíma.',
+  usps:['Circle to Search: hringdu utan um hvað sem er og fáðu svar','Live Translate: þýðing á símtölum í rauntíma','Viðmót á íslensku og tæki sem vinna saman'],
+  caps:['Hvað er þetta á úlnliðnum?','Haltu inni. Hringdu.','Svarið er komið.','Galaxy AI. Allt tengt.'],
+  challenge:'Virkjaðu Circle to Search og hringaðu utan um réttu tækin úr þættinum.',
+  game:'cts',gameTitle:'Circle to Search',par:16,
+  how:['Haltu inni stikunni neðst á skjánum til að virkja Circle to Search.','Teiknaðu hring með puttanum utan um rétta tækið.','Tvær spurningar — hraði og nákvæmni gefa stig.']}
+];
+const STORES=[
+ {code:'2701',name:'Elko',where:'Kóði dagsins á DPOP skjánum við Samsung borðið'},
+ {code:'2702',name:'Síminn',where:'Kóði dagsins á DPOP skjánum'},
+ {code:'2703',name:'Nova',where:'Kóði dagsins á DPOP skjánum'},
+ {code:'2704',name:'Sýn',where:'Kóði dagsins á DPOP skjánum'},
+ {code:'2705',name:'Úrslitin í Smáralind',where:'Kóði á sviðinu 19. desember'}
+];
+const LIFE={
+ travel:{l:'Ferðalög & myndataka',rec:{s:3,flip:1},tips:[['Live Translate','Láttu símann þýða símtalið þegar þú pantar borð erlendis.'],['Generative Edit','Fjarlægðu ókunnuga úr bakgrunni myndarinnar eftir á.'],['Circle to Search','Hringdu utan um byggingu eða rétt á matseðli og fáðu svar strax.']]},
+ work:{l:'Vinna & fundir',rec:{fold:3,s:1},tips:[['Note Assist','Tekur saman langar glósur í skýra punkta og fyrirsagnir.'],['Transcript Assist','Breytir upptöku af fundi í texta og stutta samantekt.'],['Fjölvinnsla','Hafðu póst, dagatal og skjal opin í einu á stóra skjánum.']]},
+ social:{l:'Samfélagsmiðlar',rec:{flip:3,s:1},tips:[['FlexCam','Settu símann hálfopinn á borðið og taktu upp án þrífóts.'],['Chat Assist','Fáðu tillögur að tóni og orðalagi áður en þú sendir.'],['Photo Assist','Lagaðu halla og ramma með einu pikki.']]},
+ study:{l:'Nám & lestur',rec:{fold:2,s:1},tips:[['Browsing Assist','Fáðu stutta samantekt á löngum vefgreinum.'],['Circle to Search','Hringdu utan um dæmi og fáðu útskýringu skref fyrir skref.'],['Note Assist','Breyttu glósum í yfirlit fyrir próf.']]},
+ family:{l:'Fjölskylda & daglegt líf',rec:{s:2,flip:1},tips:[['Nightography','Skýrar myndir af jólaboðinu, líka í kertaljósi.'],['Audio Eraser','Minnkaðu klið og vindhljóð í myndböndum.'],['Now Brief','Stutt yfirlit yfir daginn, veðrið og áminningar á morgnana.']]}
+};
+const QUIZ=[
+ {q:'Hvað gerir þú mest í símanum?',o:[['s','Tek myndir og myndbönd'],['fold','Vinn, les og skipulegg'],['flip','Samfélagsmiðlar og spjall']]},
+ {q:'Hvernig síma viltu í vasann?',o:[['s','Klassískan og öflugan'],['fold','Stóran skjá sem opnast'],['flip','Nettan sem smellur saman']]},
+ {q:'Fullkomið laugardagskvöld?',o:[['s','Norðurljósaferð með myndavélina'],['fold','Sería og skipulag á stórum skjá'],['flip','Partý með vinum — og allt á Story']]},
+ {q:'Hvað skiptir þig mestu í síma?',o:[['s','Besta myndavélin'],['fold','Mesta skjáplássið'],['flip','Flottasta hönnunin']]}
+];
+const PERSONA={
+ s:{type:'S-línu týpa',short:'S-línu',model:'Galaxy S-línan',desc:'Þú vilt ná augnablikinu — líka í myrkri og úr fjarlægð. Klassískur og öflugur sími með bestu myndavélinni.'},
+ fold:{type:'Fold týpa',short:'Fold',model:'Galaxy Z Fold',desc:'Þú gerir þrennt í einu og vilt skjá sem fylgir þér. Spjaldtölva í vasanum fyrir vinnu, lestur og skipulag.'},
+ flip:{type:'Flip týpa',short:'Flip',model:'Galaxy Z Flip',desc:'Þú býrð til efni, ekki bara skoðar það. Nettur, öðruvísi og stendur sjálfur þegar þú tekur upp.'}
+};
+const TIPS={
+ s:[['Nightography','Skýrar myndir af jólaboðinu og norðurljósunum, líka í myrkri.'],['100x Space Zoom (Ultra)','Náðu smáatriðum langt í burtu án þess að færa þig.'],['Generative Edit','Fjarlægðu ókunnuga úr bakgrunni myndarinnar eftir á.']],
+ fold:[['Fjölvinnsla','Hafðu póst, dagatal og skjal opin í einu á stóra skjánum.'],['Note Assist','Tekur saman langar glósur í skýra punkta og fyrirsagnir.'],['Transcript Assist','Breytir upptöku af fundi í texta og stutta samantekt.']],
+ flip:[['FlexCam','Settu símann hálfopinn á borðið og taktu upp án þrífóts.'],['Flex Window','Svaraðu skilaboðum á ytri skjánum án þess að opna símann.'],['Photo Assist','Lagaðu halla og ramma með einu pikki.']]
+};
+
+/* ---------- vinningar (50 stk) ---------- */
+const PRIZE_ITEMS={tv:'75" QLED sjónvarp',ultra:'Galaxy S26 Ultra',flip:'Galaxy Z Flip8',tab:'Galaxy Tab S10 Lite',watch:'Galaxy Watch9',buds:'Galaxy Buds4 Pro'};
+const PRIZE_GROUPS=[
+ {title:'Úrslitin í Smáralind',when:'Lau 19. des',items:[
+   {k:['tv','ultra'],n:1,label:'1. sæti',d:'Jólapakkinn: 75" QLED sjónvarp + Galaxy S26 Ultra'},
+   {k:['ultra'],n:1,label:'2. sæti',d:'Galaxy S26 Ultra'},
+   {k:['flip'],n:1,label:'3. sæti',d:'Galaxy Z Flip8'},
+   {k:['watch'],n:3,label:'4.–6. sæti',d:'Galaxy Watch9'},
+   {k:['flip'],n:1,label:'Opin áskorun á staðnum',d:'Besti tími dagsins meðal gesta í Smáralind'},
+   {k:['buds'],n:5,label:'Spáðu fyrir um sigurvegarann',d:'Galaxy Buds4 Pro dregin úr réttum spám í beinni'}]},
+ {title:'Í hverri viku',when:'4 vikur',items:[
+   {k:['tab'],n:4,label:'1. sæti vikunnar',d:'Galaxy Tab S10 Lite — hæstu stig vikunnar'},
+   {k:['watch'],n:4,label:'2. sæti vikunnar',d:'Galaxy Watch9'},
+   {k:['buds'],n:20,label:'5 dregin út í viku',d:'Galaxy Buds4 Pro — úr hópi allra sem kláruðu áskorun vikunnar'}]},
+ {title:'Vinnustaðakeppnin',when:'',items:[
+   {k:['watch'],n:3,label:'Sigurvinnustaðurinn',d:'Galaxy Watch9 dregin meðal þátttakenda á vinnustaðnum'}]},
+ {title:'Aukavinningar',when:'',items:[
+   {k:['tab'],n:1,label:'Kláraðu allar fjórar',d:'Galaxy Tab S10 Lite dregin úr hópi allra sem klára allar áskoranirnar'},
+   {k:['buds'],n:5,label:'Bjóddu vinum',d:'Galaxy Buds4 Pro dregin úr hópi þeirra sem fá vin til að skrá sig'}]}
+];
+function prizeCount(){const c={};PRIZE_GROUPS.forEach(g=>g.items.forEach(it=>it.k.forEach(k=>c[k]=(c[k]||0)+it.n)));return c}
+const PRIZE_TOTAL=Object.values(prizeCount()).reduce((a,b)=>a+b,0);
+function prizeArt(k){const g={
+ buds:'<rect x="14" y="21" width="36" height="28" rx="13" fill="#eef0f6" stroke="#9097ad" stroke-width="1.4"/><path d="M15 32h34" stroke="#c4c8d6" stroke-width="1.5"/><circle cx="32" cy="40" r="1.8" fill="#3b56ff"/>',
+ watch:'<rect x="25" y="7" width="14" height="50" rx="6" fill="#2b2e38"/><circle cx="32" cy="32" r="15" fill="#0a0a0f" stroke="#b5bacb" stroke-width="2.5"/><path d="M25.5 34a6.5 6.5 0 0 1 13 0" stroke="#3b56ff" stroke-width="2.5" fill="none" stroke-linecap="round"/>',
+ tab:'<rect x="7" y="15" width="50" height="34" rx="4" fill="#0d1650" stroke="#fff" stroke-width="1.5"/><rect x="11" y="19" width="42" height="26" rx="2" fill="#3b56ff" opacity=".7"/>',
+ ultra:'<rect x="20" y="6" width="24" height="52" rx="5" fill="#0d1650" stroke="#fff" stroke-width="1.5"/><circle cx="27" cy="14" r="3" fill="#02030a" stroke="#9fb0ff"/><circle cx="27" cy="22" r="3" fill="#02030a" stroke="#9fb0ff"/><circle cx="27" cy="30" r="3" fill="#02030a" stroke="#9fb0ff"/>',
+ flip:'<rect x="21" y="7" width="22" height="50" rx="5" fill="#0d1650" stroke="#fff" stroke-width="1.5"/><path d="M21 32h22" stroke="rgba(255,255,255,.5)"/><rect x="24" y="10" width="16" height="18" rx="3" fill="#3b56ff"/>',
+ tv:'<rect x="3" y="11" width="58" height="36" rx="2.5" fill="#0d1650" stroke="#fff" stroke-width="1.5"/><rect x="7" y="15" width="50" height="28" fill="#1428A0" opacity=".7"/><path d="M22 54h20M32 47v7" stroke="#fff" stroke-width="1.5"/>'}[k];
+ return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="pz" aria-hidden="true">${g}</svg>`}
+
+/* ---------- stigatöflur (kynningargögn) ---------- */
+const NAMES=['Sigrún','Jón','Katrín','Gunnar','Anna','Ólafur','Helga','Kristján','Guðrún','Einar','María','Stefán','Hildur','Bjarki','Elísabet','Arnar','Þóra','Davíð','Sunna','Hrafn','Embla','Óskar','Birta','Ægir','Ragnheiður','Tómas','Lilja','Viktor','Ásdís','Kári','Freyja','Snorri','Íris','Baldur','Telma','Haukur','Rakel','Ívar','Saga','Matthías'];
+const LET='ABDEFGHIJKLMÓRSTVÞ';
+const WORKS=['Ljósvaki ehf.','Hraunbyggð verkfræði','Bárugata hönnunarstofa','Norðanátt fjármál','Sólvangur ráðgjöf','Fjörður lögmenn','Kraftur tækniþjónusta','Vesturhöfn útgerð','Grjótá smíðaverkstæði','Lundi auglýsingastofa','Skýjaborg hugbúnaður','Álfheimar arkitektar'];
+const rr=mulberry32(2027);
+const PLAYERS=NAMES.map((n,i)=>({id:'p'+i,name:n+' '+LET[Math.floor(rr()*LET.length)]+'.',pts:Math.round(6900-i*148-rr()*110),wk:Math.round(1080+rr()*640)}));
+const rw=mulberry32(77);
+const WORKSTATS=WORKS.map((w,i)=>({name:w,n:Math.round(36-i*2.5-rw()*4),avg:Math.round(4350-i*165-rw()*120)}));
+
+const cnt=o=>Object.keys(o).length;
+function total(){let t=0;for(const k in S.scores)t+=S.scores[k].pts;return t+cnt(S.watched)*100+cnt(S.vcodes)*200+cnt(S.beat)*150+S.boosts.length*500+(S.quiz?100:0)+(S.user&&S.refBy?200:0)}
+function weekPts(w){return (S.scores[w]?S.scores[w].pts:0)+(S.watched[w]?100:0)+(S.vcodes[w]?200:0)+(S.beat[w]?150:0)}
+function curWeek(){const now=Date.now();let w=1;EPS.forEach(e=>{if(now>=e.date.getTime())w=e.n});return w}
+const doneCount=()=>EPS.filter(e=>S.scores[e.n]).length;
+function shortName(n){const p=n.trim().split(/\s+/);return p.length>1?p[0]+' '+p[p.length-1][0].toUpperCase()+'.':p[0]}
+function meName(){return S.user?(S.user.nick||shortName(S.user.name)):'Þú'}
+function board(mode){
+  if(mode==='week'){const a=PLAYERS.map(p=>({id:p.id,name:p.name,pts:p.wk}));const m=weekPts(curWeek());if(m>0)a.push({id:'me',name:meName(),pts:m,me:true});return a.sort((x,y)=>y.pts-x.pts)}
+  const a=PLAYERS.map(p=>({id:p.id,name:p.name,pts:p.pts}));const t=total();if(t>0)a.push({id:'me',name:meName(),pts:t,me:true});return a.sort((x,y)=>y.pts-x.pts);
+}
+function myRank(mode='pts'){const b=board(mode);const i=b.findIndex(x=>x.me);return i<0?null:i+1}
+function workBoard(){
+  const a=WORKSTATS.map(w=>({...w}));const u=S.user&&S.user.work;const t=total();
+  if(u){const r=a.find(w=>w.name.toLowerCase()===u.toLowerCase());if(r){r.avg=Math.round((r.avg*r.n+t)/(r.n+1));r.n++;r.me=true}else a.push({name:u,n:1,avg:t,me:true})}
+  return a.sort((x,y)=>((y.n>=5)-(x.n>=5))||y.avg-x.avg);
+}
+const isOpen=e=>S.demo||Date.now()>=e.date.getTime();
+const MILES=[2500,5000,7500];
+function checkMiles(){const t=total();const n=MILES.filter(m=>t>=m&&!S.miles.includes(m));if(n.length){S.miles.push(...n);save();return n[n.length-1]}return null}
+
+function art(k,cls='art'){
+  const bg={s:'#0a1240',fold:'#0a0f30',flip:'#0f1650',ai:'#060924',fin:'#090b1e'}[k];
+  const st=[[12,14],[86,22],[70,8],[20,96],[90,104],[50,10],[8,60],[94,70]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="${i%3?0.7:1.1}" fill="#fff" opacity="${.35+(i%4)*.15}"/>`).join('');
+  let g='';
+  if(k==='s')g=`<circle cx="78" cy="22" r="46" fill="#1428A0" opacity=".45"/><rect x="28" y="22" width="46" height="88" rx="9" fill="#0b1550" stroke="rgba(255,255,255,.6)" stroke-width="1.1"/>${[36,51,66].map(y=>`<circle cx="40" cy="${y}" r="5.6" fill="#02030a" stroke="#9fb0ff" stroke-width="1.1"/><circle cx="40" cy="${y}" r="2" fill="#3b56ff"/>`).join('')}<circle cx="52" cy="36" r="1.6" fill="#fff" opacity=".8"/>`;
+  if(k==='fold')g=`<circle cx="50" cy="40" r="50" fill="#1428A0" opacity=".35"/><rect x="14" y="26" width="35" height="74" rx="6" fill="#0d1650" stroke="rgba(255,255,255,.6)" stroke-width="1.1"/><rect x="51" y="26" width="35" height="74" rx="6" fill="#0d1650" stroke="rgba(255,255,255,.6)" stroke-width="1.1"/>${[36,44,52].map(y=>`<rect x="19" y="${y}" width="25" height="4" rx="2" fill="#fff" opacity=".35"/>`).join('')}<rect x="56" y="36" width="25" height="20" rx="3" fill="#3b56ff" opacity=".8"/><rect x="56" y="60" width="25" height="4" rx="2" fill="#fff" opacity=".35"/><line x1="50" y1="26" x2="50" y2="100" stroke="#000" stroke-width="2"/>`;
+  if(k==='flip')g=`<circle cx="30" cy="96" r="52" fill="#1428A0" opacity=".4"/><rect x="31" y="18" width="38" height="90" rx="9" fill="#0b1550" stroke="rgba(255,255,255,.6)" stroke-width="1.1"/><line x1="31" y1="63" x2="69" y2="63" stroke="rgba(255,255,255,.45)" stroke-width="1"/><rect x="36" y="23" width="28" height="30" rx="5" fill="#3b56ff" opacity=".85"/><circle cx="58" cy="29" r="2.5" fill="#02030a"/>`;
+  if(k==='ai')g=`<circle cx="50" cy="60" r="44" fill="none" stroke="rgba(110,140,255,.25)"/><circle cx="50" cy="60" r="30" fill="none" stroke="rgba(110,140,255,.45)"/><circle cx="50" cy="60" r="18" fill="#1428A0" opacity=".75"/><path d="M50 44c1 8 4.5 11.5 12 12.5-7.5 1-11 4.5-12 12.5-1-8-4.5-11.5-12-12.5 7.5-1 11-4.5 12-12.5z" fill="#fff"/>`;
+  if(k==='fin')g=`<path d="M30 0 50 92 70 0z" fill="#3b56ff" opacity=".22"/><path d="M5 0 40 92 55 92 20 0z" fill="#fff" opacity=".06"/><path d="M95 0 60 92 45 92 80 0z" fill="#fff" opacity=".06"/><rect x="8" y="92" width="84" height="10" rx="2" fill="#1428A0"/><rect x="0" y="102" width="100" height="23" fill="#05060f"/><circle cx="50" cy="80" r="6" fill="#fff"/><rect x="45" y="86" width="10" height="7" rx="2" fill="#fff"/>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" class="${cls}" viewBox="0 0 100 125" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="100" height="125" fill="${bg}"/>${st}${g}</svg>`;
+}
+
+/* =========================================================
+   Leiðir / views
+   ========================================================= */
+let VIEW='home', boardMode='pts';
+let QZ={i:0,ans:[],retake:false};
+const NAV=[['home','Heim','home'],['eps','Þættir','eps'],['board','Stigatafla','trophy'],['prizes','Vinningar','gift'],['me','Ég','user']];
+function go(v){VIEW=v;render();window.scrollTo(0,0)}
+/* ---------- þema: ljóst / dökkt / sjálfvirkt (fylgir stillingu tækis) ---------- */
+const THEME_KEY='galaxy_theme';
+const mqDark=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
+function themePref(){try{return localStorage.getItem(THEME_KEY)||'auto'}catch(e){return 'auto'}}
+function themeNow(){const p=themePref();return p==='auto'?(mqDark&&mqDark.matches?'dark':'light'):p}
+function applyTheme(){
+  const t=themeNow();document.documentElement.setAttribute('data-theme',t);
+  const m=$('#metaTheme');if(m)m.setAttribute('content',t==='dark'?'#000000':'#f4f5f7');
+  const b=$('#themeBtn');if(b){b.innerHTML=ic(t==='dark'?'sun':'moon');const l=t==='dark'?'Skipta í ljóst útlit':'Skipta í dökkt útlit';b.setAttribute('aria-label',l);b.title=l}
+  $$('.theme-seg button').forEach(x=>{const on=x.dataset.theme===themePref();x.classList.toggle('on',on);x.setAttribute('aria-pressed',on)});
+}
+function setTheme(p){try{localStorage.setItem(THEME_KEY,p)}catch(e){}applyTheme()}
+if(mqDark){const f=()=>{if(themePref()==='auto')applyTheme()};mqDark.addEventListener?mqDark.addEventListener('change',f):mqDark.addListener&&mqDark.addListener(f)}
+$('#themeBtn').addEventListener('click',()=>{setTheme(themeNow()==='dark'?'light':'dark');toast(themeNow()==='dark'?'Dökkt útlit':'Ljóst útlit')});
+function render(){
+  $('#ptsChip').innerHTML=ic('bolt')+fmt(total());
+  $('#nav').innerHTML=NAV.map(([k,l,i])=>`<button data-go="${k}" class="${VIEW===k?'on':''}" aria-current="${VIEW===k?'page':'false'}">${ic(i)}<span>${l}</span></button>`).join('');
+  const v=$('#view');v.className='v-'+VIEW;v.innerHTML=({home:vHome,eps:vEps,board:vBoard,prizes:vPrizes,type:vType,me:vMe})[VIEW]();
+  applyTheme();
+  bindQuiz();
+  if(VIEW==='type')bindType();
+  if(VIEW==='me')bindMe();
+}
+function cdParts(){let d=Math.max(0,FINALE-Date.now());const D=Math.floor(d/864e5);d-=D*864e5;const H=Math.floor(d/36e5);d-=H*36e5;return[D,H,Math.floor(d/6e4)]}
+function cdHTML(){const [D,H,M]=cdParts();return `<div><b>${D}</b><span>dagar</span></div><div><b>${H}</b><span>klst.</span></div><div><b>${M}</b><span>mín.</span></div>`}
+const pageH=(t,l)=>`<div class="page-h"><div class="cname sm">Galaxy Áskorunin</div><h2>${t}</h2>${l?`<p class="lede">${l}</p>`:''}</div>`;
+
+function vHome(){
+  const t=total(),rk=myRank(),next=EPS.find(e=>!S.scores[e.n]),w=curWeek(),wb=workBoard(),wr=wb.findIndex(x=>x.me)+1;
+  const mileNew=S.miles.length&&S.miles[S.miles.length-1]>S.mileShared;
+  return `
+  ${S.refBy&&!S.user?`<div class="ref-banner">${ic('users')}<div><b>Vinur skoraði á þig!</b><span>Skráðu þig og þið fáið bæði +200 stig.</span></div><button class="btn white sm" data-act="register">Skrá</button></div>`:''}
+  <section class="hero">
+    <div class="hero-orb" aria-hidden="true"></div>
+    <div class="cname">Galaxy Áskorunin</div>
+    <h1>Prófaðu Galaxy<br>með puttanum.</h1>
+    <p class="lede">Fjórir stuttir þættir, fjórar áskoranir í þínum eigin síma og ${PRIZE_TOTAL} vinningar. Komdu þér í úrslitin í Smáralind ${fmtDate(FINALE)}.</p>
+  </section>
+  <section class="card status-card">
+    <div class="stat-row">
+      <div><div class="k">Stigin þín</div><div class="big">${fmt(t)}</div></div>
+      <div><div class="k">Sæti á landsvísu</div><div class="big" id="homeRank">${rk?rk+'.':'–'}</div></div>
+    </div>
+    <div class="prog">
+      ${EPS.map(e=>`<button class="pstep ${S.scores[e.n]?'done':''} ${next&&next.n===e.n?'cur':''}" data-ep="${e.n}" aria-label="Þáttur ${e.n}"><i>${S.scores[e.n]?I.check:e.n}</i><span>${e.short}</span></button>`).join('')}
+      <div class="pstep fin"><i>5</i><span>Úrslit</span></div>
+    </div>
+    ${next?`<button class="btn primary block" data-ep="${next.n}">${t>0?'Halda áfram':'Byrja'}: Þáttur ${next.n} ${ic('chev','sm')}</button>`
+          :`<button class="btn primary block" data-go="board">Allar áskoranir kláraðar — sjá stigatöflu</button>`}
+    ${!S.user?`<p class="micro">${t>0?'Stigin þín eru aðeins geymd í þessum vafra.':'Þú getur byrjað strax — skráning kemur á eftir.'} <button class="link" data-act="register">Skrá mig í keppnina</button></p>`:''}
+  </section>
+
+  <section class="card qz" id="quizCard" aria-live="polite">${quizHTML()}</section>
+  ${mileNew?`<button class="card mile-card" data-act="shareMile">${ic('star','lg')}<div><b>Þú rauft ${fmt(S.miles[S.miles.length-1])} stiga múrinn!</b><span>Deildu í Instagram Story og skoraðu á vini.</span></div>${ic('chev')}</button>`:''}
+
+  <button class="card prizes-hero" data-go="prizes">
+    <div class="ph-art">${['tv','ultra','flip','tab','watch','buds'].map(prizeArt).join('')}</div>
+    <div class="k">${PRIZE_TOTAL} vinningar</div>
+    <h3>75" QLED sjónvarp, S26 Ultra, Z Flip8 — og vinningar í hverri viku</h3>
+    <span class="link">Sjá alla vinninga</span>
+  </button>
+
+  <section class="card week-card">
+    <div class="row sp"><div class="k">Vika ${w} · ${EPS[w-1].short}</div><span class="pill blue">Dregið á mánudag</span></div>
+    <ul class="mini-prizes">
+      <li>${prizeArt('tab')}<span><b>1. sæti vikunnar</b>Tab S10 Lite</span></li>
+      <li>${prizeArt('watch')}<span><b>2. sæti vikunnar</b>Watch9</span></li>
+      <li>${prizeArt('buds')}<span><b>5 dregin út</b>Buds4 Pro</span></li>
+    </ul>
+    <p class="micro" style="margin-top:6px">Vikutaflan núllstillist á mánudögum — allir eiga séns, líka þeir sem byrja seint.</p>
+    <button class="btn ghost sm" data-go="board" data-mode-set="week" style="margin-top:12px">Sjá vikutöfluna</button>
+  </section>
+
+  <section class="eps-block"><div class="sec-h"><h3>Þættirnir</h3><button class="link" data-go="eps">Sjá alla</button></div>
+  <div class="rail">${EPS.map(e=>`<button class="rail-card" data-ep="${e.n}">${art(e.key)}${S.scores[e.n]?`<span class="pill">${ic('check')} ${fmt(S.scores[e.n].pts)}</span>`:!isOpen(e)?`<span class="pill">${ic('lock')} ${fmtDate(e.date)}</span>`:''}<div class="rc-b"><span class="k">Þáttur ${e.n}</span><b>${e.product}</b></div></button>`).join('')}</div></section>
+
+  <section class="card finale">
+    <div class="fin-glow"></div>
+    <div class="k" style="position:relative">Þáttur 5 · Úrslit í beinni</div>
+    <h3>Smáralind, ${DAYS[FINALE.getUTCDay()]} ${fmtDate(FINALE)} kl. 14</h3>
+    <div class="cd" id="cd">${cdHTML()}</div>
+    <p class="muted">20 keppa á sviði: efstu 10 á stigatöflunni og 10 dregnir úr hópi allra sem klára allar fjórar áskoranirnar. Allir eru velkomnir að koma og prófa tækin.</p>
+    <button class="btn ghost sm" data-act="ics" style="position:relative">${ic('cal','sm')} Setja í dagatal</button>
+  </section>
+
+  <button class="card feat" data-go="board" data-mode-set="work">
+    <div><div class="k">Vinnustaðakeppnin · 3x Watch9</div><h3>${S.user&&S.user.work?`${esc(S.user.work)}${wb[wr-1]&&wb[wr-1].n>=5?` er í ${wr}. sæti`:' — fáðu fleiri með'}`:'Keppið saman í vinnunni'}</h3><p>Skráðu vinnustaðinn þinn. Sá vinnustaður sem er með hæstu meðalstigin vinnur.</p></div>
+    <div class="feat-ic">${ic('building')}</div>
+  </button>
+
+  <button class="card feat" data-act="invite">
+    <div><div class="k">Bjóddu vinum · +200 stig</div><h3>Skoraðu á vin</h3><p>Þið fáið bæði 200 stig þegar vinurinn skráir sig — og þú ferð í pottinn fyrir 5x Buds4 Pro.</p></div>
+    <div class="feat-ic">${ic('users')}</div>
+  </button>
+
+  <button class="card feat" data-act="boost">
+    <div><div class="k">Verslunar-boost · allt að 2.500 stig</div><h3>Kóði dagsins í verslunum</h3><p>Kíktu á Samsung sýningarborðið hjá Elko, Símanum, Nova eða Sýn — nýr kóði birtist á skjánum á hverjum degi.</p></div>
+    <div class="feat-ic">${ic('store')}</div>
+  </button>
+
+
+  <section class="card bundle">
+    <svg viewBox="0 0 92 72" aria-hidden="true"><rect x="2" y="6" width="70" height="44" rx="4" fill="#0d1650" stroke="rgba(255,255,255,.6)"/><rect x="30" y="50" width="14" height="6" fill="rgba(255,255,255,.4)"/><rect x="22" y="56" width="30" height="3" rx="1.5" fill="rgba(255,255,255,.4)"/><circle cx="50" cy="22" r="18" fill="#1428A0" opacity=".6"/><rect x="66" y="26" width="22" height="42" rx="5" fill="#0b1240" stroke="#fff"/><rect x="70" y="31" width="14" height="24" rx="2" fill="#3b56ff"/></svg>
+    <div><div class="k">Jólapakkinn</div><h3>Flaggskipssími + sjónvarp</h3><p class="muted" style="font-size:14px">Tilboðið verður afhjúpað á úrslitunum. <b style="color:var(--tx)">Skráðir þátttakendur fá það sólarhring á undan öðrum.</b></p>
+    <div class="retail"><span class="tag">Elko</span><span class="tag">Síminn</span><span class="tag">Nova</span><span class="tag">Sýn</span></div></div>
+  </section>
+
+  <section class="card how-card">
+    <h3>Svona virkar þetta</h3>
+    <ol class="how">
+      <li><div><b>Horfðu á þáttinn</b><span>Nýr þáttur á hverjum mánudegi á Instagram, TikTok, YouTube — og hér. Fylgstu með falda kóðanum.</span></div></li>
+      <li><div><b>Leystu áskorunina</b><span>Prófaðu eiginleikann með puttanum. Hraði og nákvæmni gefa stig — og sláðu met kynnisins.</span></div></li>
+      <li><div><b>Vinndu og komdu í úrslitin</b><span>Vinningar í hverri viku. Efstu 10 og 10 heppnir keppa í beinni í Smáralind.</span></div></li>
+    </ol>
+  </section>
+  ${footer()}`;
+}
+function footer(){return `<footer class="foot">Galaxy Áskorunin er markaðsleikur Tæknivara ehf. í samstarfi við Samsung. Þátttaka er ókeypis og ekki háð kaupum.<nav><a href="#" data-act="rules">Leikreglur</a><a href="#" data-act="privacy">Persónuvernd</a><a href="#" data-act="contact">Hafa samband</a></nav></footer>`}
+
+function vEps(){
+  return `${pageH('Þættir','Nýr þáttur á hverjum mánudegi. Horfðu, finndu falda kóðann og leystu áskorunina.')}
+  ${S.demo?`<div class="demo-note">${ic('spark','sm')} Kynningarútgáfa — allir þættir eru opnir til prófunar.</div>`:''}
+  ${EPS.map(e=>{const sc=S.scores[e.n],op=isOpen(e);return `
+  <button class="ep ${op?'':'locked'}" data-ep="${e.n}">
+    <div class="ep-art">${art(e.key)}<span class="ep-len">${e.len}</span></div>
+    <div class="ep-b"><div class="k">Þáttur ${e.n} · ${e.product}</div><b>${e.title}</b><p>${e.sub}</p>
+      <div class="ep-st">${sc?`<span class="pill ok">${ic('check')} ${fmt(sc.pts)} stig</span>`:op?`<span class="pill blue">Opinn · allt að 1.950 stig</span>`:`<span class="pill">${ic('lock')} Kemur ${fmtDate(e.date)}</span>`}${S.beat[e.n]?`<span class="pill">${ic('star')} Met kynnis</span>`:''}${S.vcodes[e.n]?`<span class="pill">${ic('eye')} Kóði</span>`:''}</div>
+    </div>
+  </button>`}).join('')}
+  <div class="ep fin-card">
+    <div class="ep-art">${art('fin')}</div>
+    <div class="ep-b"><div class="k">Þáttur 5 · Í beinni</div><b>Úrslitin í Smáralind</b><p>${DAYS[FINALE.getUTCDay()].replace(/^./,c=>c.toUpperCase())} ${fmtDate(FINALE)} kl. 14. Efstu 10 og 10 heppnir keppa á sviði.</p>
+      <div class="ep-st"><button class="pill blue" data-act="ics">${ic('cal')} Setja í dagatal</button></div></div>
+  </div>
+  <section class="card predict"><div class="k">${ic('eye','sm')} Opnar á úrslitadag</div><h3>Spáðu fyrir um sigurvegarann</h3><p class="muted" style="font-size:14px">Fylgstu með beinu útsendingunni og spáðu hver vinnur. 5x Galaxy Buds4 Pro dregin úr réttum spám.</p></section>
+  ${footer()}`;
+}
+
+function vBoard(){
+  const tabs=`<div class="seg seg3" role="tablist">${[['pts','Heildarstig'],['week','Vikan'],['work','Vinnustaðir']].map(([k,l])=>`<button data-mode="${k}" class="${boardMode===k?'on':''}" role="tab">${l}</button>`).join('')}</div>`;
+  const head=`<div class="page-h"><div class="cname sm">Galaxy Áskorunin</div><h2>Stigatafla</h2><div class="live"><i></i> Uppfærist í beinni</div></div>`;
+  if(boardMode==='work')return head+tabs+workHTML()+footer();
+  const wk=boardMode==='week',b=board(boardMode),t=wk?weekPts(curWeek()):total(),rk=b.findIndex(x=>x.me)+1,cutAt=wk?2:10;
+  let mine='';
+  if(!wk){
+    const dc=doneCount();
+    if(t>0){const need=rk>10?b[9].pts-t+1:0;
+      mine=`<section class="card"><div class="mine"><div class="rk">${rk}.</div><div><b style="font-family:var(--head)">Þín staða · ${fmt(t)} stig</b><small>${rk<=10?'Þú ert í beinu úrslitasæti — haltu því!':`Þig vantar ${fmt(need)} stig upp í topp 10.`}</small></div>${!S.user?'<button class="btn primary sm" data-act="register">Skrá</button>':`<span class="av me">${esc(meName()[0])}</span>`}</div>
+      <div class="pot ${dc===4?'ok':''}">${ic(dc===4?'check':'gift','sm')}<span>${dc===4?'Þú ert í pottinum fyrir 10 úrslitasæti til viðbótar.':`Kláraðu ${4-dc} ${4-dc>1?'áskoranir':'áskorun'} í viðbót til að fara í pottinn fyrir 10 úrslitasæti til viðbótar.`}</span></div></section>`;
+    } else mine=`<section class="card"><div class="mine"><div class="rk">–</div><div><b style="font-family:var(--head)">Þú ert ekki komin/n á blað</b><small>Kláraðu fyrstu áskorunina til að fá sæti.</small></div><button class="btn primary sm" data-ep="1">Byrja</button></div></section>`;
+  } else {
+    const w=curWeek();
+    mine=`<section class="card"><div class="k">Vika ${w} · ${EPS[w-1].product}</div><p class="muted" style="margin-top:6px;font-size:14px">Taflan núllstillist á mánudögum. 1. sæti vinnur Galaxy Tab S10 Lite, 2. sæti Galaxy Watch9 og 5x Buds4 Pro eru dregin úr hópi allra sem klára áskorun vikunnar.</p>${t>0?`<div class="pot ok" style="margin-top:12px">${ic('check','sm')}<span>Þú ert í ${rk}. sæti vikunnar með ${fmt(t)} stig — og í pottinum fyrir Buds4 Pro.</span></div>`:''}</section>`;
+  }
+  const top=b.slice(0,3);
+  const pod=[top[1],top[0],top[2]].map((x,i)=>x?`<div class="pod"><div class="av ${x.me?'me':''}">${esc(x.name[0])}</div><b>${esc(x.name)}</b><small>${fmt(x.pts)}</small><div class="base">${[2,1,3][i]}</div></div>`:'<div></div>').join('');
+  const SHOW=10;
+  let rows=b.slice(3,SHOW).map((x,i)=>lbRow(x,i+4)).join('');
+  if(!wk)rows+=`<li class="cut">Úrslitalína · efstu 10 komast beint í úrslit</li>`;
+  rows+=ghostRows(b[Math.min(b.length,SHOW)-1],6,Math.min(b.length,SHOW)+1);
+  const mineRow=rk>SHOW?`<div class="lb-mine"><div class="lbl">Þitt sæti</div><ol class="lb"><li class="me"><span class="n">${rk}</span><span class="av me">${esc(meName()[0])}</span><span class="nm">${esc(meName())} (þú)</span><span class="v">${fmt(t)}</span></li></ol></div>`:'';
+  return `${head}${tabs}${mine}${wk?'<p class="micro" style="padding:0 20px;margin-top:4px">1. og 2. sæti vikunnar vinna Tab S10 Lite og Watch9.</p>':''}<div class="podium">${pod}</div><ol class="lb fade" id="lb">${rows}</ol>
+  <div class="lb-more"><b>Efstu 10 eru sýndir</b>Þitt sæti sést alltaf${S.user?'':' — skráðu þig til að birtast á töflunni'}.</div>${mineRow}
+  <p class="micro" style="padding:0 20px;margin-top:22px">${wk?'':'Auk efstu 10 eru 10 úrslitasæti dregin úr hópi allra sem klára allar fjórar áskoranirnar. '}Á stigatöflunni sjást aðeins gælunöfn eða fornafn og upphafsstafur.</p>${footer()}`;
+}
+function lbRow(x,n,icon){return `<li class="${x.me?'me':''}" data-id="${x.id||''}"><span class="n">${n}</span><span class="av ${x.me?'me':''}">${icon?ic(icon,'sm'):esc(x.name[0])}</span><span class="nm">${esc(x.name)}${x.me?' (þú)':''}</span><span class="v">${fmt(x.pts)}</span></li>`}
+/* Dofnandi línur fyrir neðan topp 10. Þær eru alltaf jafn margar og ólæsilegar,
+   svo taflan sýnir aldrei hve margir taka þátt. */
+function ghostRows(last,count,start){
+  const r=mulberry32(7),base=last?last.pts:3000;let p=base,h='';
+  for(let i=0;i<count;i++){p-=Math.round(40+r()*160);const nm=NAMES[Math.floor(r()*NAMES.length)]+' '+LET[Math.floor(r()*LET.length)]+'.';
+    h+=`<li class="gh" aria-hidden="true" style="--b:${(3.2+i*1.2).toFixed(1)}px;--o:${(.8-i*.1).toFixed(2)}"><span class="n">${start+i}</span><span class="av">${nm[0]}</span><span class="nm">${nm}</span><span class="v">${fmt(Math.max(100,p))}</span></li>`}
+  return h;
+}
+function workHTML(){
+  const a=workBoard(),mi=a.findIndex(x=>x.me),me=a[mi];let top;
+  if(S.user&&S.user.work){
+    top=me.n<5?`<section class="card"><div class="k">Þinn vinnustaður</div><h3 style="margin-top:6px">${esc(me.name)}</h3><p class="muted" style="font-size:14px;margin-top:4px">Vantar ${5-me.n} þátttakendur í viðbót til að komast á töfluna.</p><button class="btn primary sm" data-act="inviteWork" style="margin-top:12px">${ic('users','sm')} Bjóða vinnufélögum</button></section>`
+      :`<section class="card"><div class="mine"><div class="rk">${mi+1}.</div><div><b style="font-family:var(--head)">${esc(me.name)}</b><small>${me.n} þátttakendur · meðaltal ${fmt(me.avg)} stig</small></div><button class="btn primary sm" data-act="inviteWork">Bjóða</button></div></section>`;
+  } else top=`<section class="card"><div class="k">${ic('building','sm')} 3x Galaxy Watch9</div><h3 style="margin-top:6px">Keppið saman í vinnunni</h3><p class="muted" style="font-size:14px;margin-top:4px">Skráðu vinnustaðinn þinn og fáðu vinnufélagana með. Vinnustaðurinn með hæstu meðalstigin (minnst 5 þátttakendur) vinnur — úrin eru dregin meðal þátttakenda þar.</p><button class="btn primary sm" data-act="${S.user?'editWork':'register'}" style="margin-top:12px">${S.user?'Skrá vinnustað':'Skrá mig og vinnustaðinn'}</button></section>`;
+  const list=a.filter(x=>x.n>=5),shown=list.slice(0,10);
+  const rows=shown.map((x,i)=>`<li class="${x.me?'me':''}"><span class="n">${i+1}</span><span class="av">${ic('building','sm')}</span><span class="nm">${esc(x.name)}${x.me?`<small>${x.n} þátttakendur</small>`:''}</span><span class="v">${fmt(x.avg)}</span></li>`).join('')
+    +ghostWork(shown[shown.length-1],5,shown.length+1);
+  return `${top}<p class="micro" style="padding:6px 20px 0">Röðun eftir meðalstigum þátttakenda á hverjum vinnustað.</p><ol class="lb fade">${rows}</ol><div class="lb-more"><b>Efstu 10 vinnustaðir eru sýndir</b>Fáðu fleiri vinnufélaga með til að klifra upp.</div>`;
+}
+function ghostWork(last,count,start){
+  const r=mulberry32(11),W2=['Fjarðabyggð ráðgjöf','Sjónarhóll ehf.','Hafnargata hönnun','Brimstöð verkfræði','Norðurljós bókhald','Melar tækni'];let p=last?last.avg:2500,h='';
+  for(let i=0;i<count;i++){p-=Math.round(30+r()*120);h+=`<li class="gh" aria-hidden="true" style="--b:${(3.2+i*1.3).toFixed(1)}px;--o:${(.8-i*.12).toFixed(2)}"><span class="n">${start+i}</span><span class="av">${ic('building','sm')}</span><span class="nm">${W2[i%W2.length]}</span><span class="v">${fmt(Math.max(100,p))}</span></li>`}
+  return h;
+}
+
+function vPrizes(){
+  const c=prizeCount();
+  return `${pageH(PRIZE_TOTAL+' vinningar','Vinningar í hverri viku, vinnustaðakeppni og stóru vinningarnir í beinni á úrslitunum í Smáralind.')}
+  <section class="card grand"><div class="grand-art">${prizeArt('tv')}<span>+</span>${prizeArt('ultra')}</div><div class="k">Aðalvinningur · 1. sæti í úrslitum</div><h3>Jólapakkinn: 75" QLED sjónvarp + Galaxy S26 Ultra</h3></section>
+  ${PRIZE_GROUPS.map(g=>`<div class="sec-h"><h3>${g.title}</h3>${g.when?`<span class="k">${g.when}</span>`:''}</div><ul class="prize-list">${g.items.map(it=>`<li><div class="pz-art">${it.k.map(prizeArt).join('')}</div><div><b>${it.label}</b><span>${it.d}</span></div><em>${it.n}×</em></li>`).join('')}</ul>`).join('')}
+  <section class="card"><h3>Hvernig kemst ég í úrslit?</h3>
+    <ul class="how2"><li><b>10</b><span>Efstu 10 á heildarstigatöflunni eftir þátt 4.</span></li><li><b>10</b><span>Dregnir úr hópi allra sem klára allar fjórar áskoranirnar — óháð stigum.</span></li></ul>
+    <p class="micro">Fyrsta tilraun í hverri áskorun gildir. Ef stig eru jöfn ræður samanlagður tími.</p></section>
+  <section class="card"><div class="k">Allir vinningar</div><ul class="lines">${Object.entries(c).map(([k,n])=>`<li><span>${PRIZE_ITEMS[k]}</span><b>${n}×</b></li>`).join('')}<li class="tot"><span>Samtals</span><b>${PRIZE_TOTAL}</b></li></ul></section>
+  ${footer()}`;
+}
+
+function quizResult(ans){const sc={s:0,fold:0,flip:0};ans.forEach(a=>sc[a]++);const mx=Math.max(sc.s,sc.fold,sc.flip);const tied=Object.keys(sc).filter(k=>sc[k]===mx);return tied.length===1?tied[0]:(tied.includes(ans[1])?ans[1]:tied[0])}
+function quizHTML(){
+  if(S.quiz&&!QZ.retake){const P=PERSONA[S.quiz];
+    return `<div class="qz-top"><div class="k">${ic('spark','sm')} Hvaða Samsung týpa ert þú?</div></div>
+    <div class="qz-res fade-in"><div class="qz-art">${art(S.quiz)}</div><div><div class="k">Þú ert</div><h3 class="qz-type">${P.type}</h3><p>${P.desc}</p></div></div>
+    <div class="qz-btns"><button class="btn primary" data-qz="share">${ic('story','sm')} Deila í Story</button><button class="btn ghost" data-qz="tips">AI-ráð ${ic('chev','sm')}</button></div>
+    <button class="link qz-again" data-qz="again">Taka prófið aftur</button>`}
+  const q=QUIZ[QZ.i];
+  return `<div class="qz-top"><div class="k">${ic('spark','sm')} Hvaða Samsung týpa ert þú?</div><span class="qz-step">${QZ.i+1} / ${QUIZ.length}</span></div>
+    <div class="qz-bar"><i style="width:${Math.round(QZ.i/QUIZ.length*100)}%"></i></div>
+    <h3 class="qz-q">${q.q}</h3>
+    <div class="opts">${q.o.map(([k,l])=>`<button class="opt ${QZ.ans[QZ.i]===k?'on':''}" data-qa="${k}">${l}</button>`).join('')}</div>
+    ${QZ.i>0?`<button class="link qz-again" data-qz="back">Til baka</button>`:`<p class="micro">Fjórar einfaldar spurningar · S-línu, Fold eða Flip týpa${S.quiz?'':' · +100 stig'}</p>`}`;
+}
+function bindQuiz(){
+  const c=$('#quizCard');if(!c)return;
+  c.onclick=e=>{
+    const a=e.target.closest('[data-qa]'),b=e.target.closest('[data-qz]');
+    if(a){QZ.ans[QZ.i]=a.dataset.qa;$$('.opt',c).forEach(x=>x.classList.toggle('on',x===a));buzz(8);
+      setTimeout(()=>{
+        if(QZ.i<QUIZ.length-1){QZ.i++;c.innerHTML=quizHTML();return}
+        const first=!S.quiz;S.quiz=quizResult(QZ.ans);save();QZ={i:0,ans:[],retake:false};
+        if(first)award('+100 stig fyrir prófið!');else render();
+        const n=$('#quizCard');if(n)n.scrollIntoView({behavior:'smooth',block:'nearest'});
+      },200);return}
+    if(!b)return;const k=b.dataset.qz,P=S.quiz&&PERSONA[S.quiz];
+    if(k==='share'&&P)openShare({title:'Deildu týpunni þinni',art:S.quiz,kicker:'Ég er',big:P.short,unit:'týpa',line:P.model,cta:'Hvaða týpa ert þú?',text:`Ég er ${P.type} í Galaxy Áskoruninni! Hvaða Samsung týpa ert þú?`});
+    else if(k==='tips')go('type');
+    else if(k==='again'){QZ={i:0,ans:[],retake:true};c.innerHTML=quizHTML()}
+    else if(k==='back'&&QZ.i>0){QZ.i--;c.innerHTML=quizHTML()}
+  };
+}
+function vType(){
+  const P=S.quiz&&!QZ.retake&&PERSONA[S.quiz];
+  return `${pageH('Hvaða Samsung týpa ert þú?','Fjórar einfaldar spurningar. Þú ert S-línu týpa, Fold týpa eða Flip týpa — og færð Galaxy AI ráð sem passa þér.')}
+  <section class="card qz" id="quizCard" aria-live="polite">${quizHTML()}</section>
+  ${P?`<section class="card fade-in"><h3>Galaxy AI ráð fyrir ${P.short} týpuna</h3>
+    <ol class="tips">${TIPS[S.quiz].map(t=>`<li><b>${t[0]}</b><span>${t[1]}</span></li>`).join('')}</ol>
+    <div class="row gap" style="margin-top:8px"><button class="btn ghost sm" id="cpy" style="flex:1">${ic('copy','sm')} Afrita ráðin</button><button class="btn ghost sm" id="mailMe" style="flex:1">${ic('mail','sm')} Senda í pósti</button></div></section>`:''}
+  ${footer()}`;
+}
+function bindType(){
+  const c=$('#cpy');if(!c)return;const tips=TIPS[S.quiz];
+  c.onclick=()=>copyText('Mín Galaxy AI ráð\n'+tips.map((t,i)=>`${i+1}. ${t[0]}: ${t[1]}`).join('\n'),'Ráðin eru komin á klemmuspjaldið');
+  $('#mailMe').onclick=()=>S.user?toast('Sent á '+S.user.email+' (kynning)'):openRegister('Skráðu þig og við sendum ráðin á netfangið þitt.');
+}
+
+function vMe(){
+  if(!S.user)return `${pageH('Skráðu þig í keppnina','Stigin þín vistast, þú birtist á stigatöflunni og ferð í pottinn fyrir vikulega vinninga og úrslitin.')}
+  <section class="card">${formHTML()}</section>${meExtras()}${footer()}`;
+  const u=S.user,rk=myRank(),badges=[];
+  EPS.forEach(e=>{if(S.beat[e.n])badges.push(['star',`Sló met kynnis · ${e.short}`])});
+  S.miles.forEach(m=>badges.push(['bolt',fmt(m)+' stig']));
+  if(doneCount()===4)badges.push(['check','Allar fjórar']);
+  if(S.quiz)badges.push(['spark',PERSONA[S.quiz].type]);
+  return `${pageH('Mín síða')}
+  <section class="card prof"><span class="av me">${esc(meName()[0])}</span><div><b>${esc(u.name)}</b><small>${esc(u.email)}${u.phone?' · +354 '+esc(u.phone):''}</small><div class="row" style="margin-top:8px;gap:6px;flex-wrap:wrap"><span class="pill ok">${ic('check')} Í pottinum</span>${u.work?`<span class="pill">${ic('building')} ${esc(u.work)}</span>`:''}</div></div></section>
+  <section class="card share-cta"><div><div class="k">${rk?rk+'. sæti · ':''}${fmt(total())} stig</div><h3>Deildu stöðunni þinni</h3><p class="muted" style="font-size:14px">Tilbúin mynd fyrir Instagram Story með þínum hlekk.</p></div><button class="btn primary sm" data-act="shareStatus">${ic('story','sm')} Deila</button></section>
+  ${badges.length?`<section class="card"><div class="k">Merkin mín</div><div class="badges">${badges.map(b=>`<span class="badge">${ic(b[0],'sm')}${esc(b[1])}</span>`).join('')}</div></section>`:''}
+  <section class="card"><h3>Stigin mín</h3><ul class="lines">
+    ${EPS.map(e=>`<li><span>Áskorun ${e.n} · ${e.short}</span><b>${S.scores[e.n]?fmt(S.scores[e.n].pts):'–'}</b></li>`).join('')}
+    <li><span>Horft á þætti (${cnt(S.watched)} × 100)</span><b>${fmt(cnt(S.watched)*100)}</b></li>
+    <li><span>Faldir kóðar (${cnt(S.vcodes)} × 200)</span><b>${fmt(cnt(S.vcodes)*200)}</b></li>
+    <li><span>Met kynnisins slegið (${cnt(S.beat)} × 150)</span><b>${fmt(cnt(S.beat)*150)}</b></li>
+    <li><span>Verslunar-boost (${S.boosts.length} × 500)</span><b>${fmt(S.boosts.length*500)}</b></li>
+    <li><span>Galaxy týpa</span><b>${S.quiz?'100':'–'}</b></li>
+    ${S.refBy?`<li><span>Boð frá vini</span><b>200</b></li>`:''}
+    <li class="tot"><span>Samtals</span><b>${fmt(total())}</b></li></ul></section>
+  <section class="card"><div class="k">Bjóddu vinum · +200 stig hvor</div><div class="linkbox">${ic('link','sm')}<span>${inviteLink()}</span></div><div class="row gap" style="margin-top:12px"><button class="btn primary sm" data-act="invite" style="flex:1">${ic('share','sm')} Senda hlekk</button>${u.work?'':`<button class="btn ghost sm" data-act="editWork" style="flex:1">${ic('building','sm')} Skrá vinnustað</button>`}</div></section>
+  ${meExtras()}${footer()}`;
+}
+function meExtras(){return `
+  <section class="card"><div class="k">Útlit</div><p class="muted" style="font-size:14px;margin-top:6px">Veldu ljóst eða dökkt útlit — eða láttu það fylgja stillingu tækisins.</p>
+    <div class="theme-seg" role="group" aria-label="Útlit"><button data-theme="light">${ic('sun')}Ljóst</button><button data-theme="dark">${ic('moon')}Dökkt</button><button data-theme="auto">${ic('auto')}Sjálfvirkt</button></div>
+  </section>
+  <button class="card feat" data-act="boost"><div><div class="k">Verslunar-boost · ${S.boosts.length}/5</div><h3>Sláðu inn kóða dagsins</h3><p>500 bónusstig fyrir hvern kóða af Samsung sýningarborði.</p></div><div class="feat-ic">${ic('store')}</div></button>
+  <section class="card"><div class="k">Kynningarstilling</div>
+    <label class="toggle" style="margin-top:8px"><span>Opna alla þætti strax<br><small class="muted" style="font-size:12.5px">Slökktu til að sjá útgáfudagsetningar eins og þær verða.</small></span><input type="checkbox" class="sw" id="demoSw" ${S.demo?'checked':''}></label>
+    <button class="btn ghost sm" id="resetDemo" style="margin-top:12px">Núllstilla kynningu</button>
+  </section>`}
+function formHTML(){return `
+  <form id="regForm" novalidate>
+    <label class="f" data-f="name"><span>Fullt nafn</span><input name="name" autocomplete="name" required><div class="msg">Sláðu inn nafnið þitt.</div></label>
+    <label class="f" data-f="email"><span>Netfang</span><input name="email" type="email" autocomplete="email" inputmode="email" required><div class="msg">Netfangið lítur ekki rétt út.</div></label>
+    <label class="f" data-f="phone"><span>Farsími <i>(valfrjálst — við þurfum það ef þú vinnur)</i></span><div class="tel"><em>+354</em><input name="phone" inputmode="tel" autocomplete="tel-national" placeholder="000 0000"></div><div class="msg">Sláðu inn 7 stafa símanúmer.</div></label>
+    <label class="f"><span>Vinnustaður eða skóli <i>(valfrjálst — fyrir vinnustaðakeppnina)</i></span><input name="work" list="workList" maxlength="40" placeholder="t.d. Ljósvaki ehf."><datalist id="workList">${WORKS.map(w=>`<option value="${esc(w)}">`).join('')}</datalist></label>
+    <label class="f"><span>Nafn á stigatöflu <i>(valfrjálst)</i></span><input name="nick" maxlength="18" placeholder="t.d. Sigrún H."></label>
+    <label class="cb" data-f="terms"><input type="checkbox" name="terms"><span>Ég samþykki <a href="#" data-act="rules">leikreglur</a> og <a href="#" data-act="privacy">persónuverndarstefnu</a>.</span></label>
+    <label class="cb"><input type="checkbox" name="remind"><span>Láttu mig vita þegar nýr þáttur kemur út.<i>Einn tölvupóstur í viku á meðan leikurinn stendur yfir.</i></span></label>
+    <label class="cb"><input type="checkbox" name="mkt"><span>Já takk, ég vil fá fréttir og tilboð frá Samsung og Tæknivörum í tölvupósti og SMS.<i>Valfrjálst — hefur ekki áhrif á þátttöku. Þú getur afskráð þig hvenær sem er.</i></span></label>
+    ${S.refBy?`<div class="pot ok" style="margin-top:14px">${ic('users','sm')}<span>Þú komst í gegnum boð frá vini — þið fáið bæði +200 stig.</span></div>`:''}
+    <button class="btn primary block" type="submit">Skrá mig og vista stigin</button>
+  </form>`}
+function bindForm(root,done){
+  const f=$('#regForm',root);if(!f)return;
+  f.addEventListener('input',e=>{const l=e.target.closest('[data-f]');l&&l.classList.remove('err')});
+  f.addEventListener('submit',e=>{e.preventDefault();
+    const d=Object.fromEntries(new FormData(f));const ph=(d.phone||'').replace(/\D/g,'').replace(/^354/,'');
+    const bad={name:(d.name||'').trim().length<2,email:!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test((d.email||'').trim()),phone:ph.length>0&&!/^\d{7}$/.test(ph),terms:!d.terms};
+    let first=null;for(const k in bad){const l=$(`[data-f="${k}"]`,f);l.classList.toggle('err',bad[k]);if(bad[k]&&!first)first=l}
+    if(first){first.classList.add('shake');setTimeout(()=>first.classList.remove('shake'),400);buzz(40);return}
+    S.user={name:d.name.trim(),email:d.email.trim(),phone:ph?ph.slice(0,3)+' '+ph.slice(3):'',work:(d.work||'').trim(),nick:(d.nick||'').trim(),mkt:!!d.mkt,remind:!!d.remind,at:Date.now()};save();
+    checkMiles();done&&done();
+  });
+}
+function bindMe(){
+  $$('.theme-seg button').forEach(b=>b.onclick=()=>setTheme(b.dataset.theme));
+  bindForm($('#view'),()=>{toast(S.refBy?'Velkomin/n! +200 stig fyrir boð frá vini':'Velkomin/n í Galaxy Áskorunina!');buzz(20);render()});
+  const sw=$('#demoSw');if(sw)sw.onchange=()=>{S.demo=sw.checked;save();toast(S.demo?'Allir þættir opnir':'Þættir opnast á útgáfudegi')};
+  const rs=$('#resetDemo');if(rs)rs.onclick=()=>{const rc=S.refCode;S=Object.assign({},DEF,{scores:{},watched:{},vcodes:{},beat:{},boosts:[],miles:[],refCode:rc});save();QZ={i:0,ans:[],retake:false};toast('Kynning núllstillt');go('home')};
+}
+
+/* =========================================================
+   Sheets, toast, deiling, aðgerðir
+   ========================================================= */
+const sheetEl=$('#sheet'),sheetBg=$('#sheetBg');
+$('#shX').innerHTML=ic('close');$('#stClose').innerHTML=ic('close');
+let vidTimer=null,shareURL=null;
+function sheet(html){$('#sheetBody').innerHTML=html;sheetEl.classList.add('on');sheetBg.classList.add('on');sheetEl.scrollTop=0;document.body.style.overflow='hidden'}
+function closeSheet(){sheetEl.classList.remove('on');sheetBg.classList.remove('on');clearInterval(vidTimer);if($('#stage').hidden)document.body.style.overflow=''}
+sheetBg.onclick=closeSheet;$('#shX').onclick=closeSheet;
+let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2600)}
+function award(msg){checkMiles();toast(msg);const c=$('#ptsChip');c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump');if(!sheetEl.classList.contains('on'))render();else $('#ptsChip').innerHTML=ic('bolt')+fmt(total())}
+function copyText(t,msg){const ok=()=>toast(msg);const fb=()=>{const a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();ok()};try{navigator.clipboard.writeText(t).then(ok,fb)}catch(e){fb()}}
+function share(text,url){const d={title:'Galaxy Áskorunin',text,url:url||inviteLink()};if(navigator.share)navigator.share(d).catch(()=>{});else copyText(text+' '+d.url,'Hlekkur afritaður — sendu hann áfram!')}
+function dl(url,name){const a=document.createElement('a');a.href=url;a.download=name||'galaxy-askorunin.png';document.body.appendChild(a);a.click();a.remove()}
+function ics(){
+  const s=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Galaxy Askorunin//IS','BEGIN:VEVENT','UID:galaxy-askorunin-urslit-2026','DTSTAMP:20261028T000000Z','DTSTART:20261219T140000Z','DTEND:20261219T170000Z','SUMMARY:Galaxy Áskorunin – úrslit í beinni','LOCATION:Smáralind\\, Kópavogi','DESCRIPTION:Úrslit Galaxy Áskorunarinnar. Prófaðu nýjustu Galaxy tækin á staðnum.','END:VEVENT','END:VCALENDAR'].join('\r\n');
+  dl(URL.createObjectURL(new Blob([s],{type:'text/calendar'})),'galaxy-askorunin-urslit.ics');toast('Viðburður sóttur — opnaðu hann til að setja í dagatal');
+}
+
+/* ---------- 9:16 deilimynd fyrir Instagram Story ---------- */
+function svgImg(svg){return new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg.replace('<svg ','<svg width="400" height="500" '))})}
+function rrect(x,X,Y,w,h,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()}
+async function makeCard(o){
+  const W=1080,H=1920,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+  const HF='"SamsungSharpSans","Outfit",system-ui,sans-serif',BF='"SamsungOne","Inter",system-ui,sans-serif';
+  try{await document.fonts.ready}catch(e){}
+  x.fillStyle='#000';x.fillRect(0,0,W,H);
+  let g=x.createRadialGradient(W*.88,H*.14,0,W*.88,H*.14,950);g.addColorStop(0,'rgba(40,72,240,.8)');g.addColorStop(.45,'rgba(20,40,160,.25)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+  g=x.createRadialGradient(W*.05,H*.98,0,W*.05,H*.98,900);g.addColorStop(0,'rgba(20,40,160,.55)');g.addColorStop(1,'rgba(0,0,0,0)');x.fillStyle=g;x.fillRect(0,0,W,H);
+  x.strokeStyle='rgba(255,255,255,.08)';x.lineWidth=2;[240,380,520].forEach(r=>{x.beginPath();x.arc(W*.88,H*.14,r,0,Math.PI*2);x.stroke()});
+  x.textBaseline='middle';x.textAlign='left';
+  x.fillStyle='#3b56ff';x.beginPath();x.arc(102,280,13,0,Math.PI*2);x.fill();
+  x.fillStyle='#fff';x.font=`700 44px ${HF}`;x.fillText('Galaxy Áskorunin',134,282);
+  if(o.art){const img=await svgImg(art(o.art));if(img){x.save();rrect(x,90,360,900,480,48);x.clip();x.drawImage(img,90,360-(1125-480)/2,900,1125);x.restore();x.strokeStyle='rgba(255,255,255,.18)';x.lineWidth=2;rrect(x,90,360,900,480,48);x.stroke()}}
+  x.textAlign='center';
+  x.fillStyle='#a9b6ff';x.font=`600 40px ${BF}`;x.fillText(o.kicker.toUpperCase(),W/2,905);
+  let fs=o.big.length>8?170:250;x.font=`800 ${fs}px ${HF}`;while(x.measureText(o.big).width>W-150&&fs>70){fs-=8;x.font=`800 ${fs}px ${HF}`}
+  x.fillStyle='#fff';x.fillText(o.big,W/2,1075);
+  x.font=`600 54px ${HF}`;x.fillText(o.unit,W/2,1215);
+  x.fillStyle='#d4d7e2';x.font=`500 42px ${BF}`;x.fillText(o.line,W/2,1290);
+  x.fillStyle='#fff';rrect(x,150,1370,780,200,100);x.fill();
+  x.fillStyle='#000';x.font=`700 52px ${HF}`;x.fillText(o.cta||'Geturðu betur?',W/2,1440);
+  x.fillStyle='#1428A0';x.font=`600 34px ${BF}`;x.fillText(`${SITE} · vinakóði ${S.refCode}`,W/2,1510);
+  return new Promise(r=>c.toBlob(r,'image/png'));
+}
+async function openShare(o){
+  sheet(`<div class="k">Instagram Story</div><h3 class="sh-t">${o.title||'Deildu árangrinum'}</h3>
+  <div class="card-prev" id="cprev"><i></i></div>
+  <div class="res-btns"><button class="btn primary" id="shS" disabled>${ic('story','sm')} Deila í Story</button><button class="btn ghost" id="shD" disabled>${ic('download','sm')} Vista mynd</button></div>
+  <p class="micro">Í síma opnast deilingarvalmyndin — veldu Instagram og síðan Story. Vinakóðinn þinn er á myndinni, svo vinir sem skrá sig gefa ykkur báðum +200 stig.</p>`);
+  const blob=await makeCard(o);const prev=$('#cprev');if(!blob||!prev)return;
+  if(shareURL)URL.revokeObjectURL(shareURL);shareURL=URL.createObjectURL(blob);
+  prev.innerHTML=`<img src="${shareURL}" alt="Deilimynd fyrir Instagram Story">`;
+  const file=new File([blob],'galaxy-askorunin.png',{type:'image/png'});
+  $('#shS').disabled=false;$('#shD').disabled=false;
+  $('#shS').onclick=async()=>{try{if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Galaxy Áskorunin',text:o.text+' '+inviteLink()});return}}catch(e){if(e&&e.name==='AbortError')return}
+    dl(shareURL);copyText(o.text+' '+inviteLink(),'Mynd vistuð og texti afritaður — settu hana í Story')};
+  $('#shD').onclick=()=>{dl(shareURL);toast('Mynd vistuð')};
+}
+function statusCard(){const rk=myRank();return{title:'Deildu stöðunni þinni',art:'ai',kicker:rk?`${rk}. sæti á landsvísu`:'Galaxy Áskorunin',big:fmt(total()),unit:'stig',line:`${doneCount()} af 4 áskorunum kláraðar`,text:`Ég er með ${fmt(total())} stig í Galaxy Áskoruninni. Geturðu betur?`}}
+
+function openRegister(lead){
+  sheet(`<h3 class="sh-t">Skráðu þig í keppnina</h3><p class="lede">${lead||'Stigin þín vistast, þú birtist á stigatöflunni og ferð í pottinn fyrir vikulega vinninga og úrslitin.'}</p>${formHTML()}`);
+  bindForm($('#sheetBody'),()=>{closeSheet();toast(S.refBy?'Velkomin/n! +200 stig fyrir boð frá vini':'Velkomin/n í Galaxy Áskorunina!');buzz(20);render()});
+}
+function openEditWork(){
+  sheet(`<div class="k">Vinnustaðakeppnin</div><h3 class="sh-t">Hvar vinnur þú?</h3><p class="lede">Vinnustaðurinn með hæstu meðalstigin (minnst 5 þátttakendur) vinnur 3x Galaxy Watch9.</p>
+  <label class="f"><span>Vinnustaður eða skóli</span><input id="wIn" list="workList2" maxlength="40" value="${esc(S.user&&S.user.work||'')}"><datalist id="workList2">${WORKS.map(w=>`<option value="${esc(w)}">`).join('')}</datalist></label>
+  <button class="btn primary block" id="wSave">Vista</button>`);
+  $('#wSave').onclick=()=>{const v=$('#wIn').value.trim();if(v.length<2){$('#wIn').parentElement.classList.add('shake');return}S.user.work=v;save();closeSheet();toast('Vinnustaður skráður');render()};
+}
+function openInvite(work){
+  const link=inviteLink();const w=work&&S.user&&S.user.work;
+  sheet(`<div class="k">${w?'Vinnustaðakeppnin':'Bjóddu vinum'}</div><h3 class="sh-t">${w?'Fáðu vinnufélagana með':'Skoraðu á vin'}</h3>
+  <p class="lede">${w?`Því fleiri sem taka þátt frá ${esc(w)}, því betri líkur á 3x Galaxy Watch9.`:'Þið fáið bæði 200 stig þegar vinurinn skráir sig í gegnum hlekkinn þinn — og þú ferð í pottinn fyrir 5x Galaxy Buds4 Pro.'}</p>
+  <div class="linkbox">${ic('link','sm')}<span>${link}</span></div>
+  <div class="res-btns"><button class="btn primary" id="iShare">${ic('share','sm')} Senda hlekk</button><button class="btn ghost" id="iStory">${ic('story','sm')} Deila í Story</button><button class="btn ghost" id="iCopy">${ic('copy','sm')} Afrita hlekk</button></div>`);
+  const txt=w?`Keppum saman fyrir ${w} í Galaxy Áskoruninni! Skráðu þig með mínum hlekk:`:'Ég skora á þig í Galaxy Áskoruninni! Þú færð 200 aukastig með mínum hlekk:';
+  $('#iShare').onclick=()=>share(txt,link);
+  $('#iCopy').onclick=()=>copyText(link,'Hlekkur afritaður');
+  $('#iStory').onclick=()=>openShare(statusCard());
+}
+function openInfo(kind){
+  const T={rules:['Leikreglur','Drög: Þátttaka er ókeypis og ekki háð kaupum. Fyrsta tilraun í hverri áskorun gildir og ef stig eru jöfn ræður samanlagður tími. Í úrslit komast efstu 10 á heildarstigatöflunni eftir þátt 4 og 10 sem dregnir eru úr hópi allra sem klára allar fjórar áskoranirnar. Vikuvinningar eru veittir eftir stigatöflu vikunnar og útdrætti á mánudögum. Starfsmenn Tæknivara, Samsung og söluaðila geta ekki unnið. Aldursmörk og nánari skilmálar koma hér.'],
+           privacy:['Persónuvernd','Drög: Hér kemur persónuverndarstefna — hvaða upplýsingar eru geymdar (nafn, netfang, sími, vinnustaður, stig), í hvaða tilgangi, hve lengi og hvernig þú getur óskað eftir eyðingu. Samþykki fyrir markaðspósti og áminningum er valfrjálst og aðskilið frá þátttöku.'],
+           contact:['Hafa samband','Drög: Netfang og símanúmer þjónustuvers Tæknivara koma hér.']}[kind];
+  if(T)sheet(`<h3 class="sh-t">${T[0]}</h3><p class="lede">${T[1]}</p>`);
+}
+function openBoost(){
+  sheet(`<div class="k">Verslunar-boost · ${S.boosts.length}/5</div><h3 class="sh-t">Kóði dagsins</h3>
+  <p class="lede">Á DPOP skjánum við Samsung sýningarborðið birtist nýr 4 stafa kóði á hverjum degi. Sláðu hann inn hér, fáðu 500 bónusstig — og prófaðu tækin í leiðinni.</p>
+  <div class="pins" id="bpins"></div><button class="btn primary block" id="bsub">Innleysa kóða</button>
+  <ul class="stores">${STORES.map(s=>{const ok=S.boosts.includes(s.code);return `<li class="${ok?'ok':''}"><span class="si">${ic('store','sm')}</span><div><b>${s.name}</b><small>${s.where}</small></div><em>${ok?'+500 ✓':'+500'}</em></li>`}).join('')}</ul>
+  <p class="micro">Kynningarútgáfa: prófaðu kóðana 2701–2705.</p>`);
+  const p=makePins($('#bpins'),()=>sub());
+  const sub=()=>{const v=p.val();if(v.length<4){p.shake();return}
+    const st=STORES.find(s=>s.code===v);
+    if(!st){p.shake();buzz([30,40,30]);toast('Þessi kóði er ekki gildur í dag');p.clear();return}
+    if(S.boosts.includes(v)){toast('Þú hefur þegar innleyst kóðann frá '+st.name);p.clear();return}
+    S.boosts.push(v);save();buzz(20);award(`+500 stig frá ${st.name}!`);openBoost();};
+  $('#bsub').onclick=sub;
+}
+function makePins(el,onFull){
+  el.innerHTML='<input inputmode="numeric" pattern="[0-9]*" maxlength="1" autocomplete="off" aria-label="Tölustafur">'.repeat(4);
+  const ins=$$('input',el);
+  ins.forEach((inp,i)=>{
+    inp.addEventListener('input',()=>{inp.value=inp.value.replace(/\D/g,'').slice(-1);if(inp.value&&i<3)ins[i+1].focus();if(ins.every(x=>x.value)&&onFull)onFull()});
+    inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value&&i>0){ins[i-1].focus();ins[i-1].value=''}if(e.key==='Enter'&&onFull)onFull()});
+    inp.addEventListener('paste',e=>{const t=((e.clipboardData||{}).getData?e.clipboardData.getData('text'):'').replace(/\D/g,'').slice(0,4);if(t){e.preventDefault();t.split('').forEach((c,j)=>ins[j]&&(ins[j].value=c));ins[Math.min(t.length,3)].focus();if(t.length===4&&onFull)onFull()}});
+  });
+  return{val:()=>ins.map(x=>x.value).join(''),clear:()=>{ins.forEach(x=>x.value='');ins[0].focus()},shake:()=>{el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}};
+}
+
+function openEp(n){
+  const e=EPS[n-1];if(!e)return;
+  if(!isOpen(e)){toast(`Þáttur ${n} kemur út mánudaginn ${fmtDate(e.date)}`);return}
+  const sc=S.scores[n];
+  sheet(`
+  <div class="vid" id="vid">${art(e.key)}
+    <div class="vid-top"><span class="tag dark">Þáttur ${e.n}</span><span class="tag dark">${e.len}</span></div>
+    <div class="vid-code" id="vcode">#${e.vcode}</div>
+    <button class="vid-play" id="vplay" aria-label="Spila þátt">${I.play}</button>
+    <div class="vid-cap" id="vcap"></div><div class="vid-bar"><i id="vbar"></i></div>
+    <div class="vid-note">Sýnishorn · lokamyndband með opinberu front/endplate kemur hér</div>
+  </div>
+  <div class="k" style="margin-top:18px">${e.product}</div><h3 class="sh-t">${e.title}</h3><p class="lede">${e.desc}</p>
+  <ul class="usp">${e.usps.map(u=>`<li>${ic('check')}<span>${u}</span></li>`).join('')}</ul>
+  <div class="ch-box"><div class="k">${ic('eye','sm')} Faldi kóðinn · +200</div>
+    ${S.vcodes[n]?'<p>Þú fannst kóðann í þessum þætti ✓</p>':`<p>Í þættinum birtist 4 stafa kóði í örstutta stund. Fannstu hann?</p><div class="pins" id="vpins"></div><button class="btn ghost sm" id="vok" style="margin-top:10px">Innleysa kóða</button>`}</div>
+  <div class="ch-box"><div class="k">Áskorun ${e.n}</div><p>${e.challenge}</p><div class="host-rec">${ic('star','sm')}<span>Met kynnisins: <b>${fmtSec(e.host)} sek.</b> Sláðu það og fáðu +150.</span></div><div class="row sp" style="margin-top:10px"><span>${sc?'Þín stig: <b>'+fmt(sc.pts)+'</b>':'Allt að <b>1.500</b> stig + bónusar'}</span></div></div>
+  <button class="btn primary block" id="goCh">${sc?'Spila aftur (æfing)':'Hefja áskorun'} ${ic('chev','sm')}</button>`);
+  $('#goCh').onclick=()=>startChallenge(n);
+  if(!S.vcodes[n]){const p=makePins($('#vpins'),()=>chk());const chk=()=>{const v=p.val();if(v.length<4){p.shake();return}
+    if(v===e.vcode){S.vcodes[n]=1;save();buzz(20);award('+200 stig fyrir falda kóðann!');openEp(n)}else{p.shake();toast('Ekki rétt — horfðu aftur');p.clear()}};$('#vok').onclick=chk}
+  $('#vplay').onclick=()=>{
+    const v=$('#vid');v.classList.add('playing');const cap=$('#vcap'),bar=$('#vbar'),code=$('#vcode');const dur=6500,t0=Date.now();let ci=-1;
+    clearInterval(vidTimer);vidTimer=setInterval(()=>{const p=Math.min(1,(Date.now()-t0)/dur);bar.style.width=p*100+'%';const k=Math.min(e.caps.length-1,Math.floor(p*e.caps.length));if(k!==ci){ci=k;cap.innerHTML=`<span>${e.caps[k]}</span>`}
+      code.classList.toggle('on',p>.56&&p<.7);
+      if(p>=1){clearInterval(vidTimer);v.classList.remove('playing');v.classList.add('done');
+        if(!S.watched[n]){S.watched[n]=1;save();award('+100 stig fyrir að horfa!')}}},60);
+  };
+}
+
+/* =========================================================
+   Áskoranir — rammi
+   ========================================================= */
+let G=null;const stage=$('#stage'),stBody=$('#stBody');
+function startChallenge(n){
+  const e=EPS[n-1];closeSheet();
+  G={ep:e,practice:!!S.scores[n],mistakes:0,cleanup:[],done:false};
+  stage.hidden=false;document.body.style.overflow='hidden';document.body.classList.add('stage-open');
+  $('#stK').textContent=`Áskorun ${n} · ${e.product}`;$('#stT').textContent=e.gameTitle;
+  const tm=$('#stTimer');tm.textContent='0,0';tm.classList.remove('run');
+  stBody.scrollTop=0;
+  stBody.innerHTML=`<div class="intro">${art(e.key)}<div class="k">Áskorun ${n}</div><h2>${e.gameTitle}</h2>
+    <ol class="steps">${e.how.map(h=>`<li><span>${h}</span></li>`).join('')}</ol>
+    <div class="score-hint">${ic('bolt')} 1.000 grunnstig + allt að 500 í hraðabónus</div>
+    <div class="host-rec big">${ic('star')}<span>Met kynnisins: <b>${fmtSec(e.host)} sek.</b> Sláðu það og fáðu +150 stig.</span></div>
+    ${G.practice?'<p class="micro">Þú hefur lokið þessari áskorun — þetta er æfingarumferð. Fyrsta tilraun gildir.</p>':''}
+    <button class="btn primary block" id="stStart">Byrja</button><p class="micro center">Myndræn hermun af eiginleikum tækisins.</p></div>`;
+  $('#stStart').onclick=()=>{stBody.innerHTML='';GAMES[e.game](stBody);startTimer()};
+}
+function startTimer(){G.t0=performance.now();const tm=$('#stTimer');tm.classList.add('run');G.timer=setInterval(()=>{tm.textContent=fmtSec((performance.now()-G.t0)/1000)},100)}
+function runCleanup(){if(!G)return;G.cleanup.forEach(f=>{try{f()}catch(e){}});G.cleanup=[]}
+function mistake(){if(!G)return;G.mistakes++;buzz([30,40,30])}
+function closeStage(){if(G){clearInterval(G.timer);runCleanup()}G=null;stage.hidden=true;document.body.style.overflow='';document.body.classList.remove('stage-open');render()}
+$('#stClose').onclick=closeStage;
+
+function win(){
+  if(!G||G.done)return;G.done=true;
+  clearInterval(G.timer);const time=(performance.now()-G.t0)/1000;runCleanup();buzz([20,60,40]);
+  const e=G.ep,par=e.par;
+  const speed=Math.max(0,Math.min(500,Math.round(500*(2*par-time)/(1.75*par))));
+  const pen=G.mistakes*75;const pts=Math.max(300,1000+speed-pen);
+  const beat=time<e.host,beatNew=!G.practice&&beat&&!S.beat[e.n];
+  const before=myRank();
+  if(!G.practice){S.scores[e.n]={pts,time:+time.toFixed(1),mistakes:G.mistakes,at:Date.now()};if(beat)S.beat[e.n]=1;save()}
+  const mile=checkMiles();
+  const shown=pts+(beatNew?150:0);
+  const rk=myRank(),next=EPS.find(x=>!S.scores[x.n]);
+  $('#stTimer').textContent=fmtSec(time);$('#stTimer').classList.remove('run');
+  stBody.scrollTop=0;
+  stBody.innerHTML=`<div class="result">
+    <div class="burst"><div class="core"><div><b id="scN">0</b><small>stig</small></div></div></div>
+    <h2>${G.practice?'Góð æfing!':beat?'Þú slóst met kynnisins!':['Vel gert!','Snilld!','Glæsilegt!'][Math.floor(Math.random()*3)]}</h2>
+    ${mile&&!G.practice?`<div class="mile">${ic('star','sm')} Þú rauft ${fmt(mile)} stiga múrinn!</div>`:''}
+    <ul class="bd"><li><span>Grunnstig</span><b>1.000</b></li><li><span>Hraðabónus · ${fmtSec(time)} sek.</span><b>+${fmt(speed)}</b></li>${G.mistakes?`<li><span>Rangar tilraunir (${G.mistakes})</span><b>−${fmt(pen)}</b></li>`:''}${beatNew?`<li><span>Slóst met kynnisins</span><b>+150</b></li>`:''}<li><span style="color:#fff;font-weight:600">Samtals</span><b>${fmt(shown)}</b></li></ul>
+    <p class="host-line">${ic('star','sm')} Met kynnisins: <b>${fmtSec(e.host)} sek.</b> ${beat?'— þú varst hraðari!':`— þú varst ${fmtSec(time-e.host)} sek. frá því.`}</p>
+    ${G.practice?'<p class="rank-line">Æfingarumferð — fyrsta tilraun gildir á stigatöflunni.</p>':`<p class="rank-line">Þú ert nú í <b>${rk}. sæti</b> á landsvísu${before&&before>rk?` — upp um ${before-rk}`:''}.</p>`}
+    <div class="res-btns">
+      ${!S.user&&!G.practice?`<button class="btn primary" id="rReg">Skrá mig og vista stigin</button>`:''}
+      <button class="btn ${!S.user&&!G.practice?'ghost':'primary'}" id="rShare">${ic('story','sm')} Deila í Instagram Story</button>
+      ${next?`<button class="btn ghost" id="rNext">Áfram í þátt ${next.n} ${ic('chev','sm')}</button>`:`<button class="btn ghost" id="rBoard">Sjá stigatöflu</button>`}
+    </div></div>`;
+  countUp($('#scN'),shown,1100);
+  const r=$('#rReg');if(r)r.onclick=()=>{closeStage();openRegister('Vistaðu '+fmt(total())+' stigin þín og komdu þér á stigatöfluna.')};
+  const nx=$('#rNext');if(nx)nx.onclick=()=>{closeStage();openEp(next.n)};
+  const bb=$('#rBoard');if(bb)bb.onclick=()=>{closeStage();go('board')};
+  $('#rShare').onclick=()=>{const card={title:'Deildu árangrinum',art:e.key,kicker:`Áskorun ${e.n} · ${e.product}`,big:fmt(shown),unit:'stig',line:G&&!G.practice&&rk?`${rk}. sæti á landsvísu · ${fmtSec(time)} sek.`:`${fmtSec(time)} sekúndur`,text:`Ég fékk ${fmt(shown)} stig í Galaxy Áskoruninni (${e.short}). Geturðu betur?`};closeStage();openShare(card)};
+}
+function countUp(el,to,ms){if(!el)return;const t0=performance.now();const f=t=>{const p=Math.min(1,(t-t0)/ms),e=1-Math.pow(1-p,3);el.textContent=fmt(to*e);if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
+
+
+/* =========================================================
+   Áskorun 1: 100x Zoom + Nightography
+   ========================================================= */
+function gameZoom(root){
+  const code=String(Math.floor(1000+Math.random()*9000));
+  root.innerHTML=`<p class="g-ins"><b>Pikkaðu á ljósið í fjarska</b> til að fókusa, súmmaðu inn og kveiktu á Nightography.</p>
+  <div class="cam" id="cam"><span class="sim-tag" style="left:10px;bottom:12px">Hermun</span><canvas id="zc" aria-label="Næturmynd af vita"></canvas><div class="reticle"></div>
+    <div class="cam-ui"><span></span><button class="night-btn" id="nb" aria-pressed="false">${ic('moon')}<span>Nightography</span></button></div>
+    <div class="zread" id="zr">1,0x</div><div class="nproc" id="np"><i></i><span>Nightography vinnur úr mynd…</span></div></div>
+  <div class="zpre" id="zp">${[1,3,10,30,100].map(z=>`<button data-z="${z}" class="${z===1?'on':''}">${z}x</button>`).join('')}</div>
+  <input type="range" class="range" id="zs" min="0" max="1000" value="0" aria-label="Aðdráttur">
+  <div class="code-row"><div class="k">Kóðinn á skiltinu við vitann</div><div class="pins" id="zpins"></div><button class="btn primary block" id="zok">Staðfesta kóða</button></div>`;
+  const cam=$('#cam',root),cv=$('#zc',root),ctx=cv.getContext('2d'),zr=$('#zr',root),zs=$('#zs',root),nb=$('#nb',root);
+  const R=mulberry32(11);
+  const STARS=Array.from({length:240},()=>({x:R()*1000,y:R()*640,r:.6+R()*1.7,a:.2+R()*.8}));
+  const CITY=Array.from({length:90},()=>({x:20+R()*360,y:695+R()*6,w:.6+R()*2.4,h:.5+R()*1.3,c:R()<.75?'#ffd38a':'#cfe6ff'}));
+  const AUR=[[-60,300,250,150,540,390,1060,210,80,.06],[-60,330,300,230,620,420,1060,260,36,.10],[80,250,380,120,700,330,1060,170,18,.13]];
+  let FX=null,FY=null,W=0,H=0,dpr=1,z=1,cx=500,cy=680,night=0,nightOn=false,raf=0,hinted=false,anim=0;
+  const size=()=>{const ow=W,oh=H;dpr=Math.min(2,window.devicePixelRatio||1);W=cam.clientWidth;H=Math.round(Math.min(W*1.1,window.innerHeight*.48));cv.width=W*dpr;cv.height=H*dpr;cv.style.height=H+'px';if(FX==null||!ow){FX=W/2;FY=H/2}else{FX=FX/ow*W;FY=FY/oh*H}placeRet();clamp()};
+  const clamp=()=>{const hw=500/z,hh=H/W*500/z;cx=Math.min(Math.max(cx,hw),1000-hw);cy=Math.min(Math.max(cy,hh),1250-hh)};
+  function scene(){
+    let g=ctx.createLinearGradient(0,0,0,700);g.addColorStop(0,'#01020a');g.addColorStop(.6,'#091240');g.addColorStop(1,'#1d2c70');ctx.fillStyle=g;ctx.fillRect(0,0,1000,700);
+    ctx.lineCap='round';for(const a of AUR){ctx.strokeStyle=`rgba(90,255,190,${a[9]})`;ctx.lineWidth=a[8];ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.bezierCurveTo(a[2],a[3],a[4],a[5],a[6],a[7]);ctx.stroke()}
+    ctx.fillStyle='#fff';for(const s of STARS){ctx.globalAlpha=s.a;ctx.fillRect(s.x,s.y,s.r,s.r)}ctx.globalAlpha=1;
+    ctx.fillStyle='#04050d';ctx.beginPath();ctx.moveTo(0,700);ctx.lineTo(0,655);ctx.lineTo(90,640);ctx.lineTo(180,600);ctx.lineTo(240,585);ctx.lineTo(300,598);ctx.lineTo(360,575);ctx.lineTo(430,590);ctx.lineTo(520,612);ctx.lineTo(600,640);ctx.lineTo(680,655);ctx.lineTo(1000,668);ctx.lineTo(1000,700);ctx.closePath();ctx.fill();
+    g=ctx.createLinearGradient(0,700,0,1250);g.addColorStop(0,'#0c1756');g.addColorStop(.22,'#040820');g.addColorStop(1,'#000');ctx.fillStyle=g;ctx.fillRect(0,700,1000,550);
+    for(const c of CITY){ctx.fillStyle=c.c;ctx.fillRect(c.x,c.y,c.w,c.h);ctx.globalAlpha=.12;ctx.fillRect(c.x,c.y+8,c.w*.7,16);ctx.globalAlpha=1}
+    ctx.fillStyle='#02030a';ctx.beginPath();ctx.ellipse(742,700,16,2.6,0,0,Math.PI*2);ctx.fill();
+    const gl=ctx.createRadialGradient(742,689.6,0,742,689.6,26);gl.addColorStop(0,'rgba(255,240,200,1)');gl.addColorStop(.08,'rgba(255,226,165,.75)');gl.addColorStop(.3,'rgba(255,222,160,.22)');gl.addColorStop(1,'rgba(255,222,160,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(742,689.6,26,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#d9dce8';ctx.beginPath();ctx.moveTo(741.05,699.7);ctx.lineTo(742.95,699.7);ctx.lineTo(742.5,690.4);ctx.lineTo(741.5,690.4);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#b8323a';ctx.fillRect(741.2,695.6,1.6,.9);ctx.fillRect(741.42,692.2,1.16,.8);
+    ctx.fillStyle='#fff3cf';ctx.fillRect(741.45,689.2,1.1,1.2);ctx.fillStyle='#22242e';ctx.beginPath();ctx.moveTo(741.3,689.25);ctx.lineTo(742.7,689.25);ctx.lineTo(742,688.5);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#2a2c35';ctx.fillRect(744.15,698.1,.12,1.6);
+    ctx.fillStyle='#14151c';ctx.fillRect(743.45,697.25,1.55,.85);ctx.strokeStyle='#3a3d4a';ctx.lineWidth=.05;ctx.strokeRect(743.45,697.25,1.55,.85);
+    ctx.fillStyle=`rgba(240,243,255,${.06+.94*Math.max(0,(night-.35)/.65)})`;ctx.font='700 0.52px Outfit, Arial, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(code,744.22,697.7);
+    ctx.globalAlpha=.25;ctx.fillStyle='#ffe6b0';ctx.fillRect(741.7,701,0.6,7);ctx.globalAlpha=1;
+    ctx.fillStyle='#010104';ctx.beginPath();ctx.moveTo(0,1250);ctx.lineTo(0,1120);ctx.quadraticCurveTo(120,1080,230,1130);ctx.quadraticCurveTo(330,1170,420,1150);ctx.lineTo(460,1250);ctx.closePath();ctx.fill();
+  }
+  function frame(){
+    const s=W/1000*z;ctx.setTransform(dpr*s,0,0,dpr*s,dpr*(W/2-cx*s),dpr*(H/2-cy*s));scene();
+    ctx.setTransform(dpr,0,0,dpr,0,0);const dk=.56*(1-night);
+    if(dk>.01){ctx.fillStyle=`rgba(0,0,6,${dk})`;ctx.fillRect(0,0,W,H);const n=Math.round(W*H/240*(1-night));ctx.fillStyle='rgba(255,255,255,.12)';for(let i=0;i<n;i++)ctx.fillRect(Math.random()*W,Math.random()*H,1,1)}
+    raf=requestAnimationFrame(frame);
+  }
+  const ret=$('.reticle',root);
+  const placeRet=()=>{ret.style.left=FX+'px';ret.style.top=FY+'px'};
+  const setZ=(nz,quiet,ax,ay)=>{if(ax==null){ax=FX;ay=FY}const s0=W/1000*z,px=cx+(ax-W/2)/s0,py=cy+(ay-H/2)/s0;
+    z=Math.min(100,Math.max(1,nz));const s1=W/1000*z;cx=px-(ax-W/2)/s1;cy=py-(ay-H/2)/s1;clamp();
+    zr.textContent=(z<10?z.toFixed(1).replace('.',','):Math.round(z))+'x';if(!quiet)zs.value=Math.round(Math.log(z)/Math.log(100)*1000);zs.style.setProperty('--p',(zs.value/10)+'%');
+    $$('#zp button',root).forEach(b=>b.classList.toggle('on',Math.abs(+b.dataset.z-z)<.05*+b.dataset.z));
+    if(z>=40&&!nightOn&&!hinted){hinted=true;nb.classList.add('pulse');toast('Of dimmt? Prófaðu Nightography')}};
+  zs.oninput=()=>{cancelAnimationFrame(anim);setZ(Math.pow(100,zs.value/1000),true)};
+  $('#zp',root).onclick=e=>{const b=e.target.closest('button');if(!b)return;const from=z,to=+b.dataset.z,t0=performance.now();cancelAnimationFrame(anim);
+    const st=t=>{const p=Math.min(1,(t-t0)/380),q=1-Math.pow(1-p,3);setZ(Math.exp(Math.log(from)+(Math.log(to)-Math.log(from))*q));if(p<1)anim=requestAnimationFrame(st)};anim=requestAnimationFrame(st)};
+  nb.onclick=()=>{if(nightOn){nightOn=false;night=0;nb.classList.remove('on');nb.setAttribute('aria-pressed','false');return}
+    nb.classList.remove('pulse');$('#np',root).classList.add('on');
+    setTimeout(()=>{$('#np',root).classList.remove('on');nightOn=true;nb.classList.add('on');nb.setAttribute('aria-pressed','true');const t0=performance.now();const f=t=>{night=Math.min(1,(t-t0)/700);if(night<1&&nightOn)requestAnimationFrame(f)};requestAnimationFrame(f)},1100)};
+  const P=new Map();let pinchD=0,tap=null;
+  const rel=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+  cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);P.set(e.pointerId,{x:e.clientX,y:e.clientY});tap=P.size===1?{x:e.clientX,y:e.clientY,t:performance.now(),moved:0}:null;if(P.size===2){const[a,b]=[...P.values()];pinchD=Math.hypot(a.x-b.x,a.y-b.y)}});
+  cv.addEventListener('pointermove',e=>{if(!P.has(e.pointerId))return;const pr=P.get(e.pointerId);P.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(tap)tap.moved+=Math.hypot(e.clientX-pr.x,e.clientY-pr.y);
+    if(P.size===1){const s=W/1000*z;cx-=(e.clientX-pr.x)/s;cy-=(e.clientY-pr.y)/s;clamp()}
+    else if(P.size===2){const[a,b]=[...P.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);const r=cv.getBoundingClientRect();if(pinchD){cancelAnimationFrame(anim);setZ(z*d/pinchD,false,(a.x+b.x)/2-r.left,(a.y+b.y)/2-r.top)}pinchD=d}});
+  const up=e=>{if(tap&&P.size===1&&tap.moved<8&&performance.now()-tap.t<400){[FX,FY]=rel(e);placeRet();ret.classList.remove('pop');void ret.offsetWidth;ret.classList.add('pop');buzz(8)}tap=null;P.delete(e.pointerId);if(P.size<2)pinchD=0};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',e=>{tap=null;P.delete(e.pointerId);pinchD=0});
+  cv.addEventListener('wheel',e=>{e.preventDefault();cancelAnimationFrame(anim);const[x,y]=rel(e);setZ(z*Math.exp(-e.deltaY*.0025),false,x,y)},{passive:false});
+  const pins=makePins($('#zpins',root),()=>check());
+  function check(){const v=pins.val();if(v.length<4){pins.shake();return}
+    if(v===code){win()}else{mistake();pins.shake();toast(nightOn?'Rangur kóði — súmmaðu betur inn':'Rangur kóði — prófaðu Nightography');pins.clear()}}
+  $('#zok',root).onclick=check;
+  const onR=()=>size();window.addEventListener('resize',onR);
+  size();setZ(1);frame();
+  G.cleanup.push(()=>{cancelAnimationFrame(raf);cancelAnimationFrame(anim);window.removeEventListener('resize',onR)});
+}
+
+/* =========================================================
+   Áskorun 2: Z Fold — klofinn skjár, drag & drop
+   ========================================================= */
+function gameFold(root){
+  const items=[{id:'flight',t:'Flug til Akureyrar',d:'08:15 · RVK → AEY'},{id:'x1',t:'2 fyrir 1 af pizzum!',d:'Tilboð · auglýsing'},{id:'meet',t:'Fundur með viðskiptavini',d:'13:00 · Glerártorg'},{id:'x2',t:'Fréttabréf vikunnar',d:'Áskrift'},{id:'hotel',t:'Innritun á hótel',d:'Frá 18:00 · 2 nætur'}];
+  const slots=[{acc:'flight',time:'08:00',l:'Morgunn'},{acc:'meet',time:'13:00',l:'Eftir hádegi'},{acc:'hotel',time:'18:00',l:'Kvöld'}];
+  root.innerHTML=`<p class="g-ins">Dragðu ferðaatriðin úr <b>póstinum</b> yfir á réttan tíma í <b>dagatalinu</b>. Ruslpósturinn á ekki heima þar.</p>
+  <div class="fold-stage"><div class="fold folded" id="fold">
+    <div class="pane pl"><div class="app-bar">${ic('mail')}<b>Póstur</b></div><div class="mail-h"><b>Ferðaáætlun: Akureyri</b><small>Ferðaskrifstofan · í dag</small></div>
+      <div class="dragl" id="dl">${items.map(i=>`<div class="dchip" data-id="${i.id}"><b>${i.t}</b><small>${i.d}</small></div>`).join('')}</div></div>
+    <div class="hinge"></div>
+    <div class="pane pr"><div class="app-bar">${ic('cal')}<b>Dagatal</b></div><div class="cal-h">Fimmtudagur 26. nóvember</div>
+      ${slots.map(s=>`<div class="slot" data-acc="${s.acc}"><span class="sl-t">${s.time}</span><span class="sl-l">${s.l}</span><div class="sl-in">Slepptu hér</div></div>`).join('')}</div>
+  </div></div>
+  <div class="fold-meta"><span id="fcount">0 / 3 komið</span><span class="tag">Fjölvinnsla · drag & drop</span></div>`;
+  const tm=setTimeout(()=>$('#fold',root).classList.remove('folded'),120);
+  const dl=$('#dl',root);let drag=null,placed=0;
+  const move=e=>{if(!drag)return;drag.gh.style.transform=`translate(${e.clientX-drag.ox}px,${e.clientY-drag.oy}px) rotate(-3deg) scale(1.05)`;
+    const el=document.elementFromPoint(e.clientX,e.clientY),sl=el&&el.closest('.slot');
+    $$('.slot',root).forEach(s=>s.classList.toggle('hover',s===sl&&!s.classList.contains('filled')));drag.over=sl&&root.contains(sl)?sl:null};
+  const up=()=>{window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);if(!drag)return;
+    const{c,gh,over}=drag;drag=null;gh.remove();c.classList.remove('lifting');$$('.slot',root).forEach(s=>s.classList.remove('hover'));
+    if(!over||over.classList.contains('filled'))return;
+    if(over.dataset.acc===c.dataset.id){const it=items.find(i=>i.id===c.dataset.id);over.classList.add('filled');$('.sl-in',over).innerHTML=`<b>${it.t}</b><small>${it.d}</small>`;c.classList.add('used');buzz(15);placed++;$('#fcount',root).textContent=placed+' / 3 komið';if(placed===3)setTimeout(win,450)}
+    else{mistake();over.classList.remove('bad');void over.offsetWidth;over.classList.add('bad');toast(c.dataset.id.startsWith('x')?'Ruslpóstur á ekki heima í dagatalinu':'Rangur tími — skoðaðu klukkuna')}};
+  dl.addEventListener('pointerdown',e=>{const c=e.target.closest('.dchip');if(!c||c.classList.contains('used')||drag)return;e.preventDefault();
+    const r=c.getBoundingClientRect(),gh=c.cloneNode(true);gh.classList.add('dragghost');gh.style.width=r.width+'px';document.body.appendChild(gh);
+    drag={c,gh,ox:e.clientX-r.left,oy:e.clientY-r.top,over:null};c.classList.add('lifting');move(e);buzz(8);
+    window.addEventListener('pointermove',move);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up)});
+  G.cleanup.push(()=>{clearTimeout(tm);window.removeEventListener('pointermove',move);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);$$('.dragghost').forEach(g=>g.remove())});
+}
+
+/* =========================================================
+   Áskorun 3: Z Flip — Flex Mode, römmun, lófamerki
+   ========================================================= */
+const FLIP_SCENE=`<svg viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true">
+ <rect width="400" height="400" fill="#0c1550"/><circle cx="80" cy="70" r="60" fill="#1428A0" opacity=".55"/>
+ ${[[30,30],[150,40],[340,24],[260,70],[380,110],[200,20],[110,120]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.3" fill="#fff" opacity=".7"/>`).join('')}
+ <path d="M0 250 70 200 130 225 210 170 290 215 350 185 400 210V400H0z" fill="#070b2a"/>
+ <path d="M0 300Q100 280 200 300T400 295V400H0z" fill="#03040f"/>
+ <g transform="translate(290 150) scale(.62) translate(0 -150)"><path d="M-62 420v-150c0-34 26-62 62-62s62 28 62 62v150z" fill="#e9ecf6"/><path d="M-62 300c-22-30-28-74-14-110" stroke="#e9ecf6" stroke-width="22" fill="none" stroke-linecap="round"/><circle cx="-76" cy="184" r="14" fill="#e9ecf6"/><circle cx="0" cy="150" r="36" fill="#f4f5fa"/><path d="M-37 146a37 37 0 0 1 74 0c-10-14-26-20-37-20s-27 6-37 20z" fill="#1d2a78"/><path d="M-12 166q12 9 24 0" stroke="#1d2a78" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="-12" cy="152" r="3" fill="#1d2a78"/><circle cx="12" cy="152" r="3" fill="#1d2a78"/></g>
+</svg>`;
+function gameFlip(root){
+  root.innerHTML=`<div class="steps-ind" id="si"><i class="on"></i><i></i><i></i></div><div id="fs"></div>`;
+  const fs=$('#fs',root);let ac=null;const tms=[];
+  const setStep=n=>$$('#si i',root).forEach((x,i)=>x.classList.toggle('on',i<n));
+  const HX=150,HY=170,L=110,ZA=75,ZB=115;
+  const pt=(th,r)=>[HX-r*Math.cos(th*Math.PI/180),HY-r*Math.sin(th*Math.PI/180)];
+  step1();
+  function step1(){
+    const [ax,ay]=pt(ZA,128),[bx,by]=pt(ZB,128);
+    fs.innerHTML=`<p class="g-ins"><b>Skref 1/3 · Flex Mode.</b> Dragðu efri helminginn upp þar til síminn stendur sjálfur — á milli ${ZA}° og ${ZB}°.</p>
+    <div class="flip-box"><span class="tag flexlbl" id="fl">${ic('check','sm')} Flex Mode virkt</span><div class="angle" id="ang"><b>12°</b><span>opnun</span></div>
+    <svg viewBox="0 0 300 210" class="flip-svg" id="fsvg">
+      <path class="zone" id="zone" d="M${ax.toFixed(1)} ${ay.toFixed(1)} A128 128 0 0 1 ${bx.toFixed(1)} ${by.toFixed(1)}"/>
+      <line x1="8" y1="178.5" x2="292" y2="178.5" class="table"/>
+      <rect x="40" y="170" width="110" height="8" rx="3" class="ph"/>
+      <g id="topH"><rect x="40" y="162" width="110" height="8" rx="3" class="ph"/><rect x="46" y="160.4" width="30" height="2" rx="1" class="cover"/></g>
+      <circle cx="${HX}" cy="${HY}" r="5" class="hingec"/><circle r="12" class="handle" id="hd"/>
+    </svg></div><p class="micro center">Dragðu hvíta punktinn.</p>`;
+    const svg=$('#fsvg',fs),topH=$('#topH',fs),hd=$('#hd',fs),ang=$('#ang',fs),zone=$('#zone',fs),fl=$('#fl',fs);let th=12,dragging=false,inZ=false;
+    const upd=()=>{topH.setAttribute('transform',`rotate(${th} ${HX} ${HY})`);const[x,y]=pt(th,L);hd.setAttribute('cx',x);hd.setAttribute('cy',y);$('b',ang).textContent=Math.round(th)+'°';
+      const z=th>=ZA&&th<=ZB;if(z!==inZ){inZ=z;if(z)buzz(12)}zone.classList.toggle('on',z);ang.classList.toggle('on',z);$('span',ang).textContent=z?'Flex Mode':'opnun';fl.classList.toggle('on',z)};
+    const toTh=e=>{const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const q=p.matrixTransform(svg.getScreenCTM().inverse());let a=Math.atan2(-(q.y-HY),-(q.x-HX))*180/Math.PI;if(a<0)a=(q.x>HX)?180:0;return Math.max(0,Math.min(180,a))};
+    svg.addEventListener('pointerdown',e=>{dragging=true;svg.setPointerCapture(e.pointerId);th=toTh(e);upd()});
+    svg.addEventListener('pointermove',e=>{if(dragging){th=toTh(e);upd()}});
+    const end=()=>{if(!dragging)return;dragging=false;if(inZ){buzz(25);tms.push(setTimeout(step2,650))}else toast(th<ZA?'Opnaðu aðeins meira':'Of opið — lokaðu aðeins')};
+    svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);upd();
+  }
+  function step2(){
+    setStep(2);
+    fs.innerHTML=`<p class="g-ins"><b>Skref 2/3 · Rammaðu inn.</b> Dragðu myndina á ytri skjánum þar til andlitið er í hringnum.</p>
+    <div class="vf" id="vf"><div class="vf-scene" id="vsc">${FLIP_SCENE}</div><div class="vf-guide" id="vg"></div><span class="vf-lbl">FlexCam · forskoðun</span><span class="sim-tag" style="right:12px;top:12px">Hermun</span></div>`;
+    const vf=$('#vf',fs),sc=$('#vsc',fs),vg=$('#vg',fs);let W=vf.clientWidth,tx=-.12*W,ty=-.9*W,dr=null,ok=false;
+    const fx=()=>tx+290/400*2*W,fy=()=>ty+150/400*2*W;
+    const ap=()=>{tx=Math.min(0,Math.max(-W,tx));ty=Math.min(0,Math.max(-W,ty));sc.style.transform=`translate(${tx}px,${ty}px)`;ok=Math.hypot(fx()-W/2,fy()-W/2)<W*.075;vg.classList.toggle('ok',ok)};
+    vf.addEventListener('pointerdown',e=>{vf.setPointerCapture(e.pointerId);dr={x:e.clientX,y:e.clientY}});
+    vf.addEventListener('pointermove',e=>{if(!dr)return;tx+=e.clientX-dr.x;ty+=e.clientY-dr.y;dr={x:e.clientX,y:e.clientY};ap()});
+    const end=()=>{if(!dr)return;dr=null;if(ok){buzz(20);ac={tx:tx/W,ty:ty/W};tms.push(setTimeout(step3,450))}};
+    vf.addEventListener('pointerup',end);vf.addEventListener('pointercancel',end);ap();
+  }
+  function step3(){
+    setStep(3);
+    fs.innerHTML=`<p class="g-ins"><b>Skref 3/3 · Lófamerki.</b> Haltu inni lófanum — myndavélin telur niður og smellir án þess að þú snertir símann.</p>
+    <div class="vf" id="vf2" style="cursor:default"><div class="vf-scene" id="vsc2">${FLIP_SCENE}</div><div class="cdn" id="cdn"></div><div class="flash" id="fla"></div><span class="vf-lbl">FlexCam · tilbúin</span></div>
+    <button class="palm" id="palm"><span class="pi">${ic('palm')}<svg class="ring" viewBox="0 0 58 58"><circle cx="29" cy="29" r="27"/></svg></span><span id="pl">Haltu inni lófanum</span></button>`;
+    const W=$('#vf2',fs).clientWidth;$('#vsc2',fs).style.transform=`translate(${ac.tx*W}px,${ac.ty*W}px)`;
+    const pb=$('#palm',fs);let ht=null,fired=false;
+    const start=e=>{if(fired)return;e.preventDefault();pb.classList.add('hold');buzz(8);ht=setTimeout(fire,720)};
+    const stop=()=>{if(fired)return;clearTimeout(ht);pb.classList.remove('hold')};
+    pb.addEventListener('pointerdown',start);pb.addEventListener('pointerup',stop);pb.addEventListener('pointerleave',stop);pb.addEventListener('pointercancel',stop);
+    function fire(){fired=true;$('#pl',fs).textContent='Lófi greindur';buzz(20);const cd=$('#cdn',fs);let n=3;
+      const tick=()=>{if(n>0){cd.innerHTML=`<span>${n}</span>`;n--;tms.push(setTimeout(tick,600))}else{cd.innerHTML='';const f=$('#fla',fs);f.classList.add('on');buzz(30);$('#pl',fs).textContent='Mynd tekin ✓';tms.push(setTimeout(win,800))}};tick()}
+  }
+  G.cleanup.push(()=>tms.forEach(clearTimeout));
+}
+
+/* =========================================================
+   Áskorun 4: Circle to Search
+   ========================================================= */
+const CTS_OBJ=[
+ {id:'watch',name:'Snjallúr',cx:96,cy:372,bb:[62,326,130,418]},
+ {id:'buds',name:'Þráðlaus heyrnartól',cx:300,cy:382,bb:[266,354,334,410]},
+ {id:'cup',name:'Kaffibolli',cx:206,cy:362,bb:[180,322,240,400]},
+ {id:'book',name:'Bók',cx:200,cy:306,bb:[140,296,262,318]},
+ {id:'glasses',name:'Sólgleraugu',cx:330,cy:312,bb:[296,300,366,324]},
+ {id:'plant',name:'Pottaplanta',cx:48,cy:250,bb:[18,190,80,296]}
+];
+const CTS_SVG=`<svg viewBox="0 0 400 480" aria-hidden="true">
+ <defs><linearGradient id="wl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a0f30"/><stop offset="1" stop-color="#141c52"/></linearGradient></defs>
+ <rect width="400" height="300" fill="url(#wl)"/>
+ <circle cx="220" cy="135" r="78" fill="none" stroke="#3b56ff" stroke-width="6" opacity=".9"/><circle cx="220" cy="135" r="78" fill="none" stroke="#7d90ff" stroke-width="16" opacity=".18"/>
+ <rect x="300" y="40" width="70" height="90" rx="6" fill="#0d133c" stroke="rgba(255,255,255,.12)"/><rect x="310" y="52" width="50" height="6" rx="3" fill="rgba(255,255,255,.2)"/><rect x="310" y="64" width="34" height="6" rx="3" fill="rgba(255,255,255,.12)"/>
+ <path d="M38 296h22l4-34H34z" fill="#2b2e38"/><path d="M49 262c-14-20-22-44-12-70 8 18 12 40 12 70zM49 262c4-26 14-46 30-60-2 24-12 44-30 60zM49 262c-10-12-26-20-36-18 6 14 20 20 36 18z" fill="#3b56ff" opacity=".85"/>
+ <rect x="0" y="292" width="400" height="188" fill="#0b0c12"/><rect x="0" y="292" width="400" height="3" fill="#2a2d3a"/>
+ <rect x="142" y="300" width="118" height="8" rx="2" fill="#e9ecf6"/><rect x="146" y="308" width="112" height="8" rx="2" fill="#3b56ff"/>
+ <g transform="translate(330 312)"><ellipse cx="-16" cy="0" rx="15" ry="9" fill="#05060c" stroke="#9aa0b4" stroke-width="2"/><ellipse cx="16" cy="0" rx="15" ry="9" fill="#05060c" stroke="#9aa0b4" stroke-width="2"/><path d="M-2 -1q2-3 4 0" stroke="#9aa0b4" stroke-width="2" fill="none"/></g>
+ <g transform="translate(96 372)"><rect x="-13" y="-46" width="26" height="92" rx="11" fill="#2a2d38"/><circle r="27" fill="#0a0a0f" stroke="#a6acc0" stroke-width="3.5"/><circle r="21" fill="#05060c"/><path d="M-12 4a12 12 0 0 1 24 0" stroke="#3b56ff" stroke-width="3" fill="none" stroke-linecap="round"/><text y="-4" text-anchor="middle" font-size="9" font-family="Arial" fill="#fff" font-weight="700">10:08</text><rect x="25" y="-6" width="5" height="12" rx="2" fill="#a6acc0"/></g>
+ <g transform="translate(206 362)"><path d="M-22-30h44l-4 62a8 8 0 0 1-8 7h-20a8 8 0 0 1-8-7z" fill="#e9ecf6"/><path d="M21-16c16-2 18 22 0 22" stroke="#e9ecf6" stroke-width="6" fill="none"/><rect x="-22" y="-30" width="44" height="6" fill="#c9cddb"/><path d="M-8-44q-6 6 0 10M4-48q-6 6 0 12" stroke="rgba(255,255,255,.35)" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
+ <g transform="translate(300 382)"><rect x="-32" y="-26" width="64" height="52" rx="24" fill="#f4f5fa"/><path d="M-31-6h62" stroke="#c9cddb" stroke-width="2"/><circle cx="0" cy="8" r="2.4" fill="#3b56ff"/></g>
+</svg>`;
+function gameCTS(root){
+  const rounds=[
+    {q:'Kynnirinn var með tæki á úlnliðnum sem fylgist með svefni og hjartslætti. Hringdu utan um það.',t:'watch',info:'Fylgist með svefni, hjartslætti og hreyfingu — og vinnur beint með símanum.'},
+    {q:'Hvaða tæki notaði kynnirinn til að fá samtal þýtt beint í eyrað? Hringdu utan um það.',t:'buds',info:'Með símanum og Galaxy AI er hægt að hlusta á þýðingu í rauntíma.'}];
+  let ri=0,armed=false,pts=[],drawing=false;
+  root.innerHTML=`<div class="cts-q" id="cq"></div>
+  <div class="cts-phone" id="ph"><div class="cts-scr" id="scr">${CTS_SVG}<canvas id="cc"></canvas><div class="cts-tint"></div><div class="cts-hint">Hringdu utan um tækið</div><span class="sim-tag" style="left:12px;bottom:10px">Hermun</span></div>
+    <div class="navbar pulse" id="nbar" role="button" aria-label="Haltu inni til að virkja Circle to Search"><i></i></div>
+    <div class="cts-res" id="res"></div></div>
+  <div class="cts-msg" id="cm">Haltu inni <b>stikunni neðst</b> á skjánum til að virkja Circle to Search.</div>`;
+  const ph=$('#ph',root),scr=$('#scr',root),cv=$('#cc',root),ctx=cv.getContext('2d'),nbar=$('#nbar',root),cm=$('#cm',root),res=$('#res',root);
+  let dpr=1,rw=0,rh=0;const tms=[];
+  const size=()=>{const r=scr.getBoundingClientRect();dpr=Math.min(2,window.devicePixelRatio||1);rw=r.width;rh=r.height;cv.width=rw*dpr;cv.height=rh*dpr};
+  const sx=()=>rw/400;
+  const msg=(h,bad)=>{cm.innerHTML=h;cm.classList.toggle('bad',!!bad)};
+  const setQ=()=>{$('#cq',root).innerHTML=`<span class="k">Spurning ${ri+1}/2</span><p>${rounds[ri].q}</p>`};
+  setQ();
+  const clear=()=>{ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,cv.width,cv.height)};
+  const stroke=(final)=>{clear();if(pts.length<2)return;ctx.setTransform(dpr*sx(),0,0,dpr*sx(),0,0);
+    if(final){ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(0,0,400,480);ctx.globalCompositeOperation='destination-out';ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));ctx.closePath();ctx.fill();ctx.globalCompositeOperation='source-over'}
+    ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();pts.forEach((p,i)=>i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y));if(final)ctx.closePath();
+    ctx.strokeStyle='rgba(120,150,255,.45)';ctx.lineWidth=12;ctx.stroke();ctx.strokeStyle='#fff';ctx.lineWidth=4;ctx.stroke()};
+  // virkja með því að halda inni stikunni
+  let lp=null;
+  const lpStart=e=>{if(armed)return;e.preventDefault();nbar.classList.add('press');lp=setTimeout(()=>{armed=true;nbar.classList.remove('press','pulse');ph.classList.add('active');buzz(18);size();msg('Teiknaðu hring með puttanum utan um rétta tækið.')},420)};
+  const lpEnd=()=>{clearTimeout(lp);nbar.classList.remove('press')};
+  nbar.addEventListener('pointerdown',lpStart);nbar.addEventListener('pointerup',lpEnd);nbar.addEventListener('pointerleave',lpEnd);nbar.addEventListener('pointercancel',lpEnd);
+  const toP=e=>{const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*400,y:(e.clientY-r.top)/r.height*480}};
+  cv.addEventListener('pointerdown',e=>{if(!armed)return;cv.setPointerCapture(e.pointerId);drawing=true;pts=[toP(e)];stroke()});
+  cv.addEventListener('pointermove',e=>{if(!drawing)return;const p=toP(e),l=pts[pts.length-1];if(Math.hypot(p.x-l.x,p.y-l.y)>2.5){pts.push(p);stroke()}});
+  const end=()=>{if(!drawing)return;drawing=false;evaluate()};
+  cv.addEventListener('pointerup',end);cv.addEventListener('pointercancel',end);
+  function pip(x,y){let c=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if(((a.y>y)!==(b.y>y))&&(x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x))c=!c}return c}
+  function evaluate(){
+    if(pts.length<10){clear();return}
+    const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y),bw=Math.max(...xs)-Math.min(...xs),bh=Math.max(...ys)-Math.min(...ys);
+    const s=pts[0],e=pts[pts.length-1];
+    if(Math.hypot(s.x-e.x,s.y-e.y)>Math.max(45,.5*Math.max(bw,bh))){msg('Lokaðu hringnum — byrjaðu og endaðu á sama stað.',true);tms.push(setTimeout(clear,500));return}
+    const inside=CTS_OBJ.filter(o=>pip(o.cx,o.cy));const R=rounds[ri];const tg=CTS_OBJ.find(o=>o.id===R.t);
+    if(inside.length===1&&inside[0].id===R.t){
+      const ta=(tg.bb[2]-tg.bb[0])*(tg.bb[3]-tg.bb[1]);
+      if(bw*bh>ta*7){msg('Of stór hringur — hringdu þéttar utan um tækið.',true);tms.push(setTimeout(clear,500));return}
+      stroke(true);armed=false;ph.classList.remove('active');buzz(20);
+      res.innerHTML=`<div class="k">${ic('spark')} Galaxy AI · leitarniðurstaða</div><b>${tg.name}</b><p>${R.info}</p><button class="btn white sm" id="rn">${ri<rounds.length-1?'Næsta spurning':'Ljúka áskorun'}</button>`;
+      res.classList.add('on');msg('Rétt!');
+      $('#rn',res).onclick=()=>{res.classList.remove('on');ri++;if(ri>=rounds.length){win();return}pts=[];clear();setQ();nbar.classList.add('pulse');msg('Haltu aftur inni <b>stikunni neðst</b> til að virkja Circle to Search.')};
+    }else if(inside.length===0){msg('Hringurinn þarf að ná utan um tækið sjálft.',true);tms.push(setTimeout(clear,500))}
+    else if(inside.some(o=>o.id===R.t)){msg('Hringdu bara utan um eitt tæki.',true);tms.push(setTimeout(clear,500))}
+    else{mistake();msg(`Þetta er ${inside[0].name.toLowerCase()} — ekki rétta tækið.`,true);ph.classList.remove('shake');void ph.offsetWidth;ph.classList.add('shake');tms.push(setTimeout(clear,600))}
+  }
+  const onR=()=>{if(armed)size()};window.addEventListener('resize',onR);
+  G.cleanup.push(()=>{clearTimeout(lp);tms.forEach(clearTimeout);window.removeEventListener('resize',onR)});
+}
+const GAMES={zoom:gameZoom,fold:gameFold,flip:gameFlip,cts:gameCTS};
+
+/* =========================================================
+   Atburðir & lifandi uppfærslur
+   ========================================================= */
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-go],[data-ep],[data-act],[data-mode]');if(!t)return;
+  if(t.closest('#stage'))return;
+  if(t.tagName==='A')e.preventDefault();
+  if(t.dataset.modeSet)boardMode=t.dataset.modeSet;
+  if(t.dataset.go){closeSheet();go(t.dataset.go)}
+  else if(t.dataset.ep){openEp(+t.dataset.ep)}
+  else if(t.dataset.mode){boardMode=t.dataset.mode;render()}
+  else if(t.dataset.act){const a=t.dataset.act;
+    if(a==='register')openRegister();
+    else if(a==='boost')openBoost();
+    else if(a==='ics')ics();
+    else if(a==='invite')openInvite(false);
+    else if(a==='inviteWork')openInvite(true);
+    else if(a==='editWork')openEditWork();
+    else if(a==='shareStatus')openShare(statusCard());
+    else if(a==='shareMile'){S.mileShared=S.miles[S.miles.length-1];save();const c=statusCard();c.kicker='Nýr áfangi';c.title='Þú rauft '+fmt(S.mileShared)+' stiga múrinn!';openShare(c);render()}
+    else openInfo(a)}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(!stage.hidden)closeStage();else closeSheet()}});
+
+setInterval(()=>{const c=$('#cd');if(c)c.innerHTML=cdHTML()},30000);
+const lr=mulberry32(99);
+setInterval(()=>{
+  const p=PLAYERS[3+Math.floor(lr()*(PLAYERS.length-3))];const add=50*(1+Math.floor(lr()*8));p.pts+=add;p.wk+=Math.round(add/3);
+  const w=WORKSTATS[Math.floor(lr()*WORKSTATS.length)];w.avg+=Math.round(lr()*40);if(lr()<.3)w.n++;
+  if(VIEW==='board'&&!sheetEl.classList.contains('on')&&stage.hidden){render();const li=$(`#lb [data-id="${p.id}"]`);if(li){li.classList.add('flash');setTimeout(()=>li.classList.remove('flash'),900)}}
+  else if(VIEW==='home'){const h=$('#homeRank'),rk=myRank();if(h)h.textContent=rk?rk+'.':'–'}
+},4200);
+
+render();
+})();
+</script>
+</body>
+</html>
