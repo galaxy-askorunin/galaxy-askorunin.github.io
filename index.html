@@ -759,20 +759,14 @@ mark.ph{background:rgba(255,186,0,.22);color:inherit;padding:0 4px;border-radius
 .lb-mine .lbl{margin:0 20px 6px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
 
 /* =========================================================
-   TÖLVUÚTGÁFA (≥1024px) — símaútlit helst óbreytt undir því
+   BREIÐIR SKJÁIR (≥700px): samanbrjótanlegir símar (Fold), spjaldtölvur,
+   símar á hlið og tölvur. Símaútlit helst óbreytt undir 700px.
    ========================================================= */
-@media (min-width:1024px){
+@media (min-width:700px){
   :root{--frame:100vw}
   body,:root[data-theme="light"] body{background:var(--bg)}
-  .app,:root[data-theme="light"] .app{max-width:none;border:0;box-shadow:none;padding-bottom:48px}
-  .top{height:72px;padding:0 max(32px,calc((100% - 1136px)/2))}
-  .nav{top:14px;bottom:auto;left:50%;transform:translateX(-50%);width:auto;height:44px;display:flex;align-items:center;gap:2px;padding:0 4px;border:1px solid var(--line);border-radius:99px;background:var(--navbg);box-shadow:none;backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);z-index:31}
-  .nav button{flex-direction:row;gap:8px;height:36px;padding:0 14px;border-radius:99px;font-size:14px;color:var(--mu)}
-  .nav button:hover{background:var(--s2);color:var(--tx)}
-  .nav button .ic{width:19px;height:19px;padding:0;background:none!important}
-  .nav button.on{background:var(--nav-on);color:var(--nav-on-tx)}
-  .theme-btn{width:40px;height:40px}
-  #view{max-width:1200px;margin:0 auto;padding:16px 32px 0}
+  .app,:root[data-theme="light"] .app{max-width:none;border:0;box-shadow:none}
+  #view{max-width:1200px;margin:0 auto;padding:16px max(20px,3vw) 0}
   #view:not(.v-home):not(.v-eps){max-width:800px}
   .page-h{padding:36px 16px 12px}
   .page-h h2{font-size:44px}
@@ -782,13 +776,13 @@ mark.ph{background:rgba(255,186,0,.22);color:inherit;padding:0 4px;border-radius
   .v-home>*{margin:0!important;width:auto!important}
   .v-home .ref-banner,.v-home .mile-card,.v-home .eps-block,.v-home .how-card,.v-home .foot{grid-column:1/-1}
   .v-home .hero{padding:44px 8px 20px;align-self:center;overflow:visible}
-  .v-home .hero h1{font-size:60px}
+  .v-home .hero h1{font-size:clamp(44px,6vw,60px)}
   .v-home .hero .lede{font-size:17px;max-width:44ch}
   .v-home .hero-orb{right:-40px;top:-60px;width:420px;height:420px}
   .v-home .card{padding:26px}
   .v-home .eps-block .sec-h{padding:8px 4px 4px}
   .v-home .rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;overflow:visible;padding:12px 0 0}
-  .v-home .rail-card svg.art{height:200px}
+  .v-home .rail-card svg.art{height:300px}
   .v-home .rail-card:hover{transform:translateY(-3px)}
   .rail-card{transition:transform .2s}
   .v-home .how{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
@@ -822,9 +816,39 @@ mark.ph{background:rgba(255,186,0,.22);color:inherit;padding:0 4px;border-radius
   .grab{display:none}
   .sh-x{top:16px;right:16px}
 
-  /* áskoranir: símarammi fyrir miðju */
+}
+
+/* 700–1023px (t.d. Galaxy Z Fold opinn, spjaldtölvur): valmyndin helst neðst en mjórri, haus fylgir efnisbreidd */
+@media (min-width:700px) and (max-width:1023px){
+  .top{padding:0 max(20px,3vw)}
+  .nav{width:min(520px,calc(100% - 24px))}
+  .v-home .rail{gap:14px}
+  .v-home .rail-card svg.art{height:clamp(190px,26vw,260px)}
+  .v-home .card{padding:22px}
+  .v-home .swcard .sw-art{padding:24px 12px 24px 24px}
+  .v-home .swcard .sw-txt{padding:24px 28px 24px 4px}
+  .v-home .swcard h3{font-size:32px}
+}
+/* áskoranir í símaramma þegar skjárinn er nógu hár; á lágum skjá (sími á hlið) fyllir áskorunin skjáinn */
+@media (min-width:700px) and (min-height:600px){
   body.stage-open .sheet-bg{opacity:1;pointer-events:auto;z-index:59;background:rgba(0,0,0,.72)}
   .stage{top:50%;bottom:auto;transform:translate(-50%,-50%);width:430px;height:min(900px,calc(100vh - 40px));border-radius:44px;border:9px solid #1c1d23;box-shadow:0 40px 120px rgba(0,0,0,.6)}
+}
+/* sími á hlið (lágur og breiður skjár): áskorunin í hæfilegri breidd fyrir miðju */
+@media (min-width:700px) and (max-height:599px){
+  body.stage-open .sheet-bg{opacity:1;pointer-events:auto;z-index:59;background:rgba(0,0,0,.72)}
+  .stage{width:min(560px,100%)}
+}
+/* TÖLVA (≥1024px): valmyndin færist upp í hausinn */
+@media (min-width:1024px){
+  .app,:root[data-theme="light"] .app{padding-bottom:48px}
+  .top{height:72px;padding:0 max(32px,calc((100% - 1136px)/2))}
+  .nav{top:14px;bottom:auto;left:50%;transform:translateX(-50%);width:auto;height:44px;display:flex;align-items:center;gap:2px;padding:0 4px;border:1px solid var(--line);border-radius:99px;background:var(--navbg);box-shadow:none;backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);z-index:31}
+  .nav button{flex-direction:row;gap:8px;height:36px;padding:0 14px;border-radius:99px;font-size:14px;color:var(--mu)}
+  .nav button:hover{background:var(--s2);color:var(--tx)}
+  .nav button .ic{width:19px;height:19px;padding:0;background:none!important}
+  .nav button.on{background:var(--nav-on);color:var(--nav-on-tx)}
+  .theme-btn{width:40px;height:40px}
   .toast{bottom:32px}
 }
 </style>
@@ -961,9 +985,10 @@ const STORES=[
  {code:'2701',name:'Elko',where:'Kóði dagsins á DPOP skjánum við Samsung borðið'},
  {code:'2702',name:'Síminn',where:'Kóði dagsins á DPOP skjánum'},
  {code:'2703',name:'Nova',where:'Kóði dagsins á DPOP skjánum'},
- {code:'2704',name:'Sýn',where:'Kóði dagsins á DPOP skjánum'},
- {code:'2705',name:'Úrslitin í Smáralind',where:'Kóði á sviðinu 19. desember'}
+ {code:'2704',name:'Sýn',where:'Kóði dagsins á DPOP skjánum'}
 ];
+/* kóðar sem ekki eru lengur í boði (t.d. 2705 úr eldri útgáfu) gilda ekki */
+if(S.boosts.some(c=>!STORES.some(s=>s.code===c))){S.boosts=S.boosts.filter(c=>STORES.some(s=>s.code===c));save()}
 const LIFE={
  travel:{l:'Ferðalög & myndataka',rec:{s:3,flip:1},tips:[['Live Translate','Láttu símann þýða símtalið þegar þú pantar borð erlendis.'],['Generative Edit','Fjarlægðu ókunnuga úr bakgrunni myndarinnar eftir á.'],['Circle to Search','Hringdu utan um byggingu eða rétt á matseðli og fáðu svar strax.']]},
  work:{l:'Vinna & fundir',rec:{fold:3,s:1},tips:[['Note Assist','Tekur saman langar glósur í skýra punkta og fyrirsagnir.'],['Transcript Assist','Breytir upptöku af fundi í texta og stutta samantekt.'],['Fjölvinnsla','Hafðu póst, dagatal og skjal opin í einu á stóra skjánum.']]},
@@ -1049,14 +1074,97 @@ const isOpen=e=>S.demo||Date.now()>=e.date.getTime();
 const MILES=[2500,5000,7500];
 function checkMiles(){const t=total();const n=MILES.filter(m=>t>=m&&!S.miles.includes(m));if(n.length){S.miles.push(...n);save();return n[n.length-1]}return null}
 
+/* ---------- raunsæjar tækjamyndir (tillaga A) ---------- */
+let daN=0;
+function daDefs(u) {
+  return `<defs>
+  <linearGradient id="${u}ti" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6e9f1"/><stop offset=".45" stop-color="#8d94a6"/><stop offset=".7" stop-color="#d5d9e3"/><stop offset="1" stop-color="#6f7689"/></linearGradient>
+  <linearGradient id="${u}bk" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3352"/><stop offset=".6" stop-color="#161c33"/><stop offset="1" stop-color="#0e1224"/></linearGradient>
+  <linearGradient id="${u}wp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a6bff"/><stop offset=".5" stop-color="#1c34c4"/><stop offset="1" stop-color="#6a2fd6"/></linearGradient>
+  <linearGradient id="${u}wp2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#0d1a6e"/><stop offset=".55" stop-color="#2f4dff"/><stop offset="1" stop-color="#9fd0ff"/></linearGradient>
+  <radialGradient id="${u}ln" cx=".35" cy=".35" r=".8"><stop offset="0" stop-color="#3f57ff"/><stop offset=".45" stop-color="#101a5c"/><stop offset="1" stop-color="#02030a"/></radialGradient>
+  <linearGradient id="${u}cts" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fe3ff"/><stop offset=".5" stop-color="#4f7bff"/><stop offset="1" stop-color="#b06bff"/></linearGradient>
+  <radialGradient id="${u}gl"><stop offset="0" stop-color="#6d86ff" stop-opacity=".55"/><stop offset="1" stop-color="#6d86ff" stop-opacity="0"/></radialGradient>
+  </defs>`;
+}
+
+const daLens = (u, x, y, r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#07080d" stroke="url(#${u}ti)" stroke-width="${r*.22}"/><circle cx="${x}" cy="${y}" r="${r*.62}" fill="url(#${u}ln)"/><circle cx="${x-r*.22}" cy="${y-r*.25}" r="${r*.16}" fill="#fff" opacity=".7"/>`;
+
+const daClock = (x, y, s, t='12:45') => `<text x="${x}" y="${y}" text-anchor="middle" fill="#fff" font-family="Outfit,Arial" font-weight="600" font-size="${s}">${t}</text>`;
+
+function daSBack(u, x, y, w, h) { // S Ultra bakhlið, kassalaga
+  const cx = x + w*.27;
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w*.11}" fill="url(#${u}ti)"/>
+  <rect x="${x+1.1}" y="${y+1.1}" width="${w-2.2}" height="${h-2.2}" rx="${w*.09}" fill="url(#${u}bk)"/>
+  ${daLens(u,cx,y+h*.14,w*.13)}${daLens(u,cx,y+h*.27,w*.13)}${daLens(u,cx,y+h*.40,w*.13)}${daLens(u,x+w*.55,y+h*.27,w*.1)}
+  <circle cx="${x+w*.55}" cy="${y+h*.15}" r="${w*.035}" fill="#fff4d6"/><circle cx="${x+w*.55}" cy="${y+h*.385}" r="${w*.025}" fill="#3a3f52"/>
+  <rect x="${x+w-0.2}" y="${y+h*.22}" width="1.1" height="${h*.12}" rx=".5" fill="#a9b0c0"/><rect x="${x+w-0.2}" y="${y+h*.37}" width="1.1" height="${h*.07}" rx=".5" fill="#a9b0c0"/>`;
+}
+
+function daSFront(u, x, y, w, h, screen) {
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w*.1}" fill="url(#${u}ti)"/>
+  <rect x="${x+.9}" y="${y+.9}" width="${w-1.8}" height="${h-1.8}" rx="${w*.085}" fill="#04050a"/>
+  <rect x="${x+1.8}" y="${y+1.8}" width="${w-3.6}" height="${h-3.6}" rx="${w*.07}" fill="url(#${u}wp)"/>
+  ${screen||''}<circle cx="${x+w/2}" cy="${y+4.6}" r="1.2" fill="#04050a"/>`;
+}
+
+function daFoldOpen(u, x, y, w, h, inner) {
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="url(#${u}ti)"/>
+  <rect x="${x+.9}" y="${y+.9}" width="${w-1.8}" height="${h-1.8}" rx="3.3" fill="#04050a"/>
+  <rect x="${x+1.9}" y="${y+1.9}" width="${w-3.8}" height="${h-3.8}" rx="2.6" fill="url(#${u}wp)"/>
+  ${inner||''}
+  <rect x="${x+w/2-.6}" y="${y+1.9}" width="1.2" height="${h-3.8}" fill="#fff" opacity=".1"/>
+  <circle cx="${x+w*.78}" cy="${y+5}" r="1.1" fill="#04050a"/>`;
+}
+
+function daFoldApps(x, y, w, h) { // tvö öpp hlið við hlið
+  const half = w/2;
+  return `<rect x="${x+3.5}" y="${y+6}" width="${half-6}" height="${h*.16}" rx="1.6" fill="#fff" opacity=".9"/>
+  ${[0,1,2,3].map(i=>`<rect x="${x+3.5}" y="${y+6+h*.21+i*h*.12}" width="${half-6-(i%2)*6}" height="${h*.07}" rx="1.2" fill="#fff" opacity=".42"/>`).join('')}
+  <rect x="${x+half+2.5}" y="${y+6}" width="${half-6}" height="${h*.48}" rx="2" fill="#fff" opacity=".88"/>
+  <path d="M${x+half+4} ${y+6+h*.42} l${(half-9)*.35} -${h*.17} l${(half-9)*.25} ${h*.1} l${(half-9)*.2} -${h*.08} l${(half-9)*.2} ${h*.15}z" fill="#3b56ff" opacity=".85"/>
+  <circle cx="${x+half+half*.7}" cy="${y+6+h*.13}" r="${h*.05}" fill="#ffc94d"/>
+  ${[0,1].map(i=>`<rect x="${x+half+2.5}" y="${y+8+h*.52+i*h*.12}" width="${half-8-(i)*5}" height="${h*.07}" rx="1.2" fill="#fff" opacity=".42"/>`).join('')}`;
+}
+
+function daCts(u, x, y, w, h) { // Circle to Search á skjá
+  return `<rect x="${x+4}" y="${y+12}" width="${w-8}" height="${h*.42}" rx="2" fill="#fff" opacity=".14"/>
+  <rect x="${x+w/2-w*.09}" y="${y+h*.16}" width="${w*.18}" height="${h*.28}" rx="2" fill="#2a2f42"/>
+  <circle cx="${x+w/2}" cy="${y+h*.3}" r="${w*.17}" fill="#0b0d14" stroke="url(#${u}ti)" stroke-width="1.1"/>
+  <path d="M${x+w/2-w*.09} ${y+h*.31} A${w*.09} ${w*.09} 0 0 1 ${x+w/2+w*.09} ${y+h*.31}" fill="none" stroke="#3b56ff" stroke-width="1.4" stroke-linecap="round"/>
+  <text x="${x+w/2}" y="${y+h*.35}" text-anchor="middle" fill="#fff" font-family="Outfit,Arial" font-weight="600" font-size="${w*.09}">10:08</text>
+  <ellipse cx="${x+w/2}" cy="${y+h*.3}" rx="${w*.32}" ry="${h*.15}" fill="none" stroke="url(#${u}cts)" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="${w*1.9} 6" transform="rotate(-8 ${x+w/2} ${y+h*.3})"/>
+  <rect x="${x+3}" y="${y+h*.62}" width="${w-6}" height="${h*.26}" rx="3" fill="#fff" opacity=".95"/>
+  <image href="${AI_LOGO}" x="${x+5.5}" y="${y+h*.64}" width="6" height="6"/>
+  <rect x="${x+13}" y="${y+h*.655}" width="${w*.38}" height="2.2" rx="1.1" fill="#1428A0" opacity=".85"/>
+  <rect x="${x+5.5}" y="${y+h*.72}" width="${w-14}" height="1.8" rx=".9" fill="#5b6070" opacity=".5"/>
+  <rect x="${x+5.5}" y="${y+h*.77}" width="${w-20}" height="1.8" rx=".9" fill="#5b6070" opacity=".5"/>
+  <rect x="${x+w*.3}" y="${y+h-5}" width="${w*.4}" height="1.4" rx=".7" fill="#fff" opacity=".7"/>`;
+}
+
+
+function daFlipClosed(u, x, y, w, h) { // Flip lokaður: ytri skjár, myndavélar niðri til hægri
+  const ic=[.95,.6,.8,.5,.55,.85,.5,.9];let apps='';
+  for(let r=0;r<2;r++)for(let c=0;c<4;c++)apps+=`<rect x="${x+w*(.13+c*.165)}" y="${y+h*(.4+r*.135)}" width="${w*.12}" height="${w*.12}" rx="${w*.04}" fill="#fff" opacity="${ic[r*4+c]}"/>`;
+  return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${w*.16}" fill="url(#${u}ti)"/>
+  <rect x="${x+1}" y="${y+1}" width="${w-2}" height="${h-2}" rx="${w*.14}" fill="#04050a"/>
+  <rect x="${x+2}" y="${y+2}" width="${w-4}" height="${h-4}" rx="${w*.12}" fill="url(#${u}wp2)"/>
+  <text x="${x+w*.13}" y="${y+h*.27}" fill="#fff" font-family="Outfit,Arial" font-weight="600" font-size="${w*.17}">12:45</text>
+  <text x="${x+w*.13}" y="${y+h*.35}" fill="#fff" opacity=".8" font-family="Inter,Arial" font-size="${w*.065}">Mán 16. nóv</text>
+  ${apps}
+  <circle cx="${x+w*.4}" cy="${y+h*.81}" r="${w*.025}" fill="#fff4d6"/>
+  <circle cx="${x+w*.58}" cy="${y+h*.79}" r="${w*.12}" fill="#04050a"/>${daLens(u,x+w*.58,y+h*.79,w*.085)}
+  <circle cx="${x+w*.8}" cy="${y+h*.79}" r="${w*.12}" fill="#04050a"/>${daLens(u,x+w*.8,y+h*.79,w*.085)}
+  <rect x="${x+w*.1}" y="${y+h-1.6}" width="${w*.8}" height="2.6" rx="1.3" fill="url(#${u}ti)"/>`;
+}
 function art(k,cls='art'){
   const bg={s:'#0a1240',fold:'#0a0f30',flip:'#0f1650',ai:'#060924',fin:'#090b1e'}[k];
   const st=[[12,14],[86,22],[70,8],[20,96],[90,104],[50,10],[8,60],[94,70]].map(([x,y],i)=>`<circle cx="${x}" cy="${y}" r="${i%3?0.7:1.1}" fill="#fff" opacity="${.35+(i%4)*.15}"/>`).join('');
   let g='';
-  if(k==='s')g=`<circle cx="78" cy="22" r="46" fill="#1428A0" opacity=".45"/><rect x="28" y="22" width="46" height="88" rx="9" fill="#0b1550" stroke="rgba(255,255,255,.6)" stroke-width="1.1"/>${[36,51,66].map(y=>`<circle cx="40" cy="${y}" r="5.6" fill="#02030a" stroke="#9fb0ff" stroke-width="1.1"/><circle cx="40" cy="${y}" r="2" fill="#3b56ff"/>`).join('')}<circle cx="52" cy="36" r="1.6" fill="#fff" opacity=".8"/>`;
-  if(k==='fold')g=`<circle cx="50" cy="40" r="50" fill="#1428A0" opacity=".35"/><rect x="14" y="26" width="35" height="74" rx="6" fill="#0d1650" stroke="rgba(255,255,255,.6)" stroke-width="1.1"/><rect x="51" y="26" width="35" height="74" rx="6" fill="#0d1650" stroke="rgba(255,255,255,.6)" stroke-width="1.1"/>${[36,44,52].map(y=>`<rect x="19" y="${y}" width="25" height="4" rx="2" fill="#fff" opacity=".35"/>`).join('')}<rect x="56" y="36" width="25" height="20" rx="3" fill="#3b56ff" opacity=".8"/><rect x="56" y="60" width="25" height="4" rx="2" fill="#fff" opacity=".35"/><line x1="50" y1="26" x2="50" y2="100" stroke="#000" stroke-width="2"/>`;
-  if(k==='flip')g=`<circle cx="30" cy="96" r="52" fill="#1428A0" opacity=".4"/><rect x="31" y="18" width="38" height="90" rx="9" fill="#0b1550" stroke="rgba(255,255,255,.6)" stroke-width="1.1"/><line x1="31" y1="63" x2="69" y2="63" stroke="rgba(255,255,255,.45)" stroke-width="1"/><rect x="36" y="23" width="28" height="30" rx="5" fill="#3b56ff" opacity=".85"/><circle cx="58" cy="29" r="2.5" fill="#02030a"/>`;
-  if(k==='ai')g=`<circle cx="50" cy="60" r="44" fill="none" stroke="rgba(110,140,255,.25)"/><circle cx="50" cy="60" r="30" fill="none" stroke="rgba(110,140,255,.45)"/><circle cx="50" cy="60" r="19" fill="#fff"/><image href="${AI_LOGO}" x="38" y="48" width="24" height="24"/>`;
+  if(k==='s'){const u='da'+(++daN);g=`<circle cx="78" cy="22" r="46" fill="#1428A0" opacity=".45"/>${daDefs(u)}${daSBack(u,30,16,40,86)}`;}
+  if(k==='fold'){const u='da'+(++daN);g=`<circle cx="50" cy="40" r="50" fill="#1428A0" opacity=".35"/>${daDefs(u)}${daFoldOpen(u,13,32,74,62,daFoldApps(13,32,74,62))}`;}
+  if(k==='flip'){const u='da'+(++daN);g=`<circle cx="30" cy="96" r="52" fill="#1428A0" opacity=".4"/>${daDefs(u)}${daFlipClosed(u,27,34,46,52)}`;}
+  if(k==='ai'){const u='da'+(++daN);g=`<circle cx="50" cy="62" r="46" fill="#1428A0" opacity=".3"/>${daDefs(u)}${daSFront(u,30,16,40,88,daCts(u,31.8,17.8,36.4,84.4))}`;}
   if(k==='fin')g=`<path d="M30 0 50 92 70 0z" fill="#3b56ff" opacity=".22"/><path d="M5 0 40 92 55 92 20 0z" fill="#fff" opacity=".06"/><path d="M95 0 60 92 45 92 80 0z" fill="#fff" opacity=".06"/><rect x="8" y="92" width="84" height="10" rx="2" fill="#1428A0"/><rect x="0" y="102" width="100" height="23" fill="#05060f"/><circle cx="50" cy="80" r="6" fill="#fff"/><rect x="45" y="86" width="10" height="7" rx="2" fill="#fff"/>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" class="${cls}" viewBox="0 0 100 125" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="100" height="125" fill="${bg}"/>${st}${g}</svg>`;
 }
@@ -1164,7 +1272,7 @@ function vHome(){
   </button>
 
   <button class="card feat" data-act="boost">
-    <div><div class="k">Verslunar-boost · allt að 2.500 stjörnur</div><h3>Kóði dagsins í verslunum</h3><p>Kíktu á Samsung sýningarborðið hjá Elko, Símanum, Nova eða Sýn — nýr kóði birtist á skjánum á hverjum degi.</p></div>
+    <div><div class="k">Verslunar-boost · allt að ${fmt(STORES.length*500)} stjörnur</div><h3>Kóði dagsins í verslunum</h3><p>Kíktu á Samsung sýningarborðið hjá Elko, Símanum, Nova eða Sýn — nýr kóði birtist á skjánum á hverjum degi.</p></div>
     <div class="feat-ic">${ic('store')}</div>
   </button>
 
@@ -1354,7 +1462,7 @@ function meExtras(){return `
   <section class="card"><div class="k">Útlit</div><p class="muted" style="font-size:14px;margin-top:6px">Veldu ljóst eða dökkt útlit — eða láttu það fylgja stillingu tækisins.</p>
     <div class="theme-seg" role="group" aria-label="Útlit"><button data-theme="light">${ic('sun')}Ljóst</button><button data-theme="dark">${ic('moon')}Dökkt</button><button data-theme="auto">${ic('auto')}Sjálfvirkt</button></div>
   </section>
-  <button class="card feat" data-act="boost"><div><div class="k">Verslunar-boost · ${S.boosts.length}/5</div><h3>Sláðu inn kóða dagsins</h3><p>500 bónusstjörnur fyrir hvern kóða af Samsung sýningarborði.</p></div><div class="feat-ic">${ic('store')}</div></button>
+  <button class="card feat" data-act="boost"><div><div class="k">Verslunar-boost · ${S.boosts.length}/${STORES.length}</div><h3>Sláðu inn kóða dagsins</h3><p>500 bónusstjörnur fyrir hvern kóða af Samsung sýningarborði.</p></div><div class="feat-ic">${ic('store')}</div></button>
   <section class="card"><div class="k">Kynningarstilling</div>
     <label class="toggle" style="margin-top:8px"><span>Opna alla þætti strax<br><small class="muted" style="font-size:12.5px">Slökktu til að sjá útgáfudagsetningar eins og þær verða.</small></span><input type="checkbox" class="sw" id="demoSw" ${S.demo?'checked':''}></label>
     <button class="btn ghost sm" id="resetDemo" style="margin-top:12px">Núllstilla kynningu</button>
@@ -1686,7 +1794,7 @@ function rulesDoc(){
    ['Galaxy stjörnur',`<p>Í leiknum safnar þú Galaxy stjörnum. Þær ráða röðun á stigatöflum.</p>`+tbl(['Leið','Stjörnur'],[
       ['Áskorun (hver af fjórum)','1.000 stjörnur + allt að 500 í hraðabónus. 75 stjörnur dragast frá fyrir hverja ranga tilraun, en aldrei fást færri en 300 stjörnur.'],
       ['Horfa á þátt','100'],['Faldi kóðinn í þætti','200'],['Slá met kynnisins','150'],
-      ['Kóði dagsins í verslun','500 fyrir hvern kóða, að hámarki 5 kóðar (2.500)'],
+      ['Kóði dagsins í verslun',`500 fyrir hvern kóða, einn kóði frá hverri verslun (${STORES.map(s=>s.name).join(', ').replace(/, ([^,]*)$/,' og $1')}), að hámarki ${fmt(STORES.length*500)}`],
       ['Vinur skráir sig með þínum hlekk','200 fyrir hvorn'],['Hvaða Samsung týpa ert þú?','100, einu sinni']])+
     `<ul><li>Fyrsta tilraun í hverri áskorun gildir. Þú getur æft þig aftur, en það breytir ekki stjörnunum.</li>
     <li>Ef stjörnur eru jafnmargar ræður samanlagður tími í áskorununum. Sá sem er fljótari raðast ofar.</li>
@@ -2070,11 +2178,11 @@ function openSwitch(){
   <p class="micro">Opnast á samsungmobile.is.</p>`);
 }
 function openBoost(){
-  sheet(`<div class="k">Verslunar-boost · ${S.boosts.length}/5</div><h3 class="sh-t">Kóði dagsins</h3>
+  sheet(`<div class="k">Verslunar-boost · ${S.boosts.length}/${STORES.length}</div><h3 class="sh-t">Kóði dagsins</h3>
   <p class="lede">Á DPOP skjánum við Samsung sýningarborðið birtist nýr 4 stafa kóði á hverjum degi. Sláðu hann inn hér, fáðu 500 bónusstjörnur — og prófaðu tækin í leiðinni.</p>
   <div class="pins" id="bpins"></div><button class="btn primary block" id="bsub">Innleysa kóða</button>
   <ul class="stores">${STORES.map(s=>{const ok=S.boosts.includes(s.code);return `<li class="${ok?'ok':''}"><span class="si">${ic('store','sm')}</span><div><b>${s.name}</b><small>${s.where}</small></div><em>${ok?'+500 ✓':'+500'}</em></li>`}).join('')}</ul>
-  <p class="micro">Kynningarútgáfa: prófaðu kóðana 2701–2705.</p>`);
+  <p class="micro">Kynningarútgáfa: prófaðu kóðana 2701–2704.</p>`);
   const p=makePins($('#bpins'),()=>sub());
   const sub=()=>{const v=p.val();if(v.length<4){p.shake();return}
     const st=STORES.find(s=>s.code===v);
