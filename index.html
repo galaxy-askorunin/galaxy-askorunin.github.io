@@ -997,11 +997,14 @@ const LIFE={
  family:{l:'Fjölskylda & daglegt líf',rec:{s:2,flip:1},tips:[['Nightography','Skýrar myndir af jólaboðinu, líka í kertaljósi.'],['Audio Eraser','Minnkaðu klið og vindhljóð í myndböndum.'],['Now Brief','Stutt yfirlit yfir daginn, veðrið og áminningar á morgnana.']]}
 };
 const QUIZ=[
- {q:'Hvað gerir þú mest í símanum?',o:[['s','Tek myndir og myndbönd'],['fold','Vinn, les og skipulegg'],['flip','Samfélagsmiðlar og spjall']]},
- {q:'Hvernig síma viltu í vasann?',o:[['s','Klassískan og öflugan'],['fold','Stóran skjá sem opnast'],['flip','Nettan sem smellur saman']]},
- {q:'Fullkomið laugardagskvöld?',o:[['s','Norðurljósaferð með myndavélina'],['fold','Sería og skipulag á stórum skjá'],['flip','Partý með vinum — og allt á Story']]},
- {q:'Hvað skiptir þig mestu í síma?',o:[['s','Besta myndavélin'],['fold','Mesta skjáplássið'],['flip','Flottasta hönnunin']]}
+ {q:'Hvernig lítur fullkominn frídagur út?',o:[['s','Fjallganga, útivist og geggjaðar myndir.'],['flip','Kaffihús, búðarráp og samfélagsmiðlar.'],['fold','Notalegt heima með góða þætti á stórum skjá.']]},
+ {q:'Hvað skiptir þig mestu máli í nýjum síma?',o:[['s','Kraftur, hraði og besta myndavélin.'],['flip','Flott hönnun og að hann passi í alla vasa.'],['fold','Stór skjár og að geta gert margt í einu.']]},
+ {q:'Hvaða hlutverki gegnir þú í vinahópnum?',o:[['s','Ljósmyndarinn sem allir geta treyst á.'],['flip','Tískulöggan og gleðigjafinn.'],['fold','Skipuleggjandinn og tæknisnillingurinn.']]},
+ {q:'Hvað gerirðu mest í símanum á daginn?',o:[['s','Tek myndir og er í stöðugum samskiptum.'],['flip','Skrolla, spjalla og tek skemmtilegar sjálfur.'],['fold','Vinn, les og horfi á myndbönd.']]}
 ];
+/* oddaspurning: birtist aðeins ef jafnt er eftir fyrstu fjórar */
+const QUIZ_TIE={q:'Ef þú mættir velja einn ofurkraft fyrir símann þinn, hver væri hann?',tie:true,o:[['s','Að geta súmmað inn á tunglið í sturlaðri skerpu.'],['flip','Að hann leggist saman og taki ekkert pláss.'],['fold','Að hann breytist í spjaldtölvu á einu augabragði.']]};
+function quizTied(ans){const sc={s:0,fold:0,flip:0};ans.slice(0,QUIZ.length).forEach(a=>sc[a]++);const mx=Math.max(sc.s,sc.fold,sc.flip);const t=Object.keys(sc).filter(k=>sc[k]===mx);return t.length>1?t:null}
 const PERSONA={
  s:{type:'S-línu týpa',short:'S-línu',model:'Galaxy S-línan',desc:'Þú vilt ná augnablikinu — líka í myrkri og úr fjarlægð. Klassískur og öflugur sími með bestu myndavélinni.'},
  fold:{type:'Fold týpa',short:'Fold',model:'Galaxy Z Fold',desc:'Þú gerir þrennt í einu og vilt skjá sem fylgir þér. Spjaldtölva í vasanum fyrir vinnu, lestur og skipulag.'},
@@ -1387,16 +1390,17 @@ function vPrizes(){
   ${footer()}`;
 }
 
-function quizResult(ans){const sc={s:0,fold:0,flip:0};ans.forEach(a=>sc[a]++);const mx=Math.max(sc.s,sc.fold,sc.flip);const tied=Object.keys(sc).filter(k=>sc[k]===mx);return tied.length===1?tied[0]:(tied.includes(ans[1])?ans[1]:tied[0])}
+function quizResult(ans){const sc={s:0,fold:0,flip:0};ans.slice(0,QUIZ.length).forEach(a=>sc[a]++);const mx=Math.max(sc.s,sc.fold,sc.flip);const tied=Object.keys(sc).filter(k=>sc[k]===mx);if(tied.length===1)return tied[0];const tb=ans[QUIZ.length];return tied.includes(tb)?tb:(tied.includes(ans[1])?ans[1]:tied[0])}
 function quizHTML(){
   if(S.quiz&&!QZ.retake){const P=PERSONA[S.quiz];
     return `<div class="qz-top"><div class="k">${ic('spark','sm')} Hvaða Samsung týpa ert þú?</div></div>
     <div class="qz-res fade-in"><div class="qz-art">${art(S.quiz)}</div><div><div class="k">Þú ert</div><h3 class="qz-type">${P.type}</h3><p>${P.desc}</p></div></div>
     <div class="qz-btns"><button class="btn primary" data-qz="share">${ic('story','sm')} Deila í Story</button><button class="btn ghost" data-qz="tips">AI-ráð ${ic('chev','sm')}</button></div>
     <div class="qz-links"><button class="link" data-act="switch">Ertu að skipta um síma?</button><button class="link qz-again" data-qz="again">Taka prófið aftur</button></div>`}
-  const q=QUIZ[QZ.i];
-  return `<div class="qz-top"><div class="k">${ic('spark','sm')} Hvaða Samsung týpa ert þú?</div><span class="qz-step">${QZ.i+1} / ${QUIZ.length}</span></div>
-    <div class="qz-bar"><i style="width:${Math.round(QZ.i/QUIZ.length*100)}%"></i></div>
+  const q=QZ.i<QUIZ.length?QUIZ[QZ.i]:QUIZ_TIE;
+  return `<div class="qz-top"><div class="k">${ic('spark','sm')} Hvaða Samsung týpa ert þú?</div><span class="qz-step">${q.tie?'Oddaspurning':`${QZ.i+1} / ${QUIZ.length}`}</span></div>
+    <div class="qz-bar"><i style="width:${Math.round(Math.min(QZ.i,QUIZ.length)/QUIZ.length*100)}%"></i></div>
+    ${q.tie?'<p class="micro" style="margin:10px 0 0">Jafnt á milli týpa — ein spurning í viðbót sker úr.</p>':''}
     <h3 class="qz-q">${q.q}</h3>
     <div class="opts">${q.o.map(([k,l])=>`<button class="opt ${QZ.ans[QZ.i]===k?'on':''}" data-qa="${k}">${l}</button>`).join('')}</div>
     ${QZ.i>0?`<button class="link qz-again" data-qz="back">Til baka</button>`:`<p class="micro">Fjórar einfaldar spurningar · S-línu, Fold eða Flip týpa${S.quiz?'':' · +100 stjörnur'}</p>`}`;
@@ -1407,7 +1411,8 @@ function bindQuiz(){
     const a=e.target.closest('[data-qa]'),b=e.target.closest('[data-qz]');
     if(a){QZ.ans[QZ.i]=a.dataset.qa;$$('.opt',c).forEach(x=>x.classList.toggle('on',x===a));buzz(8);
       setTimeout(()=>{
-        if(QZ.i<QUIZ.length-1){QZ.i++;c.innerHTML=quizHTML();return}
+        if(QZ.i<QUIZ.length-1||(QZ.i===QUIZ.length-1&&quizTied(QZ.ans))){QZ.i++;c.innerHTML=quizHTML();return}
+        QZ.ans=QZ.ans.slice(0,QZ.i+1);
         const first=!S.quiz;S.quiz=quizResult(QZ.ans);save();QZ={i:0,ans:[],retake:false};
         if(first)award('+100 stjörnur fyrir prófið!');else render();
         const n=$('#quizCard');if(n)n.scrollIntoView({behavior:'smooth',block:'nearest'});
